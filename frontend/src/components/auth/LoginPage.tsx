@@ -53,7 +53,7 @@ export function LoginPage() {
           <span>librarian@atmu.uz / Librarian123!</span>
         </div>
         <p>
-          Akkaunt yo‘qmi? <Link to={`/${locale}/register`}>{t("common.register")}</Link>
+          Akkaunt yo'qmi? <Link to={`/${locale}/register`}>{t("common.register")}</Link>
         </p>
       </section>
     </div>

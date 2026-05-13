@@ -3,13 +3,13 @@
     "appName": "ATMU Smart UniLibrary",
     "search": "Qidiruv",
     "login": "Kirish",
-    "register": "Ro‘yxatdan o‘tish",
+    "register": "Ro'yxatdan o'tish",
     "profile": "Profil",
     "dashboard": "Dashboard",
     "logout": "Chiqish",
     "catalog": "Elektron katalog",
     "departments": "Kafedralar",
-    "readingRoom": "O‘quv zali",
+    "readingRoom": "O'quv zali",
     "aiLibrarian": "AI kutubxonachi",
     "save": "Saqlash",
     "cancel": "Bekor qilish",
@@ -19,7 +19,7 @@
     "details": "Batafsil",
     "reserve": "Band qilish",
     "download": "Yuklab olish",
-    "open": "O‘qish",
+    "open": "O'qish",
     "submit": "Yuborish"
   },
   "nav": {
@@ -33,12 +33,12 @@
   },
   "hero": {
     "title": "ATMU Smart UniLibrary",
-    "subtitle": "Kafedralar elektron kutubxonasi, AI qidiruv, Face ID, kitob band qilish va o‘quv zali bron qilish tizimi bir platformada.",
+    "subtitle": "Kafedralar elektron kutubxonasi, AI qidiruv, Face ID, kitob band qilish va o'quv zali bron qilish tizimi bir platformada.",
     "catalogCta": "Elektron katalogga kirish",
     "departmentsCta": "Kafedra kutubxonasini tanlash",
-    "aiCta": "AI kutubxonachidan so‘rash",
-    "readingRoomCta": "O‘quv zalidan joy band qilish",
-    "searchPlaceholder": "Kitob, fan, muallif, kafedra, kurs, semestr yoki kalit so‘z kiriting..."
+    "aiCta": "AI kutubxonachidan so'rash",
+    "readingRoomCta": "O'quv zalidan joy band qilish",
+    "searchPlaceholder": "Kitob, fan, muallif, kafedra, kurs, semestr yoki kalit so'z kiriting..."
   }
 }
 

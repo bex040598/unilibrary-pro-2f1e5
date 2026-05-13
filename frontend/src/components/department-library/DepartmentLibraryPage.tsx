@@ -26,7 +26,7 @@ export function DepartmentLibraryPage() {
       <SectionHeading
         eyebrow="Department e-library"
         title={`${department.name} elektron kutubxonasi`}
-        description="Darsliklar, ma’ruza matnlari, laboratoriya ishlari, video darslar, testlar, ilmiy maqolalar va AI kafedra yordamchisi."
+        description="Darsliklar, ma'ruza matnlari, laboratoriya ishlari, video darslar, testlar, ilmiy maqolalar va AI kafedra yordamchisi."
       />
       <div className="filter-row">
         <label>
@@ -42,7 +42,7 @@ export function DepartmentLibraryPage() {
       <div className="stats-grid compact">
         <article className="stat-card stat-blue"><p>Resurslar</p><strong>{department.resources_count}</strong></article>
         <article className="stat-card stat-gold"><p>Fanlar</p><strong>{department.subjects_count}</strong></article>
-        <article className="stat-card stat-teal"><p>O‘qituvchilar</p><strong>{department.teachers_count}</strong></article>
+        <article className="stat-card stat-teal"><p>O'qituvchilar</p><strong>{department.teachers_count}</strong></article>
         <article className="stat-card stat-emerald"><p>Yuklab olishlar</p><strong>{department.downloads_count}</strong></article>
       </div>
       <div className="preview-grid">

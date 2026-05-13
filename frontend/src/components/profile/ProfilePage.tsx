@@ -86,7 +86,7 @@ export function ProfilePage() {
 
         {(activeSection === "edit" || !section) ? (
           <div className="glass-panel">
-            <h3>Profil ma’lumotlari</h3>
+            <h3>Profil ma'lumotlari</h3>
             <div className="grid-two">
               <label>
                 F.I.Sh

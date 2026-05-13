@@ -6,9 +6,9 @@ import { Badge } from "../common/Badge";
 import type { AIAnswer } from "../../types";
 
 const suggestions = [
-  "Menga 2-kurs ma’lumotlar bazasi bo‘yicha materiallar kerak",
+  "Menga 2-kurs ma'lumotlar bazasi bo'yicha materiallar kerak",
   "Axborot texnologiyalari kafedrasida laboratoriya ishlari bormi?",
-  "Kiberxavfsizlik bo‘yicha o‘zbekcha kitoblar top",
+  "Kiberxavfsizlik bo'yicha o'zbekcha kitoblar top",
   "Diplom ishim uchun adabiyotlar tavsiya qil"
 ];
 
@@ -26,7 +26,7 @@ export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
       const response = await api.aiChat(accessToken ?? undefined, { query, locale: "uz" });
       setAnswer(response);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "AI so‘rovini bajarib bo‘lmadi.");
+      setError(requestError instanceof Error ? requestError.message : "AI so'rovini bajarib bo'lmadi.");
     } finally {
       setLoading(false);
     }
@@ -37,7 +37,7 @@ export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
       <div className="ai-panel-header">
         <div>
           <p className="section-eyebrow">AI librarian</p>
-          <h3>AI kutubxonachi katalog va kafedra resurslari bilan bog‘langan</h3>
+          <h3>AI kutubxonachi katalog va kafedra resurslari bilan bog'langan</h3>
         </div>
         <Badge label="4 til" tone="info" />
       </div>
@@ -80,7 +80,7 @@ export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
       ) : (
         <EmptyState
           title="AI source cards tayyor"
-          description="So‘rov yuboring, tizim katalog va kafedra resurslaridan manbalarni topib source cards ko‘rsatadi."
+          description="So'rov yuboring, tizim katalog va kafedra resurslaridan manbalarni topib source cards ko'rsatadi."
         />
       )}
     </section>

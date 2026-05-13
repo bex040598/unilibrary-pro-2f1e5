@@ -11,7 +11,7 @@ export function FaceCapture() {
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [consent, setConsent] = useState(false);
-  const [status, setStatus] = useState("Face ID ixtiyoriy. Embedding shifrlangan ko‘rinishda saqlanadi.");
+  const [status, setStatus] = useState("Face ID ixtiyoriy. Embedding shifrlangan ko'rinishda saqlanadi.");
   const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ export function FaceCapture() {
 
     canvasRef.current.toBlob(async (blob) => {
       if (!blob) {
-        setError("Rasm yaratib bo‘lmadi.");
+        setError("Rasm yaratib bo'lmadi.");
         setUploading(false);
         return;
       }
@@ -89,7 +89,7 @@ export function FaceCapture() {
           setStatus(response.data.verified ? "Yuz tasdiqlandi." : response.data.message);
         }
       } catch (requestError) {
-        setError(requestError instanceof Error ? requestError.message : "Face ID so‘rovi bajarilmadi.");
+        setError(requestError instanceof Error ? requestError.message : "Face ID so'rovi bajarilmadi.");
       } finally {
         setUploading(false);
       }
@@ -120,12 +120,12 @@ export function FaceCapture() {
           </label>
           <div className="button-row">
             <button type="button" className="primary-button" onClick={startCamera}>Kamerani yoqish</button>
-            <button type="button" className="ghost-button" onClick={stopCamera}>Kamerani to‘xtatish</button>
+            <button type="button" className="ghost-button" onClick={stopCamera}>Kamerani to'xtatish</button>
             <button type="button" className="ghost-button" onClick={captureFrame}>Capture image</button>
           </div>
           <div className="button-row">
             <button type="button" className="primary-button" onClick={() => uploadFace("register")} disabled={uploading}>
-              {uploading ? "Yuborilmoqda..." : "Face ID ni ro‘yxatdan o‘tkazish"}
+              {uploading ? "Yuborilmoqda..." : "Face ID ni ro'yxatdan o'tkazish"}
             </button>
             <button type="button" className="ghost-button" onClick={() => uploadFace("verify")} disabled={uploading}>
               Verify

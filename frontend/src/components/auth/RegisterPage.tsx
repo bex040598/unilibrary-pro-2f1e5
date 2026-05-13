@@ -4,8 +4,8 @@ import { useAuth } from "../../lib/auth";
 
 const steps = [
   "Rol tanlash",
-  "Shaxsiy ma’lumotlar",
-  "Akademik ma’lumotlar",
+  "Shaxsiy ma'lumotlar",
+  "Akademik ma'lumotlar",
   "Xavfsizlik",
   "Face ID ixtiyoriy",
   "Profilni yakunlash"
@@ -60,7 +60,7 @@ export function RegisterPage() {
       });
       navigate(`/${locale}/dashboard/${user.role}`);
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "Ro‘yxatdan o‘tish muvaffaqiyatsiz tugadi.");
+      setError(requestError instanceof Error ? requestError.message : "Ro'yxatdan o'tish muvaffaqiyatsiz tugadi.");
     } finally {
       setLoading(false);
     }
@@ -71,7 +71,7 @@ export function RegisterPage() {
       <section className="stepper-panel">
         <div className="stepper-header">
           <h1>Professional onboarding stepper</h1>
-          <p>Registerdan keyin user avtomatik login bo‘ladi va rolga mos dashboardga yo‘naltiriladi.</p>
+          <p>Registerdan keyin user avtomatik login bo'ladi va rolga mos dashboardga yo'naltiriladi.</p>
         </div>
         <div className="stepper-track">
           {steps.map((item, index) => (
@@ -192,7 +192,7 @@ export function RegisterPage() {
               </button>
             ) : null}
             <button type="submit" className="primary-button" disabled={!canAdvance || loading}>
-              {step === steps.length - 1 ? (loading ? "Yakunlanmoqda..." : "Ro‘yxatdan o‘tish") : "Davom etish"}
+              {step === steps.length - 1 ? (loading ? "Yakunlanmoqda..." : "Ro'yxatdan o'tish") : "Davom etish"}
             </button>
           </div>
         </form>

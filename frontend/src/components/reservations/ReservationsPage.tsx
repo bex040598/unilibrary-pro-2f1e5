@@ -43,7 +43,7 @@ export function ReservationsPage() {
   }
 
   if (!user) {
-    return <div className="page"><EmptyState title="Reservations uchun login kerak" description="Student, librarian yoki admin akkaunti bilan kirib reservation workflow’dan foydalaning." /></div>;
+    return <div className="page"><EmptyState title="Reservations uchun login kerak" description="Student, librarian yoki admin akkaunti bilan kirib reservation workflow'dan foydalaning." /></div>;
   }
 
   return (

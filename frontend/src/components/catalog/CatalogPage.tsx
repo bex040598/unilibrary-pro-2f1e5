@@ -91,7 +91,7 @@ export function CatalogPage() {
                     <span>{book.shelf_code}</span>
                   </div>
                   <div className="resource-actions">
-                    <button type="button" className="ghost-button">O‘qish</button>
+                    <button type="button" className="ghost-button">O'qish</button>
                     <button type="button" className="ghost-button">Yuklab olish</button>
                     <button type="button" className="primary-button small" onClick={() => quickReserve(book.id)}>Band qilish</button>
                     <Link to={`/${locale}/reservations`} className="ghost-button">Batafsil</Link>
@@ -118,7 +118,7 @@ export function CatalogPage() {
                     <span>{resource.semester}-semestr</span>
                   </div>
                   <div className="resource-actions">
-                    <button type="button" className="ghost-button">O‘qish</button>
+                    <button type="button" className="ghost-button">O'qish</button>
                     <button type="button" className="ghost-button">Yuklab olish</button>
                     <button type="button" className="ghost-button">Saqlash</button>
                     <button type="button" className="ghost-button">APA citation</button>

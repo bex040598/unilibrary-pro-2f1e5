@@ -24,7 +24,7 @@ export function DepartmentsPage() {
       <SectionHeading
         eyebrow="Departments"
         title="ATMU kafedralari va ularning elektron kutubxonalari"
-        description="Har bir kafedra cardida fanlar, o‘qituvchilar, resurslar, yuklab olishlar va faol yo‘nalish ko‘rsatkichlari mavjud."
+        description="Har bir kafedra cardida fanlar, o'qituvchilar, resurslar, yuklab olishlar va faol yo'nalish ko'rsatkichlari mavjud."
       />
       <div className="filter-row">
         <label>
@@ -49,7 +49,7 @@ export function DepartmentsPage() {
             <div className="department-metrics">
               <span>{department.resources_count} resurs</span>
               <span>{department.subjects_count} fan</span>
-              <span>{department.teachers_count} o‘qituvchi</span>
+              <span>{department.teachers_count} o'qituvchi</span>
               <span>{department.active_subject}</span>
             </div>
             <div className="resource-actions">

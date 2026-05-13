@@ -42,7 +42,7 @@ export function ReadingRoomPage() {
   }
 
   if (!selectedRoom) {
-    return <div className="page"><EmptyState title="Reading room topilmadi" description="Seed reading room ma’lumotlari backend bilan sinxronlashadi." /></div>;
+    return <div className="page"><EmptyState title="Reading room topilmadi" description="Seed reading room ma'lumotlari backend bilan sinxronlashadi." /></div>;
   }
 
   return (
@@ -50,13 +50,13 @@ export function ReadingRoomPage() {
       <div className="section-heading">
         <div>
           <p className="section-eyebrow">Reading room</p>
-          <h1>Interaktiv o‘quv zali joy band qilish</h1>
+          <h1>Interaktiv o'quv zali joy band qilish</h1>
           <p className="section-description">Seat map, QR check-in, Face ID optional check-in va occupancy statistics.</p>
         </div>
       </div>
       <div className="split-grid">
         <div className="glass-panel">
-          <h3>Zallar ro‘yxati</h3>
+          <h3>Zallar ro'yxati</h3>
           <div className="room-list">
             {rooms.map((room) => (
               <button key={room.id} type="button" className={`room-card ${room.id === selectedRoomId ? "selected" : ""}`} onClick={() => setSelectedRoomId(room.id)}>

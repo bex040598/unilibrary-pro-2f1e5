@@ -62,7 +62,7 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
                   <Link to={`/${locale}/dashboard/${user.role}`}>{t("common.dashboard")}</Link>
                   <Link to={`/${locale}/loans`}>Mening kitoblarim</Link>
                   <Link to={`/${locale}/reservations`}>Band qilingan kitoblar</Link>
-                  <Link to={`/${locale}/profile/reading-room`}>O‘quv zali bronlari</Link>
+                  <Link to={`/${locale}/profile/reading-room`}>O'quv zali bronlari</Link>
                   <Link to={`/${locale}/profile/face-id`}>Face ID</Link>
                   <Link to={`/${locale}/profile/security`}>Xavfsizlik</Link>
                   <button type="button" onClick={logout}>{t("common.logout")}</button>

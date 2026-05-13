@@ -30,7 +30,7 @@ export function DashboardPage() {
       return [
         { label: "Mening kitoblarim", value: String(loans.length), helper: "Due date va overdue bilan" },
         { label: "Band qilingan kitoblar", value: String(reservations.length), helper: "QR confirmation tayyor" },
-        { label: "O‘quv zali bronlari", value: String(report.seat_reservations ?? 0), helper: "Upcoming bookings" },
+        { label: "O'quv zali bronlari", value: String(report.seat_reservations ?? 0), helper: "Upcoming bookings" },
         { label: "Face ID status", value: user?.face_id_enabled ? "Active" : "Optional", helper: "Profile orqali boshqariladi" }
       ];
     }
@@ -38,16 +38,16 @@ export function DashboardPage() {
       return [
         { label: "Mening resurslarim", value: String(resources.length), helper: "Upload + status tracking" },
         { label: "Pending resources", value: String(resources.filter((item) => item.status === "pending_review").length), helper: "Approval kutmoqda" },
-        { label: "Fanlarim", value: "6", helper: "Department syllabus bo‘yicha" },
+        { label: "Fanlarim", value: "6", helper: "Department syllabus bo'yicha" },
         { label: "Foydalanish statistikasi", value: "3.2k", helper: "Views + downloads" }
       ];
     }
     if (role === "department") {
       return [
-        { label: "Jami resurslar", value: String(resources.length), helper: "Kafedra bo‘yicha" },
-        { label: "Approved", value: String(resources.filter((item) => item.status === "approved").length), helper: "Kutubxonada ko‘rinadi" },
+        { label: "Jami resurslar", value: String(resources.length), helper: "Kafedra bo'yicha" },
+        { label: "Approved", value: String(resources.filter((item) => item.status === "approved").length), helper: "Kutubxonada ko'rinadi" },
         { label: "Rejected", value: String(resources.filter((item) => item.status === "rejected").length), helper: "Revision talab qilinadi" },
-        { label: "Eng faol o‘qituvchi", value: "Aziza Yuldasheva", helper: "Laboratoriya resurslari bo‘yicha" }
+        { label: "Eng faol o'qituvchi", value: "Aziza Yuldasheva", helper: "Laboratoriya resurslari bo'yicha" }
       ];
     }
     if (role === "librarian") {
@@ -62,12 +62,12 @@ export function DashboardPage() {
       { label: "Users", value: String(report.users ?? 48), helper: "RBAC bilan" },
       { label: "Departments", value: String(report.departments ?? 6), helper: "Faculty structure" },
       { label: "Books", value: String(report.books ?? 34), helper: "Copies va shelves bilan" },
-      { label: "AI logs", value: String(report.ai_queries ?? 342), helper: "Semantic search so‘rovlari" }
+      { label: "AI logs", value: String(report.ai_queries ?? 342), helper: "Semantic search so'rovlari" }
     ];
   }, [loans.length, reservations.length, report, resources, role, user?.face_id_enabled]);
 
   if (!user && !dashboardRole) {
-    return <div className="page"><EmptyState title="Dashboard preview" description="Role-based dashboardlarni to‘liq ko‘rish uchun login qiling yoki URL’da role segmentidan foydalaning." /></div>;
+    return <div className="page"><EmptyState title="Dashboard preview" description="Role-based dashboardlarni to'liq ko'rish uchun login qiling yoki URL'da role segmentidan foydalaning." /></div>;
   }
 
   return (
@@ -91,7 +91,7 @@ export function DashboardPage() {
           <ul className="feature-list">
             <li>Header avatar dropdown active</li>
             <li>`/profile` va subroutes ishlaydi</li>
-            <li>Reservation / loan / reading room workflow ko‘rinadi</li>
+            <li>Reservation / loan / reading room workflow ko'rinadi</li>
             <li>Audit log va reports endpointlari tayyor</li>
           </ul>
         </div>
@@ -107,7 +107,7 @@ export function DashboardPage() {
         <div className="glass-panel">
           <h3>Approval summary</h3>
           <p>{resources.filter((item) => item.status === "pending_review").length} ta pending_review resurs bor.</p>
-          <p>{resources.filter((item) => item.status === "approved").length} ta approved material katalogda ko‘rinadi.</p>
+          <p>{resources.filter((item) => item.status === "approved").length} ta approved material katalogda ko'rinadi.</p>
         </div>
       </div>
       <AILibrarianPanel compact />

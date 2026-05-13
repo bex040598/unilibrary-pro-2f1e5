@@ -24,13 +24,13 @@ export function DepartmentPage() {
           <nav className="profile-nav">
             <span>Kafedra haqida</span>
             <span>Tarkib</span>
-            <span>O‘quv jarayoni</span>
+            <span>O'quv jarayoni</span>
             <span>Fanlar</span>
             <Link to={`/${locale}/kafedralar/${department.slug}/elektron-kutubxona`}>Elektron kutubxona</Link>
             <span>Video darslar</span>
             <span>Ilmiy maqolalar</span>
             <span>Foydali havolalar</span>
-            <span>Bog‘lanish</span>
+            <span>Bog'lanish</span>
           </nav>
         </aside>
         <section className="content-panel">
@@ -40,7 +40,7 @@ export function DepartmentPage() {
             <p>{department.head_name}</p>
             <div className="resource-meta">
               <span>{department.subjects_count} fan</span>
-              <span>{department.teachers_count} o‘qituvchi</span>
+              <span>{department.teachers_count} o'qituvchi</span>
               <span>{department.resources_count} elektron resurs</span>
             </div>
           </div>
