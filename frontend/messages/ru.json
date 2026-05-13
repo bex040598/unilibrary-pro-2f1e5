@@ -1,0 +1,44 @@
+{
+  "common": {
+    "appName": "ATMU Smart UniLibrary",
+    "search": "Поиск",
+    "login": "Войти",
+    "register": "Регистрация",
+    "profile": "Профиль",
+    "dashboard": "Панель",
+    "logout": "Выйти",
+    "catalog": "Электронный каталог",
+    "departments": "Кафедры",
+    "readingRoom": "Читальный зал",
+    "aiLibrarian": "AI библиотекарь",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "loading": "Загрузка...",
+    "status": "Статус",
+    "actions": "Действия",
+    "details": "Подробнее",
+    "reserve": "Забронировать",
+    "download": "Скачать",
+    "open": "Открыть",
+    "submit": "Отправить"
+  },
+  "nav": {
+    "home": "Главная",
+    "university": "Университет",
+    "structure": "Структура",
+    "student": "Студенту",
+    "research": "Научная деятельность",
+    "news": "Новости",
+    "contact": "Контакты"
+  },
+  "hero": {
+    "title": "ATMU Smart UniLibrary",
+    "subtitle": "Электронные библиотеки кафедр, AI-поиск, Face ID, бронирование книг и мест в читальном зале на одной платформе.",
+    "catalogCta": "Перейти в каталог",
+    "departmentsCta": "Выбрать библиотеку кафедры",
+    "aiCta": "Спросить AI библиотекаря",
+    "readingRoomCta": "Забронировать место",
+    "searchPlaceholder": "Введите книгу, дисциплину, автора, кафедру, курс, семестр или ключевое слово..."
+  }
+}
+

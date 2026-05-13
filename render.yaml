@@ -1,0 +1,73 @@
+previews:
+  generation: automatic
+
+services:
+  - type: web
+    runtime: python
+    name: atmu-unilibrary-api
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    preDeployCommand: alembic upgrade head
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /docs
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.2
+      - key: DATABASE_URL
+        fromDatabase:
+          name: atmu-unilibrary-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_REFRESH_SECRET_KEY
+        generateValue: true
+      - key: AUTO_CREATE_TABLES
+        value: "true"
+      - key: AUTO_SEED
+        value: "true"
+      - key: CORS_ORIGINS
+        value: "*"
+
+  - type: web
+    runtime: static
+    name: atmu-unilibrary-web
+    plan: free
+    buildCommand: npm install && node scripts/render-frontend-build.mjs
+    staticPublishPath: ./frontend/dist
+    buildFilter:
+      paths:
+        - frontend/**
+        - scripts/**
+        - package.json
+        - package-lock.json
+    envVars:
+      - key: NODE_VERSION
+        value: 24.14.1
+      - key: RENDER_API_HOST
+        fromService:
+          name: atmu-unilibrary-api
+          type: web
+          property: host
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+databases:
+  - name: atmu-unilibrary-db
+    plan: free
+    region: oregon
+    databaseName: atmu_unilibrary
+    user: atmu_unilibrary_user

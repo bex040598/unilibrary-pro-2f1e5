@@ -1,0 +1,44 @@
+{
+  "common": {
+    "appName": "ATMU Smart UniLibrary",
+    "search": "Search",
+    "login": "Login",
+    "register": "Register",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "logout": "Logout",
+    "catalog": "Digital Catalog",
+    "departments": "Departments",
+    "readingRoom": "Reading Room",
+    "aiLibrarian": "AI Librarian",
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "status": "Status",
+    "actions": "Actions",
+    "details": "Details",
+    "reserve": "Reserve",
+    "download": "Download",
+    "open": "Open",
+    "submit": "Submit"
+  },
+  "nav": {
+    "home": "Home",
+    "university": "University",
+    "structure": "Structure",
+    "student": "For Students",
+    "research": "Research",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "ATMU Smart UniLibrary",
+    "subtitle": "Department digital libraries, AI search, Face ID, book reservations, and reading room booking in one platform.",
+    "catalogCta": "Open digital catalog",
+    "departmentsCta": "Choose a department library",
+    "aiCta": "Ask the AI librarian",
+    "readingRoomCta": "Reserve a reading room seat",
+    "searchPlaceholder": "Enter a book, subject, author, department, course, semester, or keyword..."
+  }
+}
+

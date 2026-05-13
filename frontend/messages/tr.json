@@ -1,0 +1,43 @@
+{
+  "common": {
+    "appName": "ATMU Smart UniLibrary",
+    "search": "Ara",
+    "login": "Giriş",
+    "register": "Kayıt Ol",
+    "profile": "Profil",
+    "dashboard": "Panel",
+    "logout": "Çıkış",
+    "catalog": "Dijital Katalog",
+    "departments": "Bölümler",
+    "readingRoom": "Çalışma Salonu",
+    "aiLibrarian": "AI Kütüphaneci",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "loading": "Yükleniyor...",
+    "status": "Durum",
+    "actions": "İşlemler",
+    "details": "Detaylar",
+    "reserve": "Ayırt",
+    "download": "İndir",
+    "open": "Aç",
+    "submit": "Gönder"
+  },
+  "nav": {
+    "home": "Ana Sayfa",
+    "university": "Üniversite",
+    "structure": "Yapı",
+    "student": "Öğrenci",
+    "research": "Bilimsel Faaliyet",
+    "news": "Haberler",
+    "contact": "İletişim"
+  },
+  "hero": {
+    "title": "ATMU Smart UniLibrary",
+    "subtitle": "Bölüm dijital kütüphaneleri, AI arama, Face ID, kitap rezervasyonu ve çalışma salonu planlaması tek platformda.",
+    "catalogCta": "Dijital kataloğa git",
+    "departmentsCta": "Bölüm kütüphanesini seç",
+    "aiCta": "AI kütüphaneciye sor",
+    "readingRoomCta": "Çalışma salonu koltuğu ayırt",
+    "searchPlaceholder": "Kitap, ders, yazar, bölüm, sınıf, dönem veya anahtar kelime girin..."
+  }
+}
