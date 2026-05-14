@@ -200,6 +200,10 @@ export function HomePage() {
         </div>
       </section>
 
+      <section id="ai-preview" className="assistant-stage">
+        <AILibrarianPanel landing />
+      </section>
+
       <section className="search-panel home-search-panel">
         <SectionHeading
           eyebrow="Smart search"
@@ -393,8 +397,6 @@ export function HomePage() {
       </section>
 
       <section className="spotlight-grid">
-        <div id="ai-preview"><AILibrarianPanel compact /></div>
-
         <div className="glass-panel spotlight-panel">
           <SectionHeading
             eyebrow="Face ID + QR"
@@ -419,6 +421,19 @@ export function HomePage() {
             <li>5 ta overdue kitob</li>
             <li>4 ta pending review resurs</li>
             <li>2 ta no-show seat booking</li>
+          </ul>
+        </div>
+
+        <div className="glass-panel spotlight-panel">
+          <SectionHeading
+            eyebrow="AI signal"
+            title="AI javoblari source cards bilan qaytadi"
+            description="Savol yuborilgach muallif, fan, format va citation bilan boyitilgan natijalar ko'rsatiladi."
+          />
+          <ul className="feature-list">
+            <li>Department relevance va til mosligi hisobga olinadi.</li>
+            <li>Kitob, darslik, laboratoriya va maqolalar bitta javobda jamlanadi.</li>
+            <li>Talabaga kerakli keyingi qadamlar ham taklif qilinadi.</li>
           </ul>
         </div>
       </section>

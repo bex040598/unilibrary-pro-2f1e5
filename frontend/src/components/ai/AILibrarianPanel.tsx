@@ -12,7 +12,13 @@ const suggestions = [
   "Diplom ishim uchun adabiyotlar tavsiya qil"
 ];
 
-export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
+export function AILibrarianPanel({
+  compact = false,
+  landing = false
+}: {
+  compact?: boolean;
+  landing?: boolean;
+}) {
   const { accessToken } = useAuth();
   const [query, setQuery] = useState(suggestions[0]);
   const [loading, setLoading] = useState(false);
@@ -33,16 +39,41 @@ export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
   }
 
   return (
-    <section className={`ai-panel ${compact ? "compact" : ""}`}>
+    <section className={`ai-panel ${compact ? "compact" : ""} ${landing ? "landing" : ""}`}>
       <div className="ai-panel-header">
-        <div>
+        <div className="ai-panel-intro">
+          {landing ? <div className="ai-avatar">AI</div> : null}
+          <div>
           <p className="section-eyebrow">AI librarian</p>
-          <h3>AI kutubxonachi katalog va kafedra resurslari bilan bog'langan</h3>
+            <h3>{landing ? "Sizga qanday yordam bera olaman?" : "AI kutubxonachi katalog va kafedra resurslari bilan bog'langan"}</h3>
+            <p className="ai-intro-copy">
+              {landing
+                ? "Kitob topish, kafedra resurslarini izlash, citation yaratish, reading room bo'sh joylarini ko'rish yoki diplom ishingiz uchun adabiyot tavsiyasi so'rashingiz mumkin."
+                : "Katalog, kafedra resurslari, kitoblar va AI source cards bitta oqimda ishlaydi."}
+            </p>
+          </div>
         </div>
         <Badge label="4 til" tone="info" />
       </div>
+      {landing ? (
+        <div className="ai-capability-row">
+          <span>Kitob tavsiyasi</span>
+          <span>Kafedra resurs qidiruvi</span>
+          <span>APA/MLA citation</span>
+          <span>Reading room signal</span>
+        </div>
+      ) : null}
       <div className="ai-prompt-box">
-        <textarea value={query} onChange={(event) => setQuery(event.target.value)} rows={compact ? 3 : 5} />
+        <div className="ai-prompt-headline">
+          <strong>{landing ? "Savolingizni yozing" : "AI so'rov oynasi"}</strong>
+          <span>{landing ? "Masalan: “Menga 2-kurs ma'lumotlar bazasi bo'yicha materiallar kerak”" : "AI katalog va department resources ichidan eng mos manbalarni topadi."}</span>
+        </div>
+        <textarea
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          rows={landing ? 3 : compact ? 3 : 5}
+          placeholder="Menga qanday yordam kerakligini yozing..."
+        />
         <div className="suggestion-row">
           {suggestions.slice(0, compact ? 2 : suggestions.length).map((item) => (
             <button type="button" key={item} className="chip-button" onClick={() => setQuery(item)}>
@@ -79,11 +110,12 @@ export function AILibrarianPanel({ compact = false }: { compact?: boolean }) {
         </div>
       ) : (
         <EmptyState
-          title="AI source cards tayyor"
-          description="So'rov yuboring, tizim katalog va kafedra resurslaridan manbalarni topib source cards ko'rsatadi."
+          title={landing ? "AI yordamchi tayyor" : "AI source cards tayyor"}
+          description={landing
+            ? "Savol yuboring, tizim katalog va kafedra resurslaridan eng mos manbalarni topib, source cards va tavsiyalarni shu yerning o'zida ko'rsatadi."
+            : "So'rov yuboring, tizim katalog va kafedra resurslaridan manbalarni topib source cards ko'rsatadi."}
         />
       )}
     </section>
   );
 }
-
