@@ -48,9 +48,11 @@ export function LoginPage() {
           </button>
         </form>
         <div className="auth-footnote">
+          <span>student@atmu.uz / Student123!</span>
           <span>admin@atmu.uz / Admin123!</span>
           <span>teacher@atmu.uz / Teacher123!</span>
           <span>librarian@atmu.uz / Librarian123!</span>
+          <span>department@atmu.uz / Department123!</span>
         </div>
         <p>
           Akkaunt yo'qmi? <Link to={`/${locale}/register`}>{t("common.register")}</Link>
@@ -69,4 +71,3 @@ function BadgeRow() {
     </div>
   );
 }
-

@@ -14,17 +14,24 @@ async function request<T>(path: string, options: RequestInit = {}, token?: strin
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    ...options,
-    headers
-  });
+  try {
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+      ...options,
+      headers
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(errorText || `HTTP ${response.status}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText || `HTTP ${response.status}`);
+    }
+
+    return (await response.json()) as T;
+  } catch (error) {
+    if (error instanceof TypeError) {
+      throw new Error(`Serverga ulanib bo'lmadi. API manzilini tekshiring: ${API_BASE_URL}`);
+    }
+    throw error;
   }
-
-  return (await response.json()) as T;
 }
 
 export const api = {
@@ -116,4 +123,3 @@ export const api = {
   reportsLibrary: (token: string) => request<ApiEnvelope<Record<string, number>>>("/reports/library", {}, token),
   auditLogs: (token: string) => request<ApiEnvelope<Array<Record<string, unknown>>>>("/audit-logs", {}, token)
 };
-

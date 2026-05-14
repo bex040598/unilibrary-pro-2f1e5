@@ -17,6 +17,23 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
     { to: `/${locale}/dashboard`, label: t("common.dashboard") }
   ]), [locale, t]);
 
+  const roleWorkspaceLabel = useMemo(() => {
+    switch (user?.role) {
+      case "student":
+        return "Talaba kabineti";
+      case "teacher":
+        return "Resurs profili";
+      case "librarian":
+        return "Kutubxonachi nazorati";
+      case "department":
+        return "Kafedra boshqaruvi";
+      case "admin":
+        return "Tizim boshqaruvi";
+      default:
+        return "Ishchi profil";
+    }
+  }, [user?.role]);
+
   return (
     <header className="site-header">
       <div className="top-strip">
@@ -58,7 +75,8 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
                 <div className="dropdown-panel">
                   <p>{user.full_name}</p>
                   <span>{user.email}</span>
-                  <Link to={`/${locale}/profile`}>{t("common.profile")}</Link>
+                  <Link to={`/${locale}/profile`}>Akkaunt profili</Link>
+                  <Link to={`/${locale}/profile/workspace`}>{roleWorkspaceLabel}</Link>
                   <Link to={`/${locale}/dashboard/${user.role}`}>{t("common.dashboard")}</Link>
                   <Link to={`/${locale}/loans`}>Mening kitoblarim</Link>
                   <Link to={`/${locale}/reservations`}>Band qilingan kitoblar</Link>
@@ -80,4 +98,3 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
     </header>
   );
 }
-
