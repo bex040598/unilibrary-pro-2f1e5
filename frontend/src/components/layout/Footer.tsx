@@ -8,9 +8,15 @@ export function Footer({ locale }: { locale: Locale }) {
     };
   }).__ATMU_RUNTIME_CONFIG__;
 
+  const inferredRenderApiBaseUrl =
+    typeof window !== "undefined" && window.location.hostname.endsWith(".onrender.com")
+      ? "https://atmu-unilibrary-api.onrender.com"
+      : undefined;
+
   const docsBaseUrl =
     runtimeConfig?.apiBaseUrl ??
     import.meta.env.VITE_API_BASE_URL ??
+    inferredRenderApiBaseUrl ??
     (typeof window !== "undefined" && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost"
       ? `${window.location.origin}/api`
       : "http://127.0.0.1:8000");

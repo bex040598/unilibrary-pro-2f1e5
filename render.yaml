@@ -53,5 +53,8 @@ services:
         value: strict-origin-when-cross-origin
     routes:
       - type: rewrite
+        source: /api/*
+        destination: https://atmu-unilibrary-api.onrender.com/*
+      - type: rewrite
         source: /*
         destination: /index.html

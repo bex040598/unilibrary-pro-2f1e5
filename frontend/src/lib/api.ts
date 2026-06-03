@@ -6,6 +6,11 @@ const runtimeConfig = (globalThis as {
   };
 }).__ATMU_RUNTIME_CONFIG__;
 
+const inferredRenderApiBaseUrl =
+  typeof window !== "undefined" && window.location.hostname.endsWith(".onrender.com")
+    ? "https://atmu-unilibrary-api.onrender.com"
+    : undefined;
+
 const browserFallbackApiBaseUrl =
   typeof window !== "undefined" && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost"
     ? `${window.location.origin}/api`
@@ -14,6 +19,7 @@ const browserFallbackApiBaseUrl =
 const API_BASE_URL =
   runtimeConfig?.apiBaseUrl ??
   import.meta.env.VITE_API_BASE_URL ??
+  inferredRenderApiBaseUrl ??
   browserFallbackApiBaseUrl ??
   "http://127.0.0.1:8000";
 
@@ -38,6 +44,12 @@ async function request<T>(path: string, options: RequestInit = {}, token?: strin
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(errorText || `HTTP ${response.status}`);
+    }
+
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.includes("application/json")) {
+      const htmlPreview = (await response.text()).slice(0, 120);
+      throw new Error(`API JSON o'rniga boshqa javob qaytardi. Tekshiring: ${API_BASE_URL}. Preview: ${htmlPreview}`);
     }
 
     return (await response.json()) as T;
