@@ -5,6 +5,11 @@ import { extname, join, normalize } from "node:path";
 
 const port = Number(process.env.PORT || "4173");
 const distRoot = join(process.cwd(), "frontend", "dist");
+const runtimeApiBaseUrl =
+  process.env.VITE_API_BASE_URL?.trim() ||
+  (process.env.RENDER_API_HOST?.trim()
+    ? `https://${process.env.RENDER_API_HOST.trim().replace(/^https?:\/\//, "")}`
+    : "");
 
 const mimeTypes = {
   ".css": "text/css; charset=utf-8",
@@ -31,16 +36,73 @@ function resolveFilePath(urlPath) {
   return existsSync(absoluteFile) ? absoluteFile : join(distRoot, "index.html");
 }
 
+async function handleApiProxy(request, response) {
+  if (!runtimeApiBaseUrl) {
+    response.writeHead(503, { "Content-Type": "application/json; charset=utf-8" });
+    response.end(JSON.stringify({ detail: "Backend API manzili sozlanmagan." }));
+    return;
+  }
+
+  const targetUrl = `${runtimeApiBaseUrl}${request.url.replace(/^\/api/, "")}`;
+  const headers = new Headers();
+
+  for (const [key, value] of Object.entries(request.headers)) {
+    if (typeof value === "string" && key.toLowerCase() !== "host") {
+      headers.set(key, value);
+    }
+  }
+
+  const hasBody = !["GET", "HEAD"].includes(request.method || "GET");
+  const bodyBuffer = hasBody
+    ? await new Promise((resolve, reject) => {
+        const chunks = [];
+        request.on("data", (chunk) => chunks.push(chunk));
+        request.on("end", () => resolve(Buffer.concat(chunks)));
+        request.on("error", reject);
+      })
+    : undefined;
+
+  try {
+    const upstreamResponse = await fetch(targetUrl, {
+      method: request.method,
+      headers,
+      body: bodyBuffer
+    });
+
+    response.writeHead(upstreamResponse.status, Object.fromEntries(upstreamResponse.headers.entries()));
+    const buffer = Buffer.from(await upstreamResponse.arrayBuffer());
+    response.end(buffer);
+  } catch (error) {
+    response.writeHead(502, { "Content-Type": "application/json; charset=utf-8" });
+    response.end(
+      JSON.stringify({
+        detail: error instanceof Error ? error.message : "Backend API ga ulanishda xato."
+      })
+    );
+  }
+}
+
+function injectRuntimeConfig(html) {
+  const runtimeValue = runtimeApiBaseUrl ? "/api" : "";
+  const runtimeScript = `<script>window.__ATMU_RUNTIME_CONFIG__={apiBaseUrl:${JSON.stringify(runtimeValue)}};</script>`;
+  return html.includes("</head>") ? html.replace("</head>", `${runtimeScript}</head>`) : `${runtimeScript}${html}`;
+}
+
 const server = createServer(async (request, response) => {
+  if ((request.url || "").startsWith("/api/") || request.url === "/api") {
+    await handleApiProxy(request, response);
+    return;
+  }
+
   const filePath = resolveFilePath(request.url || "/");
   const extension = extname(filePath).toLowerCase();
   const contentType = mimeTypes[extension] || "application/octet-stream";
 
   try {
     if (filePath.endsWith("index.html")) {
-      const html = await readFile(filePath);
+      const html = await readFile(filePath, "utf8");
       response.writeHead(200, { "Content-Type": contentType, "Cache-Control": "no-store" });
-      response.end(html);
+      response.end(injectRuntimeConfig(html));
       return;
     }
 
@@ -54,4 +116,9 @@ const server = createServer(async (request, response) => {
 
 server.listen(port, "0.0.0.0", () => {
   console.log(`ATMU frontend static server running on port ${port}`);
+  if (runtimeApiBaseUrl) {
+    console.log(`Runtime API proxy active -> ${runtimeApiBaseUrl}`);
+  } else {
+    console.log("Runtime API proxy topilmadi. Frontend /api so'rovlari ishlamaydi.");
+  }
 });

@@ -2,6 +2,19 @@ import { Link } from "react-router-dom";
 import type { Locale } from "../../types";
 
 export function Footer({ locale }: { locale: Locale }) {
+  const runtimeConfig = (globalThis as {
+    __ATMU_RUNTIME_CONFIG__?: {
+      apiBaseUrl?: string;
+    };
+  }).__ATMU_RUNTIME_CONFIG__;
+
+  const docsBaseUrl =
+    runtimeConfig?.apiBaseUrl ??
+    import.meta.env.VITE_API_BASE_URL ??
+    (typeof window !== "undefined" && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost"
+      ? `${window.location.origin}/api`
+      : "http://127.0.0.1:8000");
+
   return (
     <footer className="site-footer">
       <div className="footer-grid">
@@ -26,7 +39,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
         <div>
           <h4>Integratsiyalar</h4>
-          <a href={`${import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000"}/docs`} target="_blank" rel="noreferrer">
+          <a href={`${docsBaseUrl}/docs`} target="_blank" rel="noreferrer">
             Swagger /docs
           </a>
           <span>Face ID secure capture</span>

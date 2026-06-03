@@ -1,6 +1,21 @@
 import type { ApiEnvelope, AuthResponse, Book, Department, Faculty, Loan, ReadingRoom, Reservation, Resource, Seat, User, AIAnswer } from "../types";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://127.0.0.1:8000";
+const runtimeConfig = (globalThis as {
+  __ATMU_RUNTIME_CONFIG__?: {
+    apiBaseUrl?: string;
+  };
+}).__ATMU_RUNTIME_CONFIG__;
+
+const browserFallbackApiBaseUrl =
+  typeof window !== "undefined" && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost"
+    ? `${window.location.origin}/api`
+    : undefined;
+
+const API_BASE_URL =
+  runtimeConfig?.apiBaseUrl ??
+  import.meta.env.VITE_API_BASE_URL ??
+  browserFallbackApiBaseUrl ??
+  "http://127.0.0.1:8000";
 
 async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   const headers = new Headers(options.headers ?? {});
