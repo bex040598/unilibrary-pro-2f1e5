@@ -9,6 +9,7 @@ import { DepartmentsPage } from "./components/departments/DepartmentsPage";
 import { DepartmentPage } from "./components/departments/DepartmentPage";
 import { DepartmentLibraryPage } from "./components/department-library/DepartmentLibraryPage";
 import { DashboardPage } from "./components/dashboard/DashboardPage";
+import { ELibraryPage } from "./components/elibrary/ELibraryPage";
 import { ResourceUploadPage } from "./components/resources/ResourceUploadPage";
 import { ReservationsPage } from "./components/reservations/ReservationsPage";
 import { LoansPage } from "./components/loans/LoansPage";
@@ -46,6 +47,8 @@ export default function App() {
         <Route path="resources/upload" element={<ResourceUploadPage />} />
         <Route path="reservations" element={<ReservationsPage />} />
         <Route path="loans" element={<LoansPage />} />
+        <Route path="elibrary" element={<ELibraryPage />} />
+        <Route path="elibrary/:elibraryRole" element={<ELibraryPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/uz" replace />} />
     </Routes>

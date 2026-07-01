@@ -1,15 +1,16 @@
 import { Link, useParams } from "react-router-dom";
+import { BookOpen, Users, Library, GraduationCap, Globe, Building2, Search, Bot, BookMarked, LayoutDashboard } from "lucide-react";
 import { departments, books, resources } from "../../data/mock";
 import { useI18n } from "../../lib/i18n";
 import type { Locale } from "../../types";
 
 const stats = [
-  { icon: "📚", value: "670+", label: "Elektron resurslar" },
-  { icon: "👨‍🏫", value: "48+", label: "O'qituvchilar" },
-  { icon: "🏛️", value: "6", label: "Kafedra kutubxonasi" },
-  { icon: "🎓", value: "4", label: "Ta'lim yo'nalishlari" },
-  { icon: "🌐", value: "3", label: "Til" },
-  { icon: "🏢", value: "2", label: "Fakultet" },
+  { Icon: BookOpen, value: "670+", label: "Elektron resurslar" },
+  { Icon: Users, value: "48+", label: "O'qituvchilar" },
+  { Icon: Library, value: "6", label: "Kafedra kutubxonasi" },
+  { Icon: GraduationCap, value: "4", label: "Ta'lim yo'nalishlari" },
+  { Icon: Globe, value: "3", label: "Til" },
+  { Icon: Building2, value: "2", label: "Fakultet" },
 ];
 
 const newsItems = [
@@ -141,7 +142,7 @@ export function HomePage() {
             <strong>ATMU 2026</strong>
             <span />
           </div>
-          <p className="tstu-hero-sub">2026/2027 o'quv yili uchun elektron kutubxona tizimi</p>
+          <p className="tstu-hero-sub">2026/2027 o'quv yili uchun elektron kutubxona portali</p>
           <Link to={`/${safeLocale}/catalog`} className="tstu-hero-btn">
             <span className="tstu-hero-btn-icon">📚</span>
             Katalogga kirish
@@ -164,14 +165,14 @@ export function HomePage() {
       <section className="tstu-about">
         <h2 className="tstu-section-title">ATMU Smart UniLibrary haqida</h2>
         <p className="tstu-about-text">
-          Axborot texnologiyalari va menejment universiteti elektron kutubxona tizimi —
-          kafedra resurslari, AI qidiruv, kitob bron va o'quv zali boshqaruvini bir joyda jamlagan
-          zamonaviy raqamli platforma.
+          Axborot texnologiyalari va menejment universiteti elektron kutubxona portali —
+          kafedra resurslari, sun'iy intellekt qidiruvi, kitob bron qilish va o'quv zali
+          boshqaruvini bir tizimda birlashtirgan zamonaviy raqamli platforma.
         </p>
         <div className="tstu-stats">
           {stats.map((s) => (
             <div key={s.label} className="tstu-stat-item">
-              <span className="tstu-stat-icon">{s.icon}</span>
+              <s.Icon size={32} color="rgba(255,255,255,0.85)" className="tstu-stat-icon" />
               <strong className="tstu-stat-value">{s.value}</strong>
               <span className="tstu-stat-label">{s.label}</span>
             </div>
@@ -284,7 +285,7 @@ export function HomePage() {
           <div className="tstu-services-banner-left">
             <span className="tstu-services-banner-icon">🔌</span>
             <p className="tstu-services-banner-text">
-              <strong>Kutubxona interaktiv xizmatlaridan unumli foydalaning!</strong>
+              <strong>Kutubxona elektron xizmatlaridan samarali foydalaning!</strong>
             </p>
           </div>
           <div className="tstu-services-banner-right">
@@ -299,24 +300,28 @@ export function HomePage() {
         </div>
         <div className="tstu-services-chips">
           <Link to={`/${safeLocale}/catalog`} className="tstu-service-chip">
-            <span>📅</span>
-            <span>Katalog</span>
+            <Search size={28} color="#1457a8" />
+            <span>Elektron katalog</span>
           </Link>
-          <Link to={`/${safeLocale}/catalog`} className="tstu-service-chip">
-            <span>🤖</span>
+          <Link to={`/${safeLocale}/elibrary`} className="tstu-service-chip">
+            <Bot size={28} color="#0e9f6e" />
             <span>AI Kutubxonachi</span>
           </Link>
           <Link to={`/${safeLocale}/library/reading-room`} className="tstu-service-chip">
-            <span>📖</span>
+            <BookOpen size={28} color="#0891b2" />
             <span>O'quv zali</span>
           </Link>
           <Link to={`/${safeLocale}/reservations`} className="tstu-service-chip">
-            <span>📕</span>
-            <span>Kitob bron</span>
+            <BookMarked size={28} color="#7c3aed" />
+            <span>Kitob bron qilish</span>
           </Link>
           <Link to={`/${safeLocale}/kafedralar`} className="tstu-service-chip">
-            <span>🏛️</span>
+            <Library size={28} color="#d6a84f" />
             <span>Kafedralar</span>
+          </Link>
+          <Link to={`/${safeLocale}/dashboard`} className="tstu-service-chip">
+            <LayoutDashboard size={28} color="#dc2626" />
+            <span>Boshqaruv paneli</span>
           </Link>
         </div>
       </section>
