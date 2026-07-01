@@ -3578,3 +3578,317 @@ td {
   text-align: center;
   line-height: 1.4;
 }
+
+/* ═══════════════════════════════════════════════
+   ATMU FOOTER — TSTU.UZ USLUBIDA
+═══════════════════════════════════════════════ */
+
+.atmu-footer {
+  position: relative;
+  background: #061b3a;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Fon rasm effekti */
+.atmu-footer-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(20,87,168,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 10% 90%, rgba(0,140,149,0.12) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='60' cy='60' r='1' fill='rgba(255,255,255,0.04)'/%3E%3Ccircle cx='20' cy='20' r='0.5' fill='rgba(255,255,255,0.03)'/%3E%3Ccircle cx='100' cy='40' r='0.8' fill='rgba(255,255,255,0.04)'/%3E%3Ccircle cx='30' cy='90' r='0.6' fill='rgba(255,255,255,0.03)'/%3E%3Ccircle cx='90' cy='100' r='1' fill='rgba(255,255,255,0.04)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Texnologiya tarmog'i animatsiyasi illuziyasi */
+.atmu-footer-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(20,87,168,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,87,168,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 70% 50%, rgba(0,0,0,0.6), transparent 70%);
+}
+
+.atmu-footer-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 60px 40px 48px;
+  display: grid;
+  grid-template-columns: 2fr 1.4fr 1fr 1fr;
+  gap: 48px;
+}
+
+/* Chap ustun */
+.atmu-footer-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.atmu-footer-logo-row {
+  margin-bottom: 16px;
+}
+
+.atmu-footer-logo-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff;
+}
+
+.atmu-footer-logo-box strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.atmu-footer-logo-box span {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+}
+
+.atmu-footer-desc {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  margin: 0 0 20px;
+}
+
+.atmu-footer-socials {
+  display: flex;
+  gap: 10px;
+}
+
+.atmu-social-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.7);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.atmu-social-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+/* Kontakt ustun */
+.atmu-footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.atmu-footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: rgba(255,255,255,0.7);
+  font-size: 13.5px;
+  text-decoration: none;
+  transition: color 0.15s;
+  line-height: 1.5;
+}
+
+.atmu-footer-contact-item:hover { color: #fff; }
+
+.atmu-footer-contact-item svg { flex-shrink: 0; margin-top: 2px; }
+
+.atmu-footer-address { cursor: default; }
+
+.atmu-footer-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 9px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s;
+  width: fit-content;
+  margin-top: 4px;
+}
+
+.atmu-footer-map-btn:hover { background: rgba(255,255,255,0.18); }
+
+/* Havola ustunlari */
+.atmu-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.atmu-footer-links-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 6px;
+  letter-spacing: 0.01em;
+}
+
+.atmu-footer-links a {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.15s;
+  line-height: 1.5;
+}
+
+.atmu-footer-links a:hover { color: #fff; }
+
+/* Pastki chiziq */
+.atmu-footer-bottom {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.atmu-footer-bottom-inner {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.atmu-footer-bottom span {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+
+.atmu-footer-bottom-links {
+  display: flex;
+  gap: 20px;
+}
+
+.atmu-footer-bottom-links a {
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.atmu-footer-bottom-links a:hover { color: rgba(255,255,255,0.7); }
+
+/* ═══════════════════════════════════════════════
+   MASHHUR KITOBLAR — dark section override
+═══════════════════════════════════════════════ */
+
+.tstu-section-dark {
+  background: #0a2a5e;
+  max-width: 100%;
+  padding: 56px 0;
+}
+
+.tstu-section-dark > .tstu-section-header,
+.tstu-section-dark > .tstu-books-grid {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.tstu-book-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  gap: 18px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.tstu-book-card:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+.tstu-book-cover {
+  width: 60px;
+  height: 76px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1457a8, #0e9f6e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.tstu-book-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+
+.tstu-book-meta {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin: 0 0 12px;
+}
+
+.tstu-book-availability {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 14px;
+}
+
+.tstu-availability-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  flex-shrink: 0;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.tstu-book-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tstu-book-btn:hover {
+  background: rgba(255,255,255,0.22);
+  border-color: rgba(255,255,255,0.4);
+}
