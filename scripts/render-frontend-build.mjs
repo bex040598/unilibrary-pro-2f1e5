@@ -9,9 +9,8 @@ if (!process.env.VITE_API_BASE_URL && apiHost) {
 }
 
 if (!process.env.VITE_API_BASE_URL) {
-  throw new Error(
-    "VITE_API_BASE_URL is not set. Provide it directly or set RENDER_API_HOST in Render."
-  );
+  console.warn("VITE_API_BASE_URL not set — building in mock/offline mode");
+  process.env.VITE_API_BASE_URL = "";
 }
 
 console.log(`Building frontend with API base: ${process.env.VITE_API_BASE_URL}`);
