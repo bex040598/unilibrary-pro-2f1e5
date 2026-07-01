@@ -27,12 +27,6 @@ services:
     name: atmu-unilibrary-web
     buildCommand: npm install && node scripts/render-frontend-build.mjs
     staticPublishPath: ./frontend/dist
-    buildFilter:
-      paths:
-        - frontend/**
-        - scripts/**
-        - package.json
-        - package-lock.json
     envVars:
       - key: NODE_VERSION
         value: 24.14.1
