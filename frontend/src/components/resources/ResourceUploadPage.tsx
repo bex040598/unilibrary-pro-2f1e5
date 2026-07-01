@@ -18,9 +18,9 @@ const STATUS_LABELS: Record<string, { label: string; color: string; bg: string }
 };
 
 const MOCK_RESOURCES: Resource[] = [
-  { id: 101, title: "Ma'lumotlar bazasi: 2-kurs laboratoriya ishlari", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Ma'lumotlar bazasi", material_type: "Laboratoriya ishi", status: "approved", language: "uz", format: "PDF", course: 2, semester: 4, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "department", download_allowed: true, online_read_allowed: true, average_rating: 4.5 },
-  { id: 102, title: "Kiberxavfsizlik bo'yicha o'zbekcha darslik", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Kiberxavfsizlik", material_type: "Darslik", status: "pending_review", language: "uz", format: "PDF", course: 3, semester: 5, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "university", download_allowed: true, online_read_allowed: false, average_rating: 0 },
-  { id: 103, title: "Python asoslari: amaliy mashqlar to'plami", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Dasturlash", material_type: "O'quv qo'llanma", status: "draft", language: "uz", format: "DOCX", course: 1, semester: 2, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "department", download_allowed: true, online_read_allowed: true, average_rating: 0 },
+  { id: 101, title: "Ma'lumotlar bazasi: 2-kurs laboratoriya ishlari", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Ma'lumotlar bazasi", material_type: "Laboratoriya ishi", status: "approved", language: "uz", format: "PDF", course: 2, semester: 4, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "department", download_allowed: true, online_read_allowed: true, average_rating: 4.5, views_count: 120, downloads_count: 47 },
+  { id: 102, title: "Kiberxavfsizlik bo'yicha o'zbekcha darslik", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Kiberxavfsizlik", material_type: "Darslik", status: "pending_review", language: "uz", format: "PDF", course: 3, semester: 5, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "university", download_allowed: true, online_read_allowed: false, average_rating: 0, views_count: 0, downloads_count: 0 },
+  { id: 103, title: "Python asoslari: amaliy mashqlar to'plami", author_name: "Aziza Yuldasheva", department_name: "Axborot texnologiyalari", subject_name: "Dasturlash", material_type: "O'quv qo'llanma", status: "draft", language: "uz", format: "DOCX", course: 1, semester: 2, academic_year: "2025/2026", department_id: 1, description: "", keywords: [], tags: [], visibility: "department", download_allowed: true, online_read_allowed: true, average_rating: 0, views_count: 0, downloads_count: 0 },
 ];
 
 export function ResourceUploadPage() {
@@ -91,8 +91,9 @@ export function ResourceUploadPage() {
         material_type: form.material_type, status: "pending_review", language: form.language,
         format: form.format, course: Number(form.course), semester: Number(form.semester),
         academic_year: form.academic_year, department_id: Number(form.department_id),
-        description: form.description, keywords: [], tags: [], visibility: form.visibility as "department",
+        description: form.description, keywords: [], tags: [], visibility: form.visibility,
         download_allowed: true, online_read_allowed: true, average_rating: 0,
+        views_count: 0, downloads_count: 0,
       };
       setResources((cur) => [mock, ...cur]);
       setMessage({ type: "success", text: "Resurs qoralama sifatida saqlandi (offline rejim)." });

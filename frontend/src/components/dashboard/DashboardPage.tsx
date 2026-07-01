@@ -63,7 +63,7 @@ export function DashboardPage() {
     if (!accessToken) return;
     api.myLoans(accessToken).then(setLoans).catch(() => undefined);
     api.myReservations(accessToken).then(setReservations).catch(() => undefined);
-    api.departmentResources(user?.department_id).then(setResources).catch(() => undefined);
+    api.departmentResources(user?.department_id ?? undefined).then(setResources).catch(() => undefined);
     api.reportsLibrary(accessToken).then((r) => setReport(r.data)).catch(() => undefined);
   }, [accessToken, user?.department_id]);
 
@@ -81,7 +81,7 @@ export function DashboardPage() {
       { label: "Talaba faolligi", value: 47, sub: "Oxirgi 30 kunda", icon: "users", color: "#6b21a8" },
     ];
     if (role === "librarian") return [
-      { label: "Bugungi bronlar", value: report.today_reservations ?? reservations.length || 8, sub: "Tasdiqlash navbatida", icon: "calendar", color: "#1457a8" },
+      { label: "Bugungi bronlar", value: report.today_reservations ?? (reservations.length || 8), sub: "Tasdiqlash navbatida", icon: "calendar", color: "#1457a8" },
       { label: "Qaytarish sanasi", value: report.due_today ?? 5, sub: "Bugun qaytarilishi kerak", icon: "clock", color: "#b45309" },
       { label: "Muddati o'tgan", value: report.overdue ?? 3, sub: "Jarima talab qilinadi", icon: "warning", color: "#dc2626" },
       { label: "Zal bandligi", value: `${report.reading_room_occupancy ?? 61}%`, sub: "Hozirda band", icon: "monitor", color: "#065f46" },

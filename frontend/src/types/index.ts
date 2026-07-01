@@ -77,6 +77,7 @@ export interface Resource {
   academic_year: string;
   keywords: string[];
   tags: string[];
+  visibility?: string;
 }
 
 export interface Book {
@@ -134,6 +135,7 @@ export interface ReadingRoom {
   total_seats: number;
   available_seats: number;
   occupancy_rate: number;
+  description?: string;
 }
 
 export interface AIAnswer {
