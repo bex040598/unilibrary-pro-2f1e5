@@ -3455,3 +3455,126 @@ td {
 }
 
 .tstu-action-chip-tg:hover { background: rgba(37,161,224,0.3); color: #bae6fd; }
+
+/* ─── Rasm yuklash (news & event cards) ─── */
+.tstu-news-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+}
+
+.tstu-news-card:hover .tstu-news-photo {
+  transform: scale(1.04);
+}
+
+/* Overlay endi ustida turishi uchun */
+.tstu-news-img-overlay { z-index: 2; }
+.tstu-news-tag-abs { z-index: 3; }
+
+/* Event card rasm */
+.tstu-event-img-placeholder { overflow: hidden; }
+
+.tstu-event-img-placeholder > .tstu-news-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.tstu-event-img-inner { z-index: 2; }
+.tstu-event-overlay { z-index: 2; }
+
+/* ─── Xizmatlar (services) yangi dizayn ─── */
+.tstu-services-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.tstu-banner-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: #e8f0fe;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tstu-banner-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0a2a5e;
+  margin: 0 0 4px;
+}
+
+.tstu-banner-sub {
+  font-size: 13px;
+  color: #667085;
+  margin: 0;
+}
+
+/* Xizmat chip — yangi ko'rinish */
+.tstu-services-chips {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.tstu-service-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 16px 20px;
+  background: #fff;
+  border: 1px solid #e8edf4;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #172033;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+  cursor: pointer;
+}
+
+.tstu-service-chip:hover {
+  box-shadow: 0 8px 24px rgba(20,87,168,0.13);
+  transform: translateY(-3px);
+  border-color: #c7d7f0;
+}
+
+.tstu-service-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.tstu-service-chip:hover .tstu-service-icon-wrap {
+  transform: scale(1.08);
+}
+
+.tstu-service-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #172033;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.tstu-service-desc {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.4;
+}

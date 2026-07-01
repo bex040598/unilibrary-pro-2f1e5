@@ -1,18 +1,12 @@
 import { Link, useParams } from "react-router-dom";
-import { BookOpen, Users, Library, GraduationCap, Globe, Building2, Search, Bot, BookMarked, LayoutDashboard } from "lucide-react";
-import { departments, books, resources } from "../../data/mock";
-import { useI18n } from "../../lib/i18n";
+import {
+  BookOpen, Users, Library, GraduationCap, Globe, Building2,
+  Search, Bot, MonitorPlay, BookMarked, LayoutDashboard, Layers
+} from "lucide-react";
+import { departments, books } from "../../data/mock";
 import type { Locale } from "../../types";
 
-const stats = [
-  { Icon: BookOpen, value: "670+", label: "Elektron resurslar" },
-  { Icon: Users, value: "48+", label: "O'qituvchilar" },
-  { Icon: Library, value: "6", label: "Kafedra kutubxonasi" },
-  { Icon: GraduationCap, value: "4", label: "Ta'lim yo'nalishlari" },
-  { Icon: Globe, value: "3", label: "Til" },
-  { Icon: Building2, value: "2", label: "Fakultet" },
-];
-
+/* ── Haqiqiy rasmlar (picsum – seed bo'yicha har doim bir xil) ── */
 const newsItems = [
   {
     id: 1,
@@ -20,7 +14,7 @@ const newsItems = [
     date: "Iyun 29, 2026",
     source: "ATMU",
     title: "Ma'lumotlar bazasi bo'yicha yangi darsliklar fondga qo'shildi",
-    image: null,
+    img: "https://picsum.photos/seed/lib1/900/520",
     large: true,
   },
   {
@@ -29,7 +23,7 @@ const newsItems = [
     date: "Iyun 20, 2026",
     source: "ATMU",
     title: "2026/2027 o'quv yili uchun kafedra resurslari yangilandi",
-    image: null,
+    img: "https://picsum.photos/seed/lib2/600/320",
   },
   {
     id: 3,
@@ -37,7 +31,7 @@ const newsItems = [
     date: "Iyun 15, 2026",
     source: "ATMU",
     title: "Xalqaro kutubxona tizimi bilan integratsiya amalga oshirildi",
-    image: null,
+    img: "https://picsum.photos/seed/lib3/600/320",
   },
   {
     id: 4,
@@ -45,7 +39,7 @@ const newsItems = [
     date: "May 19, 2026",
     source: "ATMU",
     title: "Elektron resurslar bazasi kengaytirildi va yangi qidiruv tizimi ishga tushirildi",
-    image: null,
+    img: "https://picsum.photos/seed/lib4/600/340",
   },
   {
     id: 5,
@@ -53,7 +47,7 @@ const newsItems = [
     date: "May 10, 2026",
     source: "ATMU",
     title: "AI kutubxonachi va citation generator bo'yicha workshop",
-    image: null,
+    img: "https://picsum.photos/seed/lib5/600/340",
   },
   {
     id: 6,
@@ -61,7 +55,7 @@ const newsItems = [
     date: "Apr 26, 2026",
     source: "ATMU",
     title: "O'qish madaniyatini yuksaltirish bo'yicha universitetlar hamkorligi",
-    image: null,
+    img: "https://picsum.photos/seed/lib6/600/340",
   },
 ];
 
@@ -73,6 +67,7 @@ const events = [
     source: "ATMU",
     sourceDate: "Dek 19, 2025",
     title: "Axborot texnologiyalari bo'yicha ilmiy konferensiya",
+    img: "https://picsum.photos/seed/ev1/540/380",
     large: true,
   },
   {
@@ -82,48 +77,92 @@ const events = [
     source: "ATMU",
     sourceDate: "Apr 17, 2026",
     title: "Elektron ta'lim resurslari bo'yicha seminar",
+    img: "https://picsum.photos/seed/ev2/540/380",
     large: true,
   },
   {
-    id: 3,
-    date: "07",
-    month: "YAN",
-    category: "YANGILIK",
+    id: 3, date: "07", month: "YAN", category: "YANGILIK",
     categoryDate: "Yan 07, 2025",
     title: "Raqamli kutubxona va masofaviy ta'lim infratuzilmasi yangilandi",
     listItem: true,
   },
   {
-    id: 4,
-    date: "20",
-    month: "DEK",
-    category: "YANGILIK",
-    categoryDate: "Dek 20, 2022",
+    id: 4, date: "20", month: "DEK", category: "YANGILIK",
+    categoryDate: "Dek 20, 2024",
     title: "Yangi o'quv zali jihozlari o'rnatildi",
     listItem: true,
   },
   {
-    id: 5,
-    date: "20",
-    month: "DEK",
-    category: "YANGILIK",
-    categoryDate: "Dek 20, 2022",
+    id: 5, date: "15", month: "NOY", category: "YANGILIK",
+    categoryDate: "Noy 15, 2024",
     title: "Kutubxona fondini raqamlashtirish loyihasi boshlandi",
     listItem: true,
   },
 ];
 
+const stats = [
+  { Icon: BookOpen,      value: "670+", label: "Elektron resurslar" },
+  { Icon: Users,         value: "48+",  label: "O'qituvchilar" },
+  { Icon: Library,       value: "6",    label: "Kafedra kutubxonasi" },
+  { Icon: GraduationCap, value: "4",    label: "Ta'lim yo'nalishlari" },
+  { Icon: Globe,         value: "3",    label: "Til" },
+  { Icon: Building2,     value: "2",    label: "Fakultet" },
+];
+
+/* ── Xizmatlar ikonkalari ── */
 const services = [
-  { icon: "📅", label: "Katalog" },
-  { icon: "🤖", label: "AI Kutubxonachi" },
-  { icon: "📖", label: "O'quv zali" },
-  { icon: "📕", label: "Kitob bron" },
-  { icon: "🏛️", label: "Kafedralar" },
+  {
+    to: "catalog",
+    Icon: Search,
+    label: "Elektron katalog",
+    color: "#1457a8",
+    bg: "#e8f0fe",
+    desc: "Kitob va resurs qidirish",
+  },
+  {
+    to: "elibrary",
+    Icon: Bot,
+    label: "AI Kutubxonachi",
+    color: "#059669",
+    bg: "#d1fae5",
+    desc: "Aqlli yordamchi",
+  },
+  {
+    to: "library/reading-room",
+    Icon: MonitorPlay,
+    label: "O'quv zali",
+    color: "#0891b2",
+    bg: "#cffafe",
+    desc: "Joy bron qilish",
+  },
+  {
+    to: "reservations",
+    Icon: BookMarked,
+    label: "Kitob bron qilish",
+    color: "#7c3aed",
+    bg: "#ede9fe",
+    desc: "Onlayn buyurtma",
+  },
+  {
+    to: "kafedralar",
+    Icon: Layers,
+    label: "Kafedralar",
+    color: "#d97706",
+    bg: "#fef3c7",
+    desc: "6 ta kafedra bazasi",
+  },
+  {
+    to: "dashboard",
+    Icon: LayoutDashboard,
+    label: "Boshqaruv paneli",
+    color: "#dc2626",
+    bg: "#fee2e2",
+    desc: "Shaxsiy kabinet",
+  },
 ];
 
 export function HomePage() {
   const { locale = "uz" } = useParams();
-  const { t } = useI18n();
   const safeLocale = (["uz", "ru", "en", "tr"].includes(locale) ? locale : "uz") as Locale;
 
   const featuredDepts = departments.slice(0, 3);
@@ -131,37 +170,30 @@ export function HomePage() {
 
   return (
     <div className="tstu-home">
+
       {/* ── HERO ── */}
       <section className="tstu-hero">
-        <div className="tstu-hero-overlay" />
         <div className="tstu-hero-content">
           <p className="tstu-hero-breadcrumb">atmu.uz / Tuzilma / Smart UniLibrary</p>
           <h1 className="tstu-hero-title">Smart UniLibrary</h1>
           <div className="tstu-hero-divider">
-            <span />
-            <strong>ATMU 2026</strong>
-            <span />
+            <span /><strong>ATMU 2026</strong><span />
           </div>
           <p className="tstu-hero-sub">2026/2027 o'quv yili uchun elektron kutubxona portali</p>
           <Link to={`/${safeLocale}/catalog`} className="tstu-hero-btn">
-            <span className="tstu-hero-btn-icon">📚</span>
+            <GraduationCap size={20} />
             Katalogga kirish
           </Link>
         </div>
         <div className="tstu-hero-actions">
           <Link to={`/${safeLocale}/kafedralar`} className="tstu-action-chip">Kafedralar</Link>
-          <a
-            href="https://t.me/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tstu-action-chip tstu-action-chip-tg"
-          >
-            ✈ Telegram kanal
-          </a>
+          <Link to={`/${safeLocale}/elibrary`} className="tstu-action-chip tstu-action-chip-tg">
+            E-Library portali
+          </Link>
         </div>
       </section>
 
-      {/* ── ABOUT / STATS ── */}
+      {/* ── STATISTIKA ── */}
       <section className="tstu-about">
         <h2 className="tstu-section-title">ATMU Smart UniLibrary haqida</h2>
         <p className="tstu-about-text">
@@ -172,7 +204,7 @@ export function HomePage() {
         <div className="tstu-stats">
           {stats.map((s) => (
             <div key={s.label} className="tstu-stat-item">
-              <s.Icon size={32} color="rgba(255,255,255,0.85)" className="tstu-stat-icon" />
+              <s.Icon size={34} color="rgba(255,255,255,0.9)" />
               <strong className="tstu-stat-value">{s.value}</strong>
               <span className="tstu-stat-label">{s.label}</span>
             </div>
@@ -180,17 +212,18 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── NEWS ── */}
+      {/* ── YANGILIKLAR ── */}
       <section className="tstu-section">
         <div className="tstu-section-header">
           <h2 className="tstu-section-heading">Kutubxona yangiliklari</h2>
           <Link to={`/${safeLocale}/catalog`} className="tstu-see-all">Barchasini ko'rish →</Link>
         </div>
+
+        {/* Katta + 2 kichik */}
         <div className="tstu-news-grid">
-          {/* Large card */}
           <article className="tstu-news-card tstu-news-large">
             <div className="tstu-news-img tstu-news-img-large">
-              <div className="tstu-news-img-placeholder" />
+              <img src={newsItems[0].img} alt={newsItems[0].title} className="tstu-news-photo" />
               <div className="tstu-news-img-overlay">
                 <span className="tstu-news-tag">{newsItems[0].category}</span>
                 <span className="tstu-news-meta">{newsItems[0].source} • {newsItems[0].date}</span>
@@ -198,12 +231,12 @@ export function HomePage() {
               </div>
             </div>
           </article>
-          {/* Small cards */}
+
           <div className="tstu-news-small-col">
             {newsItems.slice(1, 3).map((item) => (
               <article key={item.id} className="tstu-news-card tstu-news-small">
                 <div className="tstu-news-img tstu-news-img-small">
-                  <div className="tstu-news-img-placeholder" />
+                  <img src={item.img} alt={item.title} className="tstu-news-photo" />
                   <span className="tstu-news-tag tstu-news-tag-abs">{item.category}</span>
                 </div>
                 <div className="tstu-news-body">
@@ -214,12 +247,13 @@ export function HomePage() {
             ))}
           </div>
         </div>
-        {/* Second row */}
+
+        {/* 3 ta qo'shimcha */}
         <div className="tstu-news-grid tstu-news-grid-second">
           {newsItems.slice(3, 6).map((item) => (
             <article key={item.id} className="tstu-news-card tstu-news-row2">
               <div className="tstu-news-img tstu-news-img-medium">
-                <div className="tstu-news-img-placeholder" />
+                <img src={item.img} alt={item.title} className="tstu-news-photo" />
                 <span className="tstu-news-tag tstu-news-tag-abs">{item.category}</span>
               </div>
               <div className="tstu-news-body">
@@ -231,17 +265,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── EVENTS ── */}
+      {/* ── TADBIRLAR ── */}
       <section className="tstu-section tstu-section-light">
         <div className="tstu-section-header">
-          <h2 className="tstu-section-heading">Kutilyotgan tadbirlar</h2>
+          <h2 className="tstu-section-heading">Kutilayotgan tadbirlar</h2>
         </div>
         <div className="tstu-events-grid">
-          {/* Left: 2 large event cards */}
           <div className="tstu-events-cards">
             {events.filter((e) => e.large).map((ev) => (
               <article key={ev.id} className="tstu-event-card">
                 <div className="tstu-event-img-placeholder">
+                  <img src={ev.img} alt={ev.title} className="tstu-news-photo" />
                   <div className="tstu-event-img-inner">
                     <span className="tstu-event-date-badge">{ev.date}</span>
                   </div>
@@ -253,7 +287,6 @@ export function HomePage() {
               </article>
             ))}
           </div>
-          {/* Right: list items */}
           <div className="tstu-events-list">
             {events.filter((e) => e.listItem).map((ev) => (
               <div key={ev.id} className="tstu-event-list-item">
@@ -275,18 +308,23 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── INTERACTIVE SERVICES ── */}
+      {/* ── INTERAKTIV XIZMATLAR ── */}
       <section className="tstu-section tstu-services-section">
         <div className="tstu-section-header">
           <h2 className="tstu-section-heading">Interaktiv xizmatlar</h2>
-          <Link to={`/${safeLocale}/catalog`} className="tstu-see-all">Barchasini ko'rish</Link>
+          <Link to={`/${safeLocale}/elibrary`} className="tstu-see-all">Barchasini ko'rish</Link>
         </div>
+
+        {/* Banner */}
         <div className="tstu-services-banner">
           <div className="tstu-services-banner-left">
-            <span className="tstu-services-banner-icon">🔌</span>
-            <p className="tstu-services-banner-text">
-              <strong>Kutubxona elektron xizmatlaridan samarali foydalaning!</strong>
-            </p>
+            <div className="tstu-banner-icon-wrap">
+              <Library size={36} color="#1457a8" />
+            </div>
+            <div>
+              <h3 className="tstu-banner-title">Kutubxona elektron xizmatlaridan samarali foydalaning!</h3>
+              <p className="tstu-banner-sub">Talaba, o'qituvchi va kutubxonachi uchun alohida shaxsiy kabinet</p>
+            </div>
           </div>
           <div className="tstu-services-banner-right">
             <div className="tstu-services-mockup">
@@ -294,39 +332,31 @@ export function HomePage() {
                 <div className="tstu-mockup-bar" />
                 <div className="tstu-mockup-line" />
                 <div className="tstu-mockup-line tstu-mockup-line-short" />
+                <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+                  {["#e8f0fe", "#d1fae5", "#fef3c7"].map((c, i) => (
+                    <div key={i} style={{ height: 24, flex: 1, borderRadius: 4, background: c }} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Xizmatlar grid */}
         <div className="tstu-services-chips">
-          <Link to={`/${safeLocale}/catalog`} className="tstu-service-chip">
-            <Search size={28} color="#1457a8" />
-            <span>Elektron katalog</span>
-          </Link>
-          <Link to={`/${safeLocale}/elibrary`} className="tstu-service-chip">
-            <Bot size={28} color="#0e9f6e" />
-            <span>AI Kutubxonachi</span>
-          </Link>
-          <Link to={`/${safeLocale}/library/reading-room`} className="tstu-service-chip">
-            <BookOpen size={28} color="#0891b2" />
-            <span>O'quv zali</span>
-          </Link>
-          <Link to={`/${safeLocale}/reservations`} className="tstu-service-chip">
-            <BookMarked size={28} color="#7c3aed" />
-            <span>Kitob bron qilish</span>
-          </Link>
-          <Link to={`/${safeLocale}/kafedralar`} className="tstu-service-chip">
-            <Library size={28} color="#d6a84f" />
-            <span>Kafedralar</span>
-          </Link>
-          <Link to={`/${safeLocale}/dashboard`} className="tstu-service-chip">
-            <LayoutDashboard size={28} color="#dc2626" />
-            <span>Boshqaruv paneli</span>
-          </Link>
+          {services.map((s) => (
+            <Link key={s.to} to={`/${safeLocale}/${s.to}`} className="tstu-service-chip">
+              <div className="tstu-service-icon-wrap" style={{ background: s.bg }}>
+                <s.Icon size={26} color={s.color} strokeWidth={1.8} />
+              </div>
+              <span className="tstu-service-label">{s.label}</span>
+              <span className="tstu-service-desc">{s.desc}</span>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* ── DEPARTMENTS ── */}
+      {/* ── KAFEDRA KUTUBXONALARI ── */}
       <section className="tstu-section">
         <div className="tstu-section-header">
           <h2 className="tstu-section-heading">Kafedra kutubxonalari</h2>
@@ -354,11 +384,13 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ── BOOKS CATALOG STRIP ── */}
+      {/* ── MASHHUR KITOBLAR ── */}
       <section className="tstu-section tstu-section-dark">
         <div className="tstu-section-header">
           <h2 className="tstu-section-heading tstu-section-heading-white">Mashhur kitoblar</h2>
-          <Link to={`/${safeLocale}/catalog`} className="tstu-see-all tstu-see-all-white">Barchasini ko'rish →</Link>
+          <Link to={`/${safeLocale}/catalog`} className="tstu-see-all tstu-see-all-white">
+            Barchasini ko'rish →
+          </Link>
         </div>
         <div className="tstu-books-grid">
           {featuredBooks.map((book) => (
@@ -373,7 +405,9 @@ export function HomePage() {
                   <span className="tstu-availability-dot" />
                   {book.available_copies}/{book.total_copies} nusxa mavjud
                 </div>
-                <Link to={`/${safeLocale}/reservations`} className="tstu-book-btn">Band qilish</Link>
+                <Link to={`/${safeLocale}/reservations`} className="tstu-book-btn">
+                  Bron qilish
+                </Link>
               </div>
             </article>
           ))}
