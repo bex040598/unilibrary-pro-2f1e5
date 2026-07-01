@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "./api";
+import { mockLogin, mockMe } from "./mock-auth";
 import type { AuthResponse, User } from "../types";
 
 interface AuthContextValue {
@@ -41,6 +42,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
+    // mock token bo'lsa API ga bormaydi
+    if (accessToken.startsWith("mock_token_")) {
+      try {
+        const nextUser = mockMe(accessToken);
+        setUser(nextUser);
+        localStorage.setItem(USER_KEY, JSON.stringify(nextUser));
+      } catch {
+        setUser(null);
+      }
+      setLoading(false);
+      return;
+    }
+
     api.me(accessToken)
       .then((nextUser) => {
         setUser(nextUser);
@@ -63,7 +77,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     refreshToken,
     loading,
     async login(email, password) {
-      const response = await api.login(email, password);
+      let response: AuthResponse;
+      try {
+        response = await api.login(email, password);
+      } catch {
+        response = mockLogin(email, password);
+      }
       persistAuth(response);
       setAccessToken(response.access_token);
       setRefreshToken(response.refresh_token);
