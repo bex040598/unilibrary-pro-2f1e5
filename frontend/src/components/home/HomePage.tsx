@@ -6,7 +6,7 @@ import {
 import { departments, books } from "../../data/mock";
 import type { Locale } from "../../types";
 
-/* ── Haqiqiy rasmlar (picsum – seed bo'yicha har doim bir xil) ── */
+/* ── Ta'lim/kutubxona mavzusidagi rasmlar (Unsplash) ── */
 const newsItems = [
   {
     id: 1,
@@ -14,7 +14,7 @@ const newsItems = [
     date: "Iyun 29, 2026",
     source: "ATMU",
     title: "Ma'lumotlar bazasi bo'yicha yangi darsliklar fondga qo'shildi",
-    img: "https://picsum.photos/seed/lib1/900/520",
+    img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=900&h=520&fit=crop",
     large: true,
   },
   {
@@ -23,7 +23,7 @@ const newsItems = [
     date: "Iyun 20, 2026",
     source: "ATMU",
     title: "2026/2027 o'quv yili uchun kafedra resurslari yangilandi",
-    img: "https://picsum.photos/seed/lib2/600/320",
+    img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=320&fit=crop",
   },
   {
     id: 3,
@@ -31,7 +31,7 @@ const newsItems = [
     date: "Iyun 15, 2026",
     source: "ATMU",
     title: "Xalqaro kutubxona tizimi bilan integratsiya amalga oshirildi",
-    img: "https://picsum.photos/seed/lib3/600/320",
+    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=320&fit=crop",
   },
   {
     id: 4,
@@ -39,7 +39,7 @@ const newsItems = [
     date: "May 19, 2026",
     source: "ATMU",
     title: "Elektron resurslar bazasi kengaytirildi va yangi qidiruv tizimi ishga tushirildi",
-    img: "https://picsum.photos/seed/lib4/600/340",
+    img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=340&fit=crop",
   },
   {
     id: 5,
@@ -47,7 +47,7 @@ const newsItems = [
     date: "May 10, 2026",
     source: "ATMU",
     title: "AI kutubxonachi va citation generator bo'yicha workshop",
-    img: "https://picsum.photos/seed/lib5/600/340",
+    img: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=340&fit=crop",
   },
   {
     id: 6,
@@ -55,7 +55,7 @@ const newsItems = [
     date: "Apr 26, 2026",
     source: "ATMU",
     title: "O'qish madaniyatini yuksaltirish bo'yicha universitetlar hamkorligi",
-    img: "https://picsum.photos/seed/lib6/600/340",
+    img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=340&fit=crop",
   },
 ];
 
@@ -67,7 +67,7 @@ const events = [
     source: "ATMU",
     sourceDate: "Dek 19, 2025",
     title: "Axborot texnologiyalari bo'yicha ilmiy konferensiya",
-    img: "https://picsum.photos/seed/ev1/540/380",
+    img: "https://images.unsplash.com/photo-1562774053-701939374585?w=540&h=380&fit=crop",
     large: true,
   },
   {
@@ -77,7 +77,7 @@ const events = [
     source: "ATMU",
     sourceDate: "Apr 17, 2026",
     title: "Elektron ta'lim resurslari bo'yicha seminar",
-    img: "https://picsum.photos/seed/ev2/540/380",
+    img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=540&h=380&fit=crop",
     large: true,
   },
   {

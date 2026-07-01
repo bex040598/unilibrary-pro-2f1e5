@@ -41,9 +41,9 @@ const STATS = {
 };
 
 const FEATURED_BOOKS = [
-  { id: 1, author: "Abdurahmonov SH.", title: "Chizma geometriya [Matn]: Darslik / SH. Abdurahmonov, 2005. – 188 b.", img: "https://picsum.photos/seed/book1/120/160" },
-  { id: 2, author: "Amirov SF", title: "Elektrotexnikaning nazariy asoslari: o'quv qo'llanma, 2007. – 412 b.", img: "https://picsum.photos/seed/book2/120/160" },
-  { id: 3, author: "Karimov O.B.", title: "Informatika va dasturlash asoslari: darslik, 2022. – 320 b.", img: "https://picsum.photos/seed/book3/120/160" },
+  { id: 1, author: "Abdurahmonov SH.", title: "Chizma geometriya [Matn]: Darslik / SH. Abdurahmonov, 2005. – 188 b.", img: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=120&h=160&fit=crop" },
+  { id: 2, author: "Amirov SF", title: "Elektrotexnikaning nazariy asoslari: o'quv qo'llanma, 2007. – 412 b.", img: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=120&h=160&fit=crop" },
+  { id: 3, author: "Karimov O.B.", title: "Informatika va dasturlash asoslari: darslik, 2022. – 320 b.", img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=120&h=160&fit=crop" },
 ];
 
 const ONLINE_USERS = [
@@ -128,7 +128,7 @@ export function CatalogPage() {
       {/* ── Header ── */}
       <div className="irbis-header">
         <div className="irbis-header-logo">
-          <img src="https://picsum.photos/seed/atmu-logo/80/80" alt="ATMU" className="irbis-logo-img" />
+          <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=80&h=80&fit=crop" alt="ATMU" className="irbis-logo-img" />
         </div>
         <div className="irbis-header-title">
           <em>ATMU Smart UniLibrary — elektron katalog tizimi</em>
@@ -224,7 +224,7 @@ export function CatalogPage() {
           <div className="irbis-slider">
             <div className="irbis-slider-counter">{sliderIdx + 1}</div>
             <img
-              src={`https://picsum.photos/seed/campus${sliderIdx}/900/300`}
+              src={["https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=900&h=300&fit=crop","https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=900&h=300&fit=crop","https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?w=900&h=300&fit=crop"][sliderIdx]}
               alt="Campus"
               className="irbis-slider-img"
             />
@@ -296,7 +296,7 @@ export function CatalogPage() {
                       <input type="checkbox" />
                     </div>
                     <img
-                      src={`https://picsum.photos/seed/res${item.id}/80/110`}
+                      src={`https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=80&h=110&fit=crop&sig=${item.id}`}
                       alt={item.title}
                       className="irbis-result-cover"
                     />
@@ -473,7 +473,7 @@ export function CatalogPage() {
           {/* Fotogalereya */}
           <div className="irbis-panel">
             <div className="irbis-panel-title">Fotogalereya</div>
-            <img src="https://picsum.photos/seed/gallery1/200/120" alt="Galereya" className="irbis-gallery-img" />
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=200&h=120&fit=crop" alt="Galereya" className="irbis-gallery-img" />
           </div>
 
           {/* Tadbirlar taqvimi */}
