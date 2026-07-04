@@ -102,9 +102,9 @@ export function Footer({ locale }: { locale: Locale }) {
           {/* External */}
           <div className="bod-footer-col">
             <h4 className="bod-footer-col-title">Tashqi resurslar</h4>
-            <a href="https://hemis.edu.uz" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Hemis Xodim</a>
-            <a href="https://hemis.edu.uz" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Hemis Talaba</a>
-            <a href="https://moodle.org" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Moodle</a>
+            <a href="https://hemis.atmu.uz/dashboard/login" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Hemis Xodim</a>
+            <a href="https://student.atmu.uz/dashboard/login" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Hemis Talaba</a>
+            <a href="http://moodle.atmu.uz/" target="_blank" rel="noopener noreferrer" className="bod-footer-link">Moodle</a>
             <a href="https://atmu.uz" target="_blank" rel="noopener noreferrer" className="bod-footer-link">atmu.uz rasmiy sayt</a>
             <Link to={`/${locale}/register`} className="bod-footer-link">Ro'yxatdan o'tish</Link>
           </div>
