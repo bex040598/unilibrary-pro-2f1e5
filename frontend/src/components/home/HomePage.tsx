@@ -1,5 +1,8 @@
 import { Link, useParams } from "react-router-dom";
-import { BookOpen, Users, Library, GraduationCap, Globe, Building2, Search, Bot, MonitorPlay, BookMarked, LayoutDashboard, Layers, ArrowRight, Clock, MapPin } from "lucide-react";
+import {
+  BookOpen, Users, Library, GraduationCap, Globe, Building2,
+  Search, Bot, MonitorPlay, BookMarked, LayoutDashboard, Layers, ArrowRight, Clock, MapPin, ChevronRight
+} from "lucide-react";
 import { departments, books } from "../../data/mock";
 import type { Locale } from "../../types";
 
@@ -13,119 +16,181 @@ const newsItems = [
 ];
 
 const events = [
-  { id: 1, date: "26–27 MART", category: "Konferensiya", title: "Axborot texnologiyalari bo'yicha ilmiy konferensiya", img: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&h=360&fit=crop", time: "09:00 – 17:00", place: "A-blok, 201-xona" },
-  { id: 2, date: "18 APREL", category: "Seminar", title: "Elektron ta'lim resurslari bo'yicha seminar", img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=360&fit=crop", time: "14:00 – 16:00", place: "B-blok, auditoriya 3" },
+  { id: 1, date: "26–27 MART", category: "Konferensiya", title: "Axborot texnologiyalari bo'yicha ilmiy konferensiya", img: "https://images.unsplash.com/photo-1562774053-701939374585?w=600&h=360&fit=crop", time: "09:00–17:00", place: "A-blok, 201-xona" },
+  { id: 2, date: "18 APREL", category: "Seminar", title: "Elektron ta'lim resurslari bo'yicha seminar", img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=360&fit=crop", time: "14:00–16:00", place: "B-blok, aud. 3" },
   { id: 3, date: "07 YAN", category: "YANGILIK", title: "Raqamli kutubxona va masofaviy ta'lim infratuzilmasi yangilandi" },
   { id: 4, date: "20 DEK", category: "YANGILIK", title: "Yangi o'quv zali jihozlari o'rnatildi" },
   { id: 5, date: "15 NOY", category: "YANGILIK", title: "Kutubxona fondini raqamlashtirish loyihasi boshlandi" },
 ];
 
 const stats = [
-  { Icon: BookOpen, value: "157 270", label: "Jami fond" },
-  { Icon: Users, value: "48+", label: "O'qituvchilar" },
-  { Icon: Library, value: "42 000+", label: "Elektron kitob" },
+  { Icon: BookOpen,      value: "157 270", label: "Jami fond" },
+  { Icon: Users,         value: "48+",     label: "O'qituvchilar" },
+  { Icon: Library,       value: "42 000+", label: "Elektron kitob" },
   { Icon: GraduationCap, value: "12 500+", label: "Ilmiy maqola" },
-  { Icon: Globe, value: "3 200+", label: "Dissertatsiya" },
-  { Icon: Building2, value: "6", label: "Kafedra bazasi" },
+  { Icon: Globe,         value: "3 200+",  label: "Dissertatsiya" },
+  { Icon: Building2,     value: "6",       label: "Kafedra bazasi" },
 ];
 
 const services = [
-  { to: "catalog", Icon: Search, label: "Elektron katalog", color: "#1a2f5a", bg: "linear-gradient(135deg,#e8f0fe,#c7d7f9)", desc: "Kitob va resurs qidirish" },
-  { to: "elibrary", Icon: Bot, label: "AI Kutubxonachi", color: "#065f46", bg: "linear-gradient(135deg,#d1fae5,#a7f3d0)", desc: "Aqlli yordamchi" },
-  { to: "library/reading-room", Icon: MonitorPlay, label: "O'quv zali", color: "#0c4a6e", bg: "linear-gradient(135deg,#e0f2fe,#bae6fd)", desc: "Joy bron qilish" },
-  { to: "reservations", Icon: BookMarked, label: "Kitob bron", color: "#4c1d95", bg: "linear-gradient(135deg,#ede9fe,#ddd6fe)", desc: "Onlayn buyurtma" },
-  { to: "kafedralar", Icon: Layers, label: "Kafedralar", color: "#92400e", bg: "linear-gradient(135deg,#fef3c7,#fde68a)", desc: "6 ta kafedra bazasi" },
-  { to: "dashboard", Icon: LayoutDashboard, label: "Shaxsiy kabinet", color: "#991b1b", bg: "linear-gradient(135deg,#fee2e2,#fecaca)", desc: "Boshqaruv paneli" },
+  { to: "catalog",              Icon: Search,          label: "Elektron katalog",  color: "#1e3a8a", bg: "#dbeafe", desc: "Kitob va resurs qidirish" },
+  { to: "elibrary",             Icon: Bot,             label: "AI Kutubxonachi",   color: "#065f46", bg: "#d1fae5", desc: "Aqlli yordamchi" },
+  { to: "library/reading-room", Icon: MonitorPlay,     label: "O'quv zali",        color: "#0c4a6e", bg: "#e0f2fe", desc: "Joy bron qilish" },
+  { to: "reservations",         Icon: BookMarked,      label: "Kitob bron",        color: "#4c1d95", bg: "#ede9fe", desc: "Onlayn buyurtma" },
+  { to: "kafedralar",           Icon: Layers,          label: "Kafedralar",        color: "#78350f", bg: "#fef3c7", desc: "6 ta kafedra bazasi" },
+  { to: "dashboard",            Icon: LayoutDashboard, label: "Shaxsiy kabinet",   color: "#7f1d1d", bg: "#fee2e2", desc: "Boshqaruv paneli" },
 ];
 
-/* ATMU Logo SVG — inline watermark uchun */
+/* ─── ATMU Logo SVG — haqiqiy logotipga o'xshash ─── */
 function AtmuLogoWatermark() {
   return (
-    <svg className="hp-hero-logo-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="200" cy="200" r="195" stroke="white" strokeWidth="6" strokeOpacity="0.18" />
-      <circle cx="200" cy="200" r="168" stroke="white" strokeWidth="2" strokeOpacity="0.10" />
-      {/* A harfi */}
-      <path d="M140 290 L200 120 L260 290" stroke="white" strokeWidth="18" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.22" fill="none"/>
-      <path d="M158 240 L242 240" stroke="white" strokeWidth="14" strokeLinecap="round" strokeOpacity="0.22"/>
-      {/* T harfi */}
-      <path d="M170 155 L230 155" stroke="white" strokeWidth="14" strokeLinecap="round" strokeOpacity="0.16"/>
-      <path d="M200 155 L200 200" stroke="white" strokeWidth="14" strokeLinecap="round" strokeOpacity="0.16"/>
-      {/* M harfi */}
-      <path d="M155 210 L155 265 L200 235 L245 265 L245 210" stroke="white" strokeWidth="10" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.14" fill="none"/>
-      {/* Kitob belgisi pastda */}
-      <rect x="182" y="308" width="36" height="26" rx="3" stroke="white" strokeWidth="3" strokeOpacity="0.20"/>
-      <path d="M182 321 L218 321" stroke="white" strokeWidth="2" strokeOpacity="0.20"/>
-      {/* Doira yoylari — matn joyi */}
-      <path d="M60 200 A140 140 0 0 1 340 200" stroke="white" strokeWidth="1.5" strokeOpacity="0.08" fill="none" strokeDasharray="4 4"/>
+    <svg
+      className="hp-logo-watermark"
+      viewBox="0 0 500 500"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      {/* Tashqi halqa */}
+      <circle cx="250" cy="250" r="238" stroke="white" strokeWidth="5" strokeOpacity="0.25" />
+      {/* Ichki halqa */}
+      <circle cx="250" cy="250" r="210" stroke="white" strokeWidth="1.5" strokeOpacity="0.12" />
+      {/* Eng ichki dekor halqa */}
+      <circle cx="250" cy="250" r="175" stroke="white" strokeWidth="1" strokeOpacity="0.08" strokeDasharray="6 5" />
+
+      {/* Matn — yuqori yoy bo'ylab: AXBOROT TEXNOLOGIYALARI VA */}
+      <path id="topArc" d="M 60,250 A 190,190 0 0,1 440,250" fill="none" />
+      <text fontSize="15" fontWeight="700" fill="white" fillOpacity="0.35" letterSpacing="3.5" fontFamily="Arial, sans-serif">
+        <textPath href="#topArc" startOffset="3%">AXBOROT TEXNOLOGIYALARI VA MENEJMENT</textPath>
+      </text>
+
+      {/* Matn — pastki yoy bo'ylab: UNIVERSITETI */}
+      <path id="botArc" d="M 68,270 A 185,185 0 0,0 432,270" fill="none" />
+      <text fontSize="15" fontWeight="700" fill="white" fillOpacity="0.35" letterSpacing="8" fontFamily="Arial, sans-serif">
+        <textPath href="#botArc" startOffset="18%">UNIVERSITETI</textPath>
+      </text>
+
+      {/* ── Markaziy ATMU harflari interlock ── */}
+      {/* A harfi — orqa */}
+      <path d="M170 340 L250 130 L330 340" stroke="white" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.18" fill="none"/>
+      <path d="M195 278 L305 278" stroke="white" strokeWidth="18" strokeLinecap="round" strokeOpacity="0.18"/>
+
+      {/* M harfi — ichki */}
+      <path d="M175 340 L175 195 L250 270 L325 195 L325 340" stroke="white" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.22" fill="none"/>
+
+      {/* T harfi — yuqori */}
+      <path d="M190 165 L310 165" stroke="white" strokeWidth="20" strokeLinecap="round" strokeOpacity="0.20"/>
+      <path d="M250 165 L250 225" stroke="white" strokeWidth="20" strokeLinecap="round" strokeOpacity="0.20"/>
+
+      {/* U harfi — pastki */}
+      <path d="M200 240 L200 310 Q200 345 250 345 Q300 345 300 310 L300 240" stroke="white" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.20" fill="none"/>
+
+      {/* Kitob + monitor belgisi — eng pastda */}
+      <rect x="228" y="375" width="44" height="32" rx="4" stroke="white" strokeWidth="3" strokeOpacity="0.28" fill="none"/>
+      <path d="M228 387 L272 387" stroke="white" strokeWidth="2" strokeOpacity="0.28"/>
+      <path d="M237 407 L263 407" stroke="white" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.28"/>
+      <rect x="242" y="407" width="16" height="6" rx="2" stroke="white" strokeWidth="2" strokeOpacity="0.22" fill="none"/>
+
+      {/* 4 burchakdagi yulduzcha dekor */}
+      {[{x:250,y:58},{x:442,y:250},{x:250,y:442},{x:58,y:250}].map((p,i)=>(
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r="5" fill="white" fillOpacity="0.30"/>
+          <circle cx={p.x} cy={p.y} r="2" fill="white" fillOpacity="0.50"/>
+        </g>
+      ))}
     </svg>
   );
 }
 
 export function HomePage() {
   const { locale = "uz" } = useParams();
-  const safeLocale = (["uz","ru","en","tr"].includes(locale) ? locale : "uz") as Locale;
+  const sl = (["uz","ru","en","tr"].includes(locale) ? locale : "uz") as Locale;
   const featuredDepts = departments.slice(0, 3);
-  const featuredBooks = books.slice(0, 3);
+  const featuredBooks  = books.slice(0, 3);
 
   return (
     <div className="hp-root">
 
-      {/* ═══ HERO ═══ */}
+      {/* ══════════════ HERO ══════════════ */}
       <section className="hp-hero">
-        {/* Animatsiyali fon elementlari */}
-        <div className="hp-hero-glow hp-hero-glow-1" />
-        <div className="hp-hero-glow hp-hero-glow-2" />
-        <div className="hp-hero-glow hp-hero-glow-3" />
-        <div className="hp-hero-dots" />
+        {/* fon layer-lari */}
+        <div className="hp-hero-bg-grid" />
+        <div className="hp-hero-glow g1" />
+        <div className="hp-hero-glow g2" />
+        <div className="hp-hero-glow g3" />
 
-        {/* ATMU logo watermark */}
+        {/* Logo watermark */}
         <AtmuLogoWatermark />
 
-        <div className="hp-hero-inner">
+        {/* Chap tomon mazmun */}
+        <div className="hp-hero-left">
           <div className="hp-hero-badge">
-            <span className="hp-hero-badge-dot" />
+            <span className="hp-badge-dot" />
             ATMU · 2026/2027 o'quv yili
           </div>
 
-          <h1 className="hp-hero-title">
-            <span className="hp-hero-title-main">Smart</span>
-            <span className="hp-hero-title-accent"> UniLibrary</span>
+          <h1 className="hp-hero-h1">
+            <span className="hp-h1-white">Smart</span>
+            <br />
+            <span className="hp-h1-gold">UniLibrary</span>
           </h1>
 
-          <p className="hp-hero-sub">
+          <p className="hp-hero-desc">
             Axborot texnologiyalari va menejment universiteti<br />
-            zamonaviy elektron kutubxona portali
+            zamonaviy elektron kutubxona portali — barcha resurslar,<br />
+            AI qidiruv va bron bir joyda.
           </p>
 
           {/* Qidiruv */}
-          <div className="hp-hero-search">
-            <Search size={18} className="hp-search-icon" />
-            <input className="hp-search-input" placeholder="Kitob, muallif yoki mavzu qidiring..." readOnly
-              onClick={() => window.location.href = `/${safeLocale}/catalog`} />
-            <Link to={`/${safeLocale}/catalog`} className="hp-search-btn">Qidirish</Link>
+          <div className="hp-hero-searchbox">
+            <Search size={17} className="hp-sb-icon" />
+            <input
+              className="hp-sb-input"
+              placeholder="Kitob, muallif yoki mavzu..."
+              readOnly
+              onClick={() => { window.location.href = `/${sl}/catalog`; }}
+            />
+            <Link to={`/${sl}/catalog`} className="hp-sb-btn">Qidirish</Link>
           </div>
 
-          {/* Quick links */}
-          <div className="hp-hero-links">
-            <Link to={`/${safeLocale}/catalog`} className="hp-hero-link hp-hero-link-primary">
-              <GraduationCap size={17} /> Elektron katalog
-            </Link>
-            <Link to={`/${safeLocale}/kafedralar`} className="hp-hero-link">
-              <Layers size={17} /> Kafedralar
-            </Link>
-            <Link to={`/${safeLocale}/elibrary`} className="hp-hero-link">
-              <Bot size={17} /> AI Kutubxonachi
-            </Link>
-            <Link to={`/${safeLocale}/library/reading-room`} className="hp-hero-link">
-              <MonitorPlay size={17} /> O'quv zali
-            </Link>
+          {/* Tezkor havolalar */}
+          <div className="hp-hero-chips">
+            <Link to={`/${sl}/catalog`}               className="hp-chip hp-chip-gold"><GraduationCap size={15}/> Katalog</Link>
+            <Link to={`/${sl}/kafedralar`}            className="hp-chip"><Layers size={15}/> Kafedralar</Link>
+            <Link to={`/${sl}/elibrary`}              className="hp-chip"><Bot size={15}/> AI Yordamchi</Link>
+            <Link to={`/${sl}/library/reading-room`}  className="hp-chip"><MonitorPlay size={15}/> O'quv zali</Link>
           </div>
         </div>
 
-        {/* Pastki statistika banneri */}
-        <div className="hp-hero-stats-bar">
+        {/* O'ng tomon — floating kartochkalar */}
+        <div className="hp-hero-right">
+          <div className="hp-float-card hp-fc-1">
+            <BookOpen size={20} color="#c4a862" />
+            <div>
+              <strong>157 270</strong>
+              <span>Jami fond</span>
+            </div>
+          </div>
+          <div className="hp-float-card hp-fc-2">
+            <GraduationCap size={20} color="#22c55e" />
+            <div>
+              <strong>12 500+</strong>
+              <span>Ilmiy maqola</span>
+            </div>
+          </div>
+          <div className="hp-float-card hp-fc-3">
+            <Users size={20} color="#60a5fa" />
+            <div>
+              <strong>48+</strong>
+              <span>O'qituvchi</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Statistika banneri */}
+        <div className="hp-statsbar">
           {stats.map(s => (
-            <div key={s.label} className="hp-hero-stat">
+            <div key={s.label} className="hp-stat">
               <strong>{s.value}</strong>
               <span>{s.label}</span>
             </div>
@@ -133,111 +198,107 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ═══ XIZMATLAR GRID ═══ */}
-      <section className="hp-section hp-services-section">
-        <div className="hp-section-head">
+      {/* ══════════════ XIZMATLAR ══════════════ */}
+      <section className="hp-section hp-svc-wrap">
+        <div className="hp-sh">
           <div>
-            <h2 className="hp-section-title">Interaktiv xizmatlar</h2>
-            <p className="hp-section-sub">Talaba, o'qituvchi va kutubxonachi uchun alohida kabinet</p>
+            <h2 className="hp-stitle">Interaktiv xizmatlar</h2>
+            <p className="hp-ssub">Talaba, o'qituvchi va kutubxonachi uchun alohida kabinet</p>
           </div>
-          <Link to={`/${safeLocale}/dashboard`} className="hp-see-all">Barchasini ko'rish <ArrowRight size={15}/></Link>
+          <Link to={`/${sl}/dashboard`} className="hp-seeall">Barchasini ko'rish <ArrowRight size={14}/></Link>
         </div>
-        <div className="hp-services-grid">
+        <div className="hp-svc-grid">
           {services.map(s => (
-            <Link key={s.to} to={`/${safeLocale}/${s.to}`} className="hp-service-card">
-              <div className="hp-service-icon" style={{ background: s.bg }}>
-                <s.Icon size={24} color={s.color} strokeWidth={1.8} />
+            <Link key={s.to} to={`/${sl}/${s.to}`} className="hp-svc-card">
+              <div className="hp-svc-icon" style={{ background: s.bg }}>
+                <s.Icon size={22} color={s.color} strokeWidth={1.8} />
               </div>
-              <div className="hp-service-text">
+              <div className="hp-svc-txt">
                 <strong>{s.label}</strong>
                 <span>{s.desc}</span>
               </div>
-              <ArrowRight size={16} className="hp-service-arrow" />
+              <ChevronRight size={16} className="hp-svc-arr" />
             </Link>
           ))}
         </div>
       </section>
 
-      {/* ═══ YANGILIKLAR ═══ */}
-      <section className="hp-section hp-news-section">
-        <div className="hp-section-head">
+      {/* ══════════════ YANGILIKLAR ══════════════ */}
+      <section className="hp-section hp-news-bg">
+        <div className="hp-sh">
           <div>
-            <h2 className="hp-section-title">Kutubxona yangiliklari</h2>
-            <p className="hp-section-sub">So'nggi tadbirlar va e'lonlar</p>
+            <h2 className="hp-stitle">Kutubxona yangiliklari</h2>
+            <p className="hp-ssub">So'nggi tadbirlar va e'lonlar</p>
           </div>
-          <Link to={`/${safeLocale}/catalog`} className="hp-see-all">Barchasini ko'rish <ArrowRight size={15}/></Link>
+          <Link to={`/${sl}/catalog`} className="hp-seeall">Barchasini ko'rish <ArrowRight size={14}/></Link>
         </div>
 
-        <div className="hp-news-layout">
-          {/* Katta yangilik */}
-          <article className="hp-news-featured">
-            <div className="hp-news-img-wrap">
-              <img src={newsItems[0].img} alt={newsItems[0].title} className="hp-news-img" />
-              <div className="hp-news-overlay">
-                <span className="hp-news-tag">{newsItems[0].category}</span>
-                <h3 className="hp-news-featured-title">{newsItems[0].title}</h3>
-                <span className="hp-news-date">{newsItems[0].date}</span>
+        <div className="hp-news-main">
+          {/* Katta featured */}
+          <article className="hp-nfeat">
+            <div className="hp-nfeat-img">
+              <img src={newsItems[0].img} alt={newsItems[0].title} />
+              <div className="hp-nfeat-overlay">
+                <span className="hp-ntag">{newsItems[0].category}</span>
+                <h3>{newsItems[0].title}</h3>
+                <span className="hp-ndate">{newsItems[0].date}</span>
               </div>
             </div>
           </article>
 
-          {/* Kichik yangiliklar */}
-          <div className="hp-news-side">
-            {newsItems.slice(1, 4).map(item => (
-              <article key={item.id} className="hp-news-card">
-                <div className="hp-news-card-img">
-                  <img src={item.img} alt={item.title} className="hp-news-img" />
-                  <span className="hp-news-tag hp-news-tag-sm">{item.category}</span>
+          {/* O'ng tomondagi kichik kartalar */}
+          <div className="hp-nside">
+            {newsItems.slice(1,4).map(n => (
+              <article key={n.id} className="hp-ncard">
+                <div className="hp-ncard-img">
+                  <img src={n.img} alt={n.title} />
+                  <span className="hp-ntag hp-ntag-abs">{n.category}</span>
                 </div>
-                <div className="hp-news-card-body">
-                  <p className="hp-news-card-title">{item.title}</p>
-                  <span className="hp-news-date">{item.date}</span>
+                <div className="hp-ncard-body">
+                  <p className="hp-ncard-title">{n.title}</p>
+                  <span className="hp-ndate">{n.date}</span>
                 </div>
               </article>
             ))}
           </div>
         </div>
 
-        {/* Qo'shimcha 3 ta */}
-        <div className="hp-news-row3">
-          {newsItems.slice(3, 6).map(item => (
-            <article key={item.id} className="hp-news-mini">
-              <div className="hp-news-mini-img">
-                <img src={item.img} alt={item.title} className="hp-news-img" />
-                <span className="hp-news-tag hp-news-tag-sm">{item.category}</span>
-              </div>
-              <div className="hp-news-mini-body">
-                <p className="hp-news-mini-title">{item.title}</p>
-                <span className="hp-news-date">{item.date}</span>
+        {/* Pastki 3 ta mini */}
+        <div className="hp-nmini-row">
+          {newsItems.slice(3,6).map(n => (
+            <article key={n.id} className="hp-nmini">
+              <div className="hp-nmini-img"><img src={n.img} alt={n.title} /><span className="hp-ntag hp-ntag-abs">{n.category}</span></div>
+              <div className="hp-nmini-body">
+                <p>{n.title}</p>
+                <span className="hp-ndate">{n.date}</span>
               </div>
             </article>
           ))}
         </div>
       </section>
 
-      {/* ═══ TADBIRLAR ═══ */}
-      <section className="hp-events-section">
-        <div className="hp-events-inner">
-          <div className="hp-section-head">
+      {/* ══════════════ TADBIRLAR ══════════════ */}
+      <section className="hp-evt-section">
+        <div className="hp-section">
+          <div className="hp-sh">
             <div>
-              <h2 className="hp-section-title">Kutilayotgan tadbirlar</h2>
-              <p className="hp-section-sub">Eng yaqin konferensiya va seminarlar</p>
+              <h2 className="hp-stitle">Kutilayotgan tadbirlar</h2>
+              <p className="hp-ssub">Eng yaqin konferensiya va seminarlar</p>
             </div>
           </div>
-          <div className="hp-events-grid">
-            {/* 2 ta katta */}
+          <div className="hp-evt-grid">
             {events.filter(e => e.img).map(ev => (
-              <article key={ev.id} className="hp-event-card">
-                <div className="hp-event-img-wrap">
-                  <img src={ev.img} alt={ev.title} className="hp-news-img" />
-                  <div className="hp-event-overlay">
-                    <span className="hp-event-date-chip">{ev.date}</span>
-                    <div className="hp-event-info">
-                      <span className="hp-news-tag">{ev.category}</span>
-                      <h3 className="hp-event-title">{ev.title}</h3>
-                      <div className="hp-event-meta">
-                        {ev.time && <span><Clock size={12}/> {ev.time}</span>}
-                        {ev.place && <span><MapPin size={12}/> {ev.place}</span>}
+              <article key={ev.id} className="hp-evt-card">
+                <div className="hp-evt-img">
+                  <img src={ev.img} alt={ev.title} />
+                  <div className="hp-evt-overlay">
+                    <span className="hp-evt-chip">{ev.date}</span>
+                    <div className="hp-evt-info">
+                      <span className="hp-ntag">{ev.category}</span>
+                      <h3>{ev.title}</h3>
+                      <div className="hp-evt-meta">
+                        {ev.time  && <span><Clock  size={11}/> {ev.time}</span>}
+                        {ev.place && <span><MapPin size={11}/> {ev.place}</span>}
                       </div>
                     </div>
                   </div>
@@ -245,16 +306,15 @@ export function HomePage() {
               </article>
             ))}
 
-            {/* Ro'yxat */}
-            <div className="hp-event-list">
-              <div className="hp-event-list-head">Oxirgi yangiliklar</div>
+            <div className="hp-evt-list">
+              <div className="hp-evtl-head">Oxirgi yangiliklar</div>
               {events.filter(e => !e.img).map(ev => (
-                <div key={ev.id} className="hp-event-list-item">
-                  <div className="hp-event-list-date">{ev.date}</div>
-                  <div className="hp-event-list-body">
-                    <span className="hp-event-list-tag">{ev.category}</span>
-                    <p className="hp-event-list-title">{ev.title}</p>
-                    <Link to={`/${safeLocale}/catalog`} className="hp-batafsil">Batafsil →</Link>
+                <div key={ev.id} className="hp-evtl-item">
+                  <div className="hp-evtl-date">{ev.date}</div>
+                  <div className="hp-evtl-body">
+                    <span className="hp-evtl-tag">{ev.category}</span>
+                    <p>{ev.title}</p>
+                    <Link to={`/${sl}/catalog`} className="hp-batafsil">Batafsil →</Link>
                   </div>
                 </div>
               ))}
@@ -263,81 +323,92 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ═══ KAFEDRA KUTUBXONALARI ═══ */}
+      {/* ══════════════ KAFEDRALAR ══════════════ */}
       <section className="hp-section">
-        <div className="hp-section-head">
+        <div className="hp-sh">
           <div>
-            <h2 className="hp-section-title">Kafedra kutubxonalari</h2>
-            <p className="hp-section-sub">6 ta kafedra bo'yicha resurslar</p>
+            <h2 className="hp-stitle">Kafedra kutubxonalari</h2>
+            <p className="hp-ssub">6 ta kafedra bo'yicha resurslar</p>
           </div>
-          <Link to={`/${safeLocale}/kafedralar`} className="hp-see-all">Barchasini ko'rish <ArrowRight size={15}/></Link>
+          <Link to={`/${sl}/kafedralar`} className="hp-seeall">Barchasini ko'rish <ArrowRight size={14}/></Link>
         </div>
         <div className="hp-dept-grid">
-          {featuredDepts.map((dept, i) => (
-            <article key={dept.id} className="hp-dept-card">
-              <div className="hp-dept-accent" style={{ background: ["#1a2f5a","#065f46","#7c3aed"][i] }} />
-              <div className="hp-dept-icon-wrap" style={{ background: ["#e8f0fe","#d1fae5","#ede9fe"][i] }}>
-                <span style={{ color: ["#1a2f5a","#065f46","#7c3aed"][i], fontWeight: 800, fontSize: 18 }}>{dept.name.slice(0,2)}</span>
-              </div>
-              <h3 className="hp-dept-name">{dept.name}</h3>
-              <p className="hp-dept-desc">{dept.summary}</p>
-              <div className="hp-dept-badges">
-                <span>{dept.resources_count} resurs</span>
-                <span>{dept.subjects_count} fan</span>
-                <span>{dept.teachers_count} o'qituvchi</span>
-              </div>
-              <Link to={`/${safeLocale}/kafedralar/${dept.slug}/elektron-kutubxona`} className="hp-dept-link">
-                Kutubxonaga kirish <ArrowRight size={14}/>
-              </Link>
-            </article>
-          ))}
+          {featuredDepts.map((d,i) => {
+            const colors = [["#1e3a8a","#dbeafe"],["#065f46","#d1fae5"],["#4c1d95","#ede9fe"]];
+            const [c,bg] = colors[i];
+            return (
+              <article key={d.id} className="hp-dept-card">
+                <div className="hp-dept-bar" style={{ background: c }} />
+                <div className="hp-dept-ico" style={{ background: bg, color: c }}>{d.name.slice(0,2)}</div>
+                <h3 className="hp-dept-name">{d.name}</h3>
+                <p className="hp-dept-desc">{d.summary}</p>
+                <div className="hp-dept-tags">
+                  <span>{d.resources_count} resurs</span>
+                  <span>{d.subjects_count} fan</span>
+                  <span>{d.teachers_count} o'qituvchi</span>
+                </div>
+                <Link to={`/${sl}/kafedralar/${d.slug}/elektron-kutubxona`} className="hp-dept-link" style={{ color: c }}>
+                  Kutubxonaga kirish <ArrowRight size={13}/>
+                </Link>
+              </article>
+            );
+          })}
         </div>
       </section>
 
-      {/* ═══ MASHHUR KITOBLAR ═══ */}
+      {/* ══════════════ MASHHUR KITOBLAR ══════════════ */}
       <section className="hp-books-section">
-        <div className="hp-books-inner">
-          <div className="hp-section-head">
+        <div className="hp-section">
+          <div className="hp-sh">
             <div>
-              <h2 className="hp-section-title hp-section-title-white">Mashhur kitoblar</h2>
-              <p className="hp-section-sub hp-section-sub-white">Eng ko'p o'qilgan va yuklangan resurslar</p>
+              <h2 className="hp-stitle hp-stitle-white">Mashhur kitoblar</h2>
+              <p className="hp-ssub hp-ssub-white">Eng ko'p o'qilgan va yuklangan resurslar</p>
             </div>
-            <Link to={`/${safeLocale}/catalog`} className="hp-see-all hp-see-all-white">Barchasini ko'rish <ArrowRight size={15}/></Link>
+            <Link to={`/${sl}/catalog`} className="hp-seeall hp-seeall-white">Barchasini ko'rish <ArrowRight size={14}/></Link>
           </div>
           <div className="hp-books-grid">
-            {featuredBooks.map((book, i) => (
-              <article key={book.id} className="hp-book-card">
-                <div className="hp-book-cover" style={{ background: ["linear-gradient(135deg,#1a2f5a,#2d4a8a)","linear-gradient(135deg,#065f46,#047857)","linear-gradient(135deg,#7c3aed,#5b21b6)"][i] }}>
-                  <span className="hp-book-letter">{book.title.slice(0,1)}</span>
-                </div>
-                <div className="hp-book-info">
-                  <span className="hp-book-dept">{book.department_name}</span>
-                  <h3 className="hp-book-title">{book.title}</h3>
-                  <p className="hp-book-sub">{book.subject_name}</p>
-                  <div className="hp-book-avail">
-                    <span className={`hp-avail-dot ${book.available_copies > 0 ? "ok" : "busy"}`} />
-                    {book.available_copies}/{book.total_copies} nusxa mavjud
+            {featuredBooks.map((b,i) => {
+              const grads = ["linear-gradient(135deg,#1e3a8a,#3b82f6)","linear-gradient(135deg,#065f46,#10b981)","linear-gradient(135deg,#4c1d95,#8b5cf6)"];
+              return (
+                <article key={b.id} className="hp-book-card">
+                  <div className="hp-book-cover" style={{ background: grads[i] }}>
+                    <span>{b.title[0]}</span>
                   </div>
-                  <Link to={`/${safeLocale}/reservations`} className="hp-book-btn">
-                    Bron qilish
-                  </Link>
-                </div>
-              </article>
-            ))}
+                  <div className="hp-book-info">
+                    <span className="hp-book-dept">{b.department_name}</span>
+                    <h3 className="hp-book-title">{b.title}</h3>
+                    <p className="hp-book-sub">{b.subject_name}</p>
+                    <div className="hp-book-avail">
+                      <span className={`hp-avail-dot ${b.available_copies > 0 ? "ok" : ""}`} />
+                      {b.available_copies}/{b.total_copies} nusxa mavjud
+                    </div>
+                    <Link to={`/${sl}/reservations`} className="hp-book-btn">Bron qilish</Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ═══ CTA BANNER ═══ */}
+      {/* ══════════════ CTA ══════════════ */}
       <section className="hp-cta">
+        <div className="hp-cta-logo-bg" aria-hidden="true">
+          <svg viewBox="0 0 300 300" fill="none">
+            <circle cx="150" cy="150" r="145" stroke="white" strokeWidth="3" strokeOpacity="0.15"/>
+            <circle cx="150" cy="150" r="120" stroke="white" strokeWidth="1" strokeOpacity="0.08" strokeDasharray="5 4"/>
+            <path d="M100 210 L150 80 L200 210" stroke="white" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.12" fill="none"/>
+            <path d="M115 170 L185 170" stroke="white" strokeWidth="11" strokeLinecap="round" strokeOpacity="0.12"/>
+          </svg>
+        </div>
         <div className="hp-cta-inner">
           <div className="hp-cta-text">
             <h2>Kutubxonaning to'liq imkoniyatlaridan foydalaning</h2>
             <p>157 000+ fond, AI qidiruv, onlayn bron va o'quv zali — barchasi bir portada</p>
           </div>
           <div className="hp-cta-btns">
-            <Link to={`/${safeLocale}/catalog`} className="hp-cta-btn-primary">Katalogga kirish</Link>
-            <Link to={`/${safeLocale}/dashboard`} className="hp-cta-btn-secondary">Shaxsiy kabinet</Link>
+            <Link to={`/${sl}/catalog`}   className="hp-cta-p">Katalogga kirish</Link>
+            <Link to={`/${sl}/dashboard`} className="hp-cta-s">Shaxsiy kabinet</Link>
           </div>
         </div>
       </section>
