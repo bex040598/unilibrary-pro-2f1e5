@@ -1,6 +1,7 @@
 import { FormEvent, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../lib/auth";
+import { AtmuLogo } from "../common/AtmuLogo";
 
 const STEPS = ["Rol tanlash", "Shaxsiy ma'lumotlar", "O'quv ma'lumotlari", "Parol o'rnatish"];
 
@@ -117,12 +118,7 @@ export function RegisterPage() {
         <div className="auth-left-inner">
 
           <div className="auth-logo-wrap">
-            <div className="auth-logo-circle">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              </svg>
-            </div>
+            <AtmuLogo size={80} dark={false} />
           </div>
 
           <div className="auth-org">

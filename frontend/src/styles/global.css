@@ -15,8 +15,8 @@
   --radius-xl: 32px;
   --radius-lg: 24px;
   --radius-md: 18px;
-  --serif: "Baskerville", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-  --sans: "Aptos", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+  --serif: "Times New Roman", "Times", Georgia, serif;
+  --sans:  "Times New Roman", "Times", Georgia, serif;
 }
 
 * {
@@ -29,7 +29,7 @@ html {
 
 body {
   margin: 0;
-  font-family: var(--sans);
+  font-family: "Times New Roman", "Times", Georgia, serif;
   color: var(--text);
   background:
     radial-gradient(circle at top left, rgba(214, 168, 79, 0.22), transparent 18%),
@@ -5669,7 +5669,7 @@ td {
   --bod-radius:  6px;
   --bod-shadow:  0 2px 12px rgba(0,0,0,.08);
   --bod-shadow-lg: 0 8px 32px rgba(0,0,0,.12);
-  --bod-font:    "Segoe UI", system-ui, -apple-system, sans-serif;
+  --bod-font:    "Times New Roman", "Times", Georgia, serif;
   --bod-max:     1200px;
 }
 

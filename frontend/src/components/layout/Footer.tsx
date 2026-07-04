@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Locale } from "../../types";
+import { AtmuLogo } from "../common/AtmuLogo";
 
 export function Footer({ locale }: { locale: Locale }) {
   return (
@@ -11,12 +12,7 @@ export function Footer({ locale }: { locale: Locale }) {
           {/* Brand column */}
           <div className="bod-footer-brand">
             <div className="bod-footer-logo">
-              <div className="bod-footer-logo-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-                </svg>
-              </div>
+              <AtmuLogo size={64} dark={false} />
               <div>
                 <strong>ATMU</strong>
                 <span>Smart UniLibrary</span>
@@ -90,7 +86,7 @@ export function Footer({ locale }: { locale: Locale }) {
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
                 <circle cx="12" cy="10" r="3"/>
               </svg>
-              Qashqadaryo viloyati, Qarshi shahri
+              Qashqadaryo viloyati, Qarshi tumani, Mirmiron MFY, 26-uy
             </div>
             <a href="https://maps.app.goo.gl/DM7e8MkWe517TDBn8" target="_blank" rel="noopener noreferrer" className="bod-footer-map">
               Xaritada ko'rish →

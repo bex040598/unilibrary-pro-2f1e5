@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../lib/auth";
 import { useI18n } from "../../lib/i18n";
 import type { Locale } from "../../types";
+import { AtmuLogo } from "../common/AtmuLogo";
 
 export function Header({ locale }: { locale: Locale; currentPath: string }) {
   const { user, logout } = useAuth();
@@ -81,11 +82,8 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
       <div className="bod-navbar">
         <div className="bod-navbar-inner">
           <Link to={`/${locale}`} className="bod-brand">
-            <div className="bod-brand-icon">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-              </svg>
+            <div className="bod-brand-icon" style={{ background: "var(--bod-blue)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, flexShrink: 0 }}>
+              <AtmuLogo size={40} dark={false} />
             </div>
             <div className="bod-brand-text">
               <strong>ATMU</strong>

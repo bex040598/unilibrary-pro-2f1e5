@@ -2,38 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../lib/auth";
 import { useI18n } from "../../lib/i18n";
-
-/* ATMU rasmiy logotipi SVG */
-function AtmuLogo({ size = 72 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Tashqi halqa */}
-      <circle cx="60" cy="60" r="56" stroke="white" strokeWidth="3" fill="none" opacity="0.6"/>
-      <circle cx="60" cy="60" r="50" stroke="white" strokeWidth="1.2" fill="none" opacity="0.3"/>
-      {/* Ichki fon */}
-      <circle cx="60" cy="60" r="48" fill="rgba(255,255,255,0.08)"/>
-
-      {/* A harfi — chap ustun */}
-      <line x1="30" y1="88" x2="48" y2="32" stroke="white" strokeWidth="6" strokeLinecap="round"/>
-      <line x1="48" y1="32" x2="60" y2="66" stroke="white" strokeWidth="6" strokeLinecap="round"/>
-      <line x1="36" y1="68" x2="54" y2="68" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-
-      {/* T harfi — yuqori qism */}
-      <line x1="44" y1="36" x2="80" y2="36" stroke="white" strokeWidth="5" strokeLinecap="round"/>
-      <line x1="62" y1="36" x2="62" y2="60" stroke="white" strokeWidth="5" strokeLinecap="round"/>
-
-      {/* M harfi — o'rta qism */}
-      <line x1="58" y1="60" x2="58" y2="88" stroke="white" strokeWidth="5" strokeLinecap="round"/>
-      <line x1="58" y1="60" x2="72" y2="74" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-      <line x1="72" y1="74" x2="86" y2="60" stroke="white" strokeWidth="4" strokeLinecap="round"/>
-      <line x1="86" y1="60" x2="86" y2="88" stroke="white" strokeWidth="5" strokeLinecap="round"/>
-
-      {/* U harfi — pastki qism */}
-      <path d="M62 62 L62 80 Q62 92 74 92 Q86 92 86 80 L86 62"
-        stroke="white" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-    </svg>
-  );
-}
+import { AtmuLogo } from "../common/AtmuLogo";
 
 const DEMO_ACCOUNTS = [
   { email: "student@atmu.uz",    password: "Student123!",    role: "Talaba",        color: "#1457a8" },
@@ -83,7 +52,7 @@ export function LoginPage() {
 
           {/* Logotip */}
           <div className="auth-logo-wrap">
-            <AtmuLogo size={80}/>
+            <AtmuLogo size={88} dark={false} />
           </div>
 
           {/* Tashkilot nomi */}
