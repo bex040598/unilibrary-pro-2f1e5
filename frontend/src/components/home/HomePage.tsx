@@ -41,63 +41,104 @@ const services = [
   { to: "dashboard",            Icon: LayoutDashboard, label: "Shaxsiy kabinet",   color: "#7f1d1d", bg: "#fee2e2", desc: "Boshqaruv paneli" },
 ];
 
-/* ─── ATMU Logo SVG — haqiqiy logotipga o'xshash ─── */
+/* ─── ATMU Logo SVG — haqiqiy logotipga mos, yorqin ─── */
 function AtmuLogoWatermark() {
   return (
-    <svg
-      className="hp-logo-watermark"
-      viewBox="0 0 500 500"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      {/* Tashqi halqa */}
-      <circle cx="250" cy="250" r="238" stroke="white" strokeWidth="5" strokeOpacity="0.25" />
-      {/* Ichki halqa */}
-      <circle cx="250" cy="250" r="210" stroke="white" strokeWidth="1.5" strokeOpacity="0.12" />
-      {/* Eng ichki dekor halqa */}
-      <circle cx="250" cy="250" r="175" stroke="white" strokeWidth="1" strokeOpacity="0.08" strokeDasharray="6 5" />
+    <svg className="hp-logo-watermark" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        {/* Markaziy gradient — logotip rangiga mos */}
+        <radialGradient id="logoGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#4a7fd4" stopOpacity="0.25"/>
+          <stop offset="100%" stopColor="#1a3a8a" stopOpacity="0"/>
+        </radialGradient>
+        <filter id="softGlow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
 
-      {/* Matn — yuqori yoy bo'ylab: AXBOROT TEXNOLOGIYALARI VA */}
-      <path id="topArc" d="M 60,250 A 190,190 0 0,1 440,250" fill="none" />
-      <text fontSize="15" fontWeight="700" fill="white" fillOpacity="0.35" letterSpacing="3.5" fontFamily="Arial, sans-serif">
-        <textPath href="#topArc" startOffset="3%">AXBOROT TEXNOLOGIYALARI VA MENEJMENT</textPath>
+      {/* Orqa glow */}
+      <circle cx="260" cy="260" r="230" fill="url(#logoGlow)"/>
+
+      {/* ── Tashqi ikki halqa ── */}
+      <circle cx="260" cy="260" r="245" stroke="white" strokeWidth="5.5" strokeOpacity="0.45"/>
+      <circle cx="260" cy="260" r="232" stroke="white" strokeWidth="1.5" strokeOpacity="0.20"/>
+
+      {/* ── Matn yoyi — yuqori: AXBOROT TEXNOLOGIYALARI VA MENEJMENT ── */}
+      <path id="arc1" d="M 32,260 A 228,228 0 0,1 488,260" fill="none"/>
+      <text fontFamily="Arial Black, Arial, sans-serif" fontSize="16.5" fontWeight="900" fill="white" fillOpacity="0.60" letterSpacing="4">
+        <textPath href="#arc1" startOffset="2%">AXBOROT TEXNOLOGIYALARI VA MENEJMENT</textPath>
       </text>
 
-      {/* Matn — pastki yoy bo'ylab: UNIVERSITETI */}
-      <path id="botArc" d="M 68,270 A 185,185 0 0,0 432,270" fill="none" />
-      <text fontSize="15" fontWeight="700" fill="white" fillOpacity="0.35" letterSpacing="8" fontFamily="Arial, sans-serif">
-        <textPath href="#botArc" startOffset="18%">UNIVERSITETI</textPath>
+      {/* ── Matn yoyi — pastki: UNIVERSITETI ── */}
+      <path id="arc2" d="M 40,280 A 222,222 0 0,0 480,280" fill="none"/>
+      <text fontFamily="Arial Black, Arial, sans-serif" fontSize="16.5" fontWeight="900" fill="white" fillOpacity="0.60" letterSpacing="12">
+        <textPath href="#arc2" startOffset="20%">UNIVERSITETI</textPath>
       </text>
 
-      {/* ── Markaziy ATMU harflari interlock ── */}
-      {/* A harfi — orqa */}
-      <path d="M170 340 L250 130 L330 340" stroke="white" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.18" fill="none"/>
-      <path d="M195 278 L305 278" stroke="white" strokeWidth="18" strokeLinecap="round" strokeOpacity="0.18"/>
+      {/* ── 4 ta nuqta separator (logotipda bor) ── */}
+      {[0,90,180,270].map((deg,i) => {
+        const r = 238, cx = 260 + r*Math.cos((deg-90)*Math.PI/180), cy = 260 + r*Math.sin((deg-90)*Math.PI/180);
+        return <circle key={i} cx={cx} cy={cy} r="5.5" fill="white" fillOpacity="0.65"/>;
+      })}
 
-      {/* M harfi — ichki */}
-      <path d="M175 340 L175 195 L250 270 L325 195 L325 340" stroke="white" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.22" fill="none"/>
+      {/* ══════════════════════════════════════
+          MARKAZIY EMBLEM — ATMU interlocked
+          Haqiqiy logotipga mos:
+          - A: katta uchburchak asosiy tuzilma
+          - T: yuqori gorizontal chiziq
+          - M: o'rta ikki tepa
+          - U: pastki kamar
+      ══════════════════════════════════════ */}
 
-      {/* T harfi — yuqori */}
-      <path d="M190 165 L310 165" stroke="white" strokeWidth="20" strokeLinecap="round" strokeOpacity="0.20"/>
-      <path d="M250 165 L250 225" stroke="white" strokeWidth="20" strokeLinecap="round" strokeOpacity="0.20"/>
+      {/* === A harfi (asosiy tuzilma) === */}
+      {/* Chap qiya chiziq */}
+      <line x1="155" y1="365" x2="260" y2="135" stroke="white" strokeWidth="26" strokeLinecap="square" strokeOpacity="0.85"/>
+      {/* O'ng qiya chiziq */}
+      <line x1="260" y1="135" x2="365" y2="365" stroke="white" strokeWidth="26" strokeLinecap="square" strokeOpacity="0.85"/>
+      {/* A ichki uchburchak (bo'sh qoldirish uchun) */}
+      <path d="M175 345 L260 157 L345 345 Z" fill="#0e1f40" fillOpacity="0.70"/>
+      {/* A gorizontal kesuvchi */}
+      <line x1="196" y1="280" x2="324" y2="280" stroke="white" strokeWidth="22" strokeLinecap="square" strokeOpacity="0.85"/>
+      {/* A kesuvchi ichki bo'shliq */}
+      <rect x="204" y="270" width="112" height="22" fill="#0e1f40" fillOpacity="0.70"/>
 
-      {/* U harfi — pastki */}
-      <path d="M200 240 L200 310 Q200 345 250 345 Q300 345 300 310 L300 240" stroke="white" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" strokeOpacity="0.20" fill="none"/>
+      {/* === T harfi (yuqorida, A ustida) === */}
+      <line x1="205" y1="158" x2="315" y2="158" stroke="white" strokeWidth="24" strokeLinecap="square" strokeOpacity="0.90"/>
+      <line x1="248" y1="158" x2="272" y2="210" stroke="white" strokeWidth="22" strokeLinecap="square" strokeOpacity="0.80"/>
 
-      {/* Kitob + monitor belgisi — eng pastda */}
-      <rect x="228" y="375" width="44" height="32" rx="4" stroke="white" strokeWidth="3" strokeOpacity="0.28" fill="none"/>
-      <path d="M228 387 L272 387" stroke="white" strokeWidth="2" strokeOpacity="0.28"/>
-      <path d="M237 407 L263 407" stroke="white" strokeWidth="3" strokeLinecap="round" strokeOpacity="0.28"/>
-      <rect x="242" y="407" width="16" height="6" rx="2" stroke="white" strokeWidth="2" strokeOpacity="0.22" fill="none"/>
+      {/* === M harfi (o'rtada) === */}
+      {/* Chap tik chiziq */}
+      <line x1="176" y1="365" x2="176" y2="215" stroke="white" strokeWidth="20" strokeLinecap="square" strokeOpacity="0.75"/>
+      {/* Chap qiya ko'tarilish */}
+      <line x1="176" y1="215" x2="260" y2="285" stroke="white" strokeWidth="20" strokeLinecap="square" strokeOpacity="0.75"/>
+      {/* O'ng qiya ko'tarilish */}
+      <line x1="260" y1="285" x2="344" y2="215" stroke="white" strokeWidth="20" strokeLinecap="square" strokeOpacity="0.75"/>
+      {/* O'ng tik chiziq */}
+      <line x1="344" y1="215" x2="344" y2="365" stroke="white" strokeWidth="20" strokeLinecap="square" strokeOpacity="0.75"/>
 
-      {/* 4 burchakdagi yulduzcha dekor */}
-      {[{x:250,y:58},{x:442,y:250},{x:250,y:442},{x:58,y:250}].map((p,i)=>(
-        <g key={i}>
-          <circle cx={p.x} cy={p.y} r="5" fill="white" fillOpacity="0.30"/>
-          <circle cx={p.x} cy={p.y} r="2" fill="white" fillOpacity="0.50"/>
-        </g>
-      ))}
+      {/* === U harfi (pastki kamar) === */}
+      <path d="M 198 230 L 198 315 Q 198 358 260 358 Q 322 358 322 315 L 322 230"
+            stroke="white" strokeWidth="20" strokeLinecap="square" strokeLinejoin="miter" fill="none" strokeOpacity="0.80"/>
+      {/* U ichki bo'shliq */}
+      <path d="M 218 245 L 218 315 Q 218 338 260 338 Q 302 338 302 315 L 302 245"
+            stroke="#0e1f40" strokeWidth="10" strokeLinecap="butt" fill="none" strokeOpacity="0.75"/>
+
+      {/* ── Kitob + monitor belgisi — pastda ── */}
+      <g transform="translate(226, 378)" filter="url(#softGlow)">
+        {/* Monitor */}
+        <rect x="0" y="0" width="68" height="44" rx="5" stroke="white" strokeWidth="3.5" strokeOpacity="0.70" fill="none"/>
+        <line x1="0" y1="30" x2="68" y2="30" stroke="white" strokeWidth="2.5" strokeOpacity="0.70"/>
+        {/* Tayanch */}
+        <line x1="34" y1="44" x2="34" y2="55" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.70"/>
+        <line x1="22" y1="55" x2="46" y2="55" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeOpacity="0.70"/>
+        {/* Ekran ichida kitob belgisi */}
+        <rect x="18" y="8" width="32" height="18" rx="2" stroke="white" strokeWidth="2" strokeOpacity="0.55" fill="none"/>
+        <line x1="34" y1="8" x2="34" y2="26" stroke="white" strokeWidth="1.5" strokeOpacity="0.55"/>
+      </g>
+
+      {/* ── Ichki dekor halqa ── */}
+      <circle cx="260" cy="260" r="178" stroke="white" strokeWidth="1" strokeOpacity="0.18" strokeDasharray="3 5"/>
     </svg>
   );
 }
