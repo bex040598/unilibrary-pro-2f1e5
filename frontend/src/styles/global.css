@@ -5757,8 +5757,8 @@ td {
 .bod-hero-searchbtn { padding:10px 24px; background:var(--bod-blue); color:#fff; border-radius:6px; font-size:14px; font-weight:700; text-decoration:none; transition:background .2s; white-space:nowrap; }
 .bod-hero-searchbtn:hover { background:var(--bod-blue2); }
 .bod-hero-chips { display:flex; gap:10px; flex-wrap:wrap; }
-.bod-hero-chip { padding:8px 18px; border-radius:6px; font-size:13px; font-weight:600; text-decoration:none; border:1.5px solid rgba(255,255,255,.35); color:rgba(255,255,255,.88); transition:all .2s; }
-.bod-hero-chip:hover { background:rgba(255,255,255,.15); border-color:rgba(255,255,255,.60); }
+.bod-hero-chip { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:4px; font-size:13px; font-weight:500; text-decoration:none; border:1px solid rgba(255,255,255,.30); color:rgba(255,255,255,.85); transition:all .2s; letter-spacing:.01em; }
+.bod-hero-chip:hover { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.55); color:#fff; }
 .bod-chip-filled { background:var(--bod-red); border-color:var(--bod-red); color:#fff; }
 .bod-chip-filled:hover { background:#7a1424; border-color:#7a1424; }
 
@@ -5786,18 +5786,18 @@ td {
 .bod-services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
 .bod-service-card { display:flex; flex-direction:column; gap:12px; padding:28px 24px; background:#fff; border:1px solid var(--bod-gray200); border-radius:10px; text-decoration:none; color:inherit; transition:all .25s; }
 .bod-service-card:hover { border-color:var(--bod-blue); box-shadow:var(--bod-shadow-lg); transform:translateY(-3px); }
-.bod-service-icon { width:60px; height:60px; border-radius:10px; display:flex; align-items:center; justify-content:center; }
-.bod-service-title { font-size:17px; font-weight:800; color:var(--bod-blue); margin:0; }
-.bod-service-desc  { font-size:14px; color:var(--bod-gray600); line-height:1.6; margin:0; flex:1; }
-.bod-service-more  { font-size:13px; font-weight:700; color:var(--bod-red); }
+.bod-service-icon { width:48px; height:48px; border-radius:6px; display:flex; align-items:center; justify-content:center; background:rgba(0,33,71,.06); color:var(--bod-blue); }
+.bod-service-title { font-size:16px; font-weight:700; color:var(--bod-blue); margin:0; }
+.bod-service-desc  { font-size:14px; color:var(--bod-gray600); line-height:1.65; margin:0; flex:1; }
+.bod-service-more  { display:inline-flex; align-items:center; gap:4px; font-size:13px; font-weight:600; color:var(--bod-blue); border-bottom:1px solid var(--bod-blue); padding-bottom:1px; width:fit-content; }
 
 /* Collections */
 .bod-collections-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:14px; }
-.bod-coll-card { display:flex; flex-direction:column; align-items:center; gap:8px; padding:28px 16px; border-radius:10px; text-decoration:none; transition:all .25s; }
-.bod-coll-card:hover { filter:brightness(1.12); transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.18); }
-.bod-coll-icon  { font-size:32px; }
-.bod-coll-count { font-size:22px; font-weight:800; color:#fff; }
-.bod-coll-label { font-size:12px; color:rgba(255,255,255,.80); text-align:center; line-height:1.3; }
+.bod-coll-card { display:flex; flex-direction:column; gap:12px; padding:28px 24px; background:#fff; border:1px solid var(--bod-gray200); border-top:3px solid var(--bod-blue); border-radius:4px; text-decoration:none; transition:all .22s; }
+.bod-coll-card:hover { border-top-color:var(--bod-red); box-shadow:0 6px 24px rgba(0,33,71,.10); transform:translateY(-2px); }
+.bod-coll-icon  { display:flex; align-items:center; justify-content:center; width:40px; height:40px; background:rgba(0,33,71,.06); border-radius:6px; color:var(--bod-blue); }
+.bod-coll-count { font-size:26px; font-weight:800; color:var(--bod-blue); line-height:1; }
+.bod-coll-label { font-size:13px; color:var(--bod-gray600); font-weight:500; line-height:1.4; }
 
 /* Feature rows */
 .bod-feature-row { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center; }
