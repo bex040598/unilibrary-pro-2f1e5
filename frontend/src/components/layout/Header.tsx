@@ -82,9 +82,7 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
       <div className="bod-navbar">
         <div className="bod-navbar-inner">
           <Link to={`/${locale}`} className="bod-brand">
-            <div className="bod-brand-icon" style={{ background: "var(--bod-blue)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, flexShrink: 0 }}>
-              <AtmuLogo size={40} dark={false} />
-            </div>
+            <AtmuLogo size={48} />
             <div className="bod-brand-text">
               <strong>ATMU</strong>
               <span>Smart UniLibrary</span>

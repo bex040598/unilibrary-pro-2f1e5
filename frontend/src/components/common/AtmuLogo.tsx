@@ -7,10 +7,15 @@ export function AtmuLogo({
   return (
     <img
       src="/atmu-logo.jpg"
-      alt="ATMU logotipi"
+      alt="ATMU"
       width={size}
       height={size}
-      style={{ objectFit: "contain", display: "block" }}
+      style={{
+        objectFit: "contain",
+        display: "block",
+        mixBlendMode: "screen",
+        filter: "brightness(1.15) contrast(1.05)",
+      }}
     />
   );
 }
@@ -23,26 +28,18 @@ export function AtmuBrandMark({
   dark?: boolean;
 }) {
   return (
-    <div
+    <img
+      src="/atmu-logo.jpg"
+      alt="ATMU"
+      width={size}
+      height={size}
       style={{
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        overflow: "hidden",
-        background: "#fff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        objectFit: "contain",
+        display: "block",
+        mixBlendMode: "screen",
+        filter: "brightness(1.15) contrast(1.05)",
         flexShrink: 0,
       }}
-    >
-      <img
-        src="/atmu-logo.jpg"
-        alt="ATMU logotipi"
-        width={size}
-        height={size}
-        style={{ objectFit: "contain", display: "block" }}
-      />
-    </div>
+    />
   );
 }
