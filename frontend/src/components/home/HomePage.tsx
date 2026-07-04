@@ -45,97 +45,6 @@ const FEATURED = [
   },
 ];
 
-const AI_FEATURES = [
-  {
-    num: "01",
-    title: "Aqlli kutubxona qidiruvchi",
-    desc: "Talaba so'roviga ko'ra mos kitoblar topiladi, boshlovchilar uchun eng tavsiya etiladigan 3 ta resurs, har birining qisqacha tavsifi va yuklab olish havolasi bilan birga ko'rsatiladi.",
-  },
-  {
-    num: "02",
-    title: "PDF bilan suhbat (Chat with PDF)",
-    desc: "500 betlik kitob yoki maqola yuklanadi. \"5-bob nima haqida?\" yoki \"Muallif neyron tarmoqlarni qanday tushuntirgan?\" kabi savollarga AI bir necha soniyada aniq javob beradi.",
-  },
-  {
-    num: "03",
-    title: "Dissertatsiya yordamchisi",
-    desc: "Magistr yoki doktorant mavzusiga mos 20 ta maqola, dolzarb tadqiqotlar, metodologiyalar va ilmiy bo'shliqlar (research gap) ro'yxati taqdim etiladi.",
-  },
-  {
-    num: "04",
-    title: "Bir nechta kitobni taqqoslash",
-    desc: "\"Django va Laravel haqida yozilgan kitoblar orasidagi farq nima?\" — AI bir nechta kitobni bir vaqtda tahlil qilib, umumlashtirilgan taqqoslash beradi.",
-  },
-  {
-    num: "05",
-    title: "Avtomatik referat va xulosa",
-    desc: "AI kitob yoki maqoladan 10 qatorlik, 1 betlik yoki batafsil xulosa tayyorlaydi. O'quv rejasi va tadqiqot uchun vaqtni sezilarli darajada qisqartiradi.",
-  },
-  {
-    num: "06",
-    title: "Murakkab matnni soddalashtirish",
-    desc: "Ilmiy matn yoki texnik paragraf tanlanadi. AI uni oddiy, tushunarli tilda qayta izohlaydi — 1-kurs talabasidan tortib magistrantgacha mos darajada.",
-  },
-  {
-    num: "07",
-    title: "Avtomatik test va savol yaratish",
-    desc: "Har qanday kitob yoki bobdan 20 ta test, 10 ta ochiq savol va 5 ta case-study avtomatik tuziladi. O'qituvchilar uchun baholash materiallarini tayyorlash vaqtini keskin qisqartiradi.",
-  },
-  {
-    num: "08",
-    title: "Slayd tayyorlash",
-    desc: "\"5-bob asosida 15 slayd tayyorla\" — AI sarlavhalar, asosiy fikrlar, tavsiya etilgan rasmlar va xulosa bilan tayyor taqdimot strukturasini yaratadi.",
-  },
-  {
-    num: "09",
-    title: "Citation Generator",
-    desc: "Bir tugma orqali APA 7, IEEE, MLA, Chicago va GOST formatlarida to'g'ri iqtibos yaratiladi. Manba ma'lumotlari avtomatik to'ldiriladi.",
-  },
-  {
-    num: "10",
-    title: "Semantik qidiruv",
-    desc: "Oddiy qidiruv faqat kalit so'zni topadi. RAG texnologiyasi ma'noni tushunadi: \"Banklarda xavfsiz tranzaksiyalar\" deb yozsangiz ham blockchain kitoblari topiladi.",
-  },
-  {
-    num: "11",
-    title: "AI Tavsiya tizimi",
-    desc: "Foydalanuvchi Python, Data Science, ML kitoblarini o'qigan bo'lsa, AI unga Deep Learning, PyTorch, NLP va Computer Vision resurslarini shaxsiy tavsiya qiladi.",
-  },
-  {
-    num: "12",
-    title: "Ilmiy xatolarni aniqlash",
-    desc: "Talaba matn yuklaydi — AI noto'g'ri ma'lumotlarni, eskirgan manbalarni va havolasiz jumlalarni avtomatik aniqlab, tuzatish tavsiyalari beradi.",
-  },
-  {
-    num: "13",
-    title: "Mualliflar bo'yicha ekspert tahlil",
-    desc: "\"Andrew Ng qaysi mavzularda yozgan?\" — AI kutubxonadagi barcha materiallarni tahlil qilib, muallif yo'nalishlari, asosiy ishlari va atiqotlari bo'yicha to'liq hisobot beradi.",
-  },
-  {
-    num: "14",
-    title: "Ovozli kutubxonachi",
-    desc: "Foydalanuvchi mikrofon orqali \"Sun'iy intellekt kitoblarini top\" deb aytadi. AI topadi, o'qib beradi va qisqacha tushuntiradi — qo'llar band bo'lsa ham ishlaydi.",
-  },
-  {
-    num: "15",
-    title: "Rasm orqali qidirish",
-    desc: "Talaba kitobning bir sahifasini suratga oladi. AI OCR orqali matnni ajratadi, shu kitobni topadi va o'xshash adabiyotlarni tavsiya qiladi.",
-  },
-  {
-    num: "16",
-    title: "Yagona universitet bilim bazasi",
-    desc: "Elektron kitoblar, maqolalar, dissertatsiyalar, me'yoriy hujjatlar, taqdimotlar, laboratoriya ishlari, video darslar va yangiliklar — bitta savol bilan barcha manbadan javob.",
-  },
-];
-
-const AI_ADMIN = [
-  "Eng ko'p qidirilgan mavzularni real vaqtda ko'rsatadi",
-  "Talab yuqori, lekin resurs yetishmayotgan yo'nalishlarni aniqlaydi",
-  "Yangi kitob xarid qilish bo'yicha ma'lumotga asoslangan tavsiyalar beradi",
-  "Avtomatik annotatsiya va kalit so'zlar yaratadi",
-  "Dublikat hujjatlarni aniqlaydi va metadata sifatini yaxshilaydi",
-];
-
 const NEWS = [
   {
     date: "28 iyun 2026",
@@ -324,54 +233,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ══ SUN'IY INTELLEKT ══ */}
-      <section className="hl-section hl-section-gray">
-        <div className="hl-container">
-          <div className="hl-section-hd">
-            <div>
-              <p className="hl-ai-eyebrow">RAG — Retrieval-Augmented Generation</p>
-              <h2>Sun'iy intellekt imkoniyatlari</h2>
-            </div>
-            <Link to={`/${locale}/elibrary/student`} className="hl-see-all">AI Yordamchini sinab ko'ring →</Link>
-          </div>
-
-          <div className="hl-ai-grid">
-            {AI_FEATURES.map(f => (
-              <div key={f.num} className="hl-ai-card">
-                <span className="hl-ai-num">{f.num}</span>
-                <div className="hl-ai-body">
-                  <h3>{f.title}</h3>
-                  <p>{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Admin panel strip */}
-          <div className="hl-ai-admin">
-            <div className="hl-ai-admin-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-                <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-              </svg>
-              Administrator uchun qo'shimcha imkoniyatlar
-            </div>
-            <ul className="hl-ai-admin-list">
-              {AI_ADMIN.map(item => (
-                <li key={item}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
       {/* ══ NEWS ══ */}
-      <section className="hl-section hl-section-white">
+      <section className="hl-section hl-section-gray">
         <div className="hl-container">
           <div className="hl-section-hd">
             <h2>Kutubxona yangiliklari</h2>
@@ -397,7 +260,6 @@ export function HomePage() {
       </section>
 
       {/* ══ CTA STRIP ══ */}
-
       <section className="hl-cta">
         <div className="hl-cta-inner">
           <div className="hl-cta-text">
