@@ -21,13 +21,15 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
     navigate(`/${locale}`);
   }
 
+  const showDashboard = user && user.role !== "student";
+
   const navLinks = [
     { to: `/${locale}`, label: "Bosh sahifa" },
     { to: `/${locale}/catalog`, label: "Elektron katalog" },
     { to: `/${locale}/elibrary`, label: "E-Library" },
     { to: `/${locale}/kafedralar`, label: "Kafedralar" },
     { to: `/${locale}/library/reading-room`, label: "O'quv zali" },
-    { to: `/${locale}/dashboard`, label: "Boshqaruv" },
+    ...(showDashboard ? [{ to: `/${locale}/dashboard`, label: "Boshqaruv" }] : []),
   ];
 
   const isActive = (to: string) =>

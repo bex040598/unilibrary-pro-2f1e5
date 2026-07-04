@@ -10,6 +10,7 @@ import { DepartmentsPage } from "./components/departments/DepartmentsPage";
 import { DepartmentPage } from "./components/departments/DepartmentPage";
 import { DepartmentLibraryPage } from "./components/department-library/DepartmentLibraryPage";
 import { DashboardPage } from "./components/dashboard/DashboardPage";
+import { AdminPage } from "./components/admin/AdminPage";
 import { ELibraryPage } from "./components/elibrary/ELibraryPage";
 import { ResourceUploadPage } from "./components/resources/ResourceUploadPage";
 import { ReservationsPage } from "./components/reservations/ReservationsPage";
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="dashboard/:dashboardRole" element={<DashboardPage />} />
         <Route path="dashboard/student/reading-room" element={<ReadingRoomPage />} />
         <Route path="dashboard/librarian/reading-room" element={<ReadingRoomPage />} />
+        <Route path="admin" element={<AdminPage />} />
         <Route path="resources/upload" element={<ResourceUploadPage />} />
         <Route path="reservations" element={<ReservationsPage />} />
         <Route path="loans" element={<LoansPage />} />
