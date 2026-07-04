@@ -85,19 +85,59 @@ export function ReadingRoomPage() {
     <div className="wp-page">
       {/* ── Hero ── */}
       <div className="rr-hero">
-        <div className="rr-hero-bg" />
+        {/* Geometric SVG grid pattern */}
+        <svg className="rr-hero-pattern" viewBox="0 0 800 240" preserveAspectRatio="xMidYMid slice">
+          {Array.from({length:12},(_,c)=>Array.from({length:6},(_,r)=>(
+            <rect key={`${c}-${r}`} x={c*70} y={r*44} width="60" height="36"
+              rx="4" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
+          )))}
+          {/* Highlighted "seats" */}
+          {[[1,1],[2,2],[4,1],[5,3],[7,2],[8,1],[9,3],[10,2]].map(([c,r],i)=>(
+            <rect key={i} x={c*70+5} y={r*44+4} width="50" height="28"
+              rx="3" fill="rgba(196,168,98,0.18)" stroke="rgba(196,168,98,0.4)" strokeWidth="1"/>
+          ))}
+        </svg>
+
         <div className="rr-hero-content">
-          <p className="wp-eyebrow" style={{ color: "#c4a862" }}>O'quv zali</p>
+          <div className="rr-hero-tag">O'quv zali</div>
           <h1>Joy band qilish tizimi</h1>
-          <p>Harvard, MIT va British Library uslubida interaktiv o'rindiq xaritasi va real vaqt bandlik ko'rsatkichi</p>
+          <p>Interaktiv joy xaritasi · Real vaqt bandlik · QR kirish</p>
+          <div className="rr-hero-chips">
+            <span className="rr-hero-chip">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              Wi-Fi · Printer · Monitor
+            </span>
+            <span className="rr-hero-chip">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              08:00 – 20:00
+            </span>
+          </div>
         </div>
+
         <div className="rr-hero-right">
-          <div className="rr-occ-ring">
-            <svg viewBox="0 0 36 36" className="rr-ring-svg">
-              <path className="rr-ring-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ffffff22" strokeWidth="3"/>
-              <path className="rr-ring-fill" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#c4a862" strokeWidth="3" strokeDasharray={`${occupancyPct}, 100`}/>
+          {/* Live occupancy ring */}
+          <div className="rr-occ-wrap">
+            <svg width="130" height="130" viewBox="0 0 130 130">
+              <circle cx="65" cy="65" r="54" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10"/>
+              <circle cx="65" cy="65" r="54" fill="none" stroke="#c4a862" strokeWidth="10"
+                strokeDasharray={`${(occupancyPct/100)*339.3} 339.3`}
+                strokeDashoffset="84.8" strokeLinecap="round"/>
+              <text x="65" y="58" textAnchor="middle" fontSize="26" fontWeight="800" fill="#c4a862">{occupancyPct}%</text>
+              <text x="65" y="74" textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.55)" fontWeight="600">BANDLIK</text>
+              <text x="65" y="88" textAnchor="middle" fontSize="9" fill="rgba(255,255,255,0.38)">Real vaqt</text>
             </svg>
-            <div className="rr-ring-label"><strong>{occupancyPct}%</strong><span>Band</span></div>
+            <div className="rr-occ-rooms">
+              {rooms.slice(0,2).map(r => {
+                const p = Math.round(((r.total_seats-r.available_seats)/r.total_seats)*100);
+                return (
+                  <div key={r.id} className="rr-occ-room-row">
+                    <span>{r.name}</span>
+                    <div className="rr-occ-mini-track"><div style={{width:`${p}%`,background: p>70?"#f87171":"#c4a862"}} className="rr-occ-mini-fill"/></div>
+                    <span>{p}%</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
