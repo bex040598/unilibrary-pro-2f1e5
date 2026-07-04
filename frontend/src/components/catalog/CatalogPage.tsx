@@ -5,12 +5,12 @@ import { books as fallbackBooks, resources as fallbackResources } from "../../da
 import type { Book, Resource } from "../../types";
 
 const MATERIAL_TYPES = [
-  { id: "all", label: "Barchasi", icon: "⊞" },
-  { id: "book", label: "Kitoblar", icon: "📚" },
-  { id: "article", label: "Maqolalar", icon: "📄" },
-  { id: "thesis", label: "Dissertatsiyalar", icon: "🎓" },
-  { id: "journal", label: "Jurnallar", icon: "📰" },
-  { id: "video", label: "Video", icon: "🎬" },
+  { id: "all", label: "Barchasi" },
+  { id: "book", label: "Kitoblar" },
+  { id: "article", label: "Maqolalar" },
+  { id: "thesis", label: "Dissertatsiyalar" },
+  { id: "journal", label: "Jurnallar" },
+  { id: "video", label: "Video" },
 ];
 
 const LANGUAGES = ["Barchasi", "O'zbek", "Rus", "Ingliz", "Turk"];
@@ -172,13 +172,13 @@ function BookModal({ book, onClose }: { book: typeof MOCK_CATALOG[0]; onClose: (
               <div><span>Mavjud</span><strong style={{ color: book.available ? "#16a34a" : "#dc2626" }}>{book.available ? `${book.available_copies}/${book.total_copies} nusxa` : "Band"}</strong></div>
             </div>
             <div className="cat-modal-stats">
-              <span>👁 {book.views_count.toLocaleString()} ko'rishlar</span>
-              <span>⬇ {book.downloads_count.toLocaleString()} yuklab olish</span>
+              <span>{book.views_count.toLocaleString()} ko'rish</span>
+              <span>{book.downloads_count.toLocaleString()} yuklab olish</span>
             </div>
             <div className="cat-modal-actions">
-              {book.format === "PDF" && <button className="cat-btn-primary">📖 Online o'qish</button>}
-              {book.format === "PDF" && <button className="cat-btn-secondary">⬇ Yuklab olish</button>}
-              {book.available && <button className="cat-btn-reserve">🔖 Bron qilish</button>}
+              {book.format === "PDF" && <button className="cat-btn-primary">Online o'qish</button>}
+              {book.format === "PDF" && <button className="cat-btn-secondary">Yuklab olish</button>}
+              {book.available && <button className="cat-btn-reserve">Bron qilish</button>}
             </div>
           </div>
         </div>
@@ -236,7 +236,10 @@ export function CatalogPage() {
               value={query}
               onChange={e => setQuery(e.target.value)}
             />
-            <button className="cat-hero-btn">🔍 Qidirish</button>
+            <button className="cat-hero-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Qidirish
+            </button>
           </div>
           <div className="cat-hero-stats">
             <div><strong>157,270</strong><span>Jami fond</span></div>
@@ -258,7 +261,7 @@ export function CatalogPage() {
                 className={`cat-filter-btn${activeType === t.id ? " active" : ""}`}
                 onClick={() => setActiveType(t.id)}
               >
-                <span>{t.icon}</span> {t.label}
+                {t.label}
                 <span className="cat-filter-count">{t.id === "all" ? MOCK_CATALOG.length : MOCK_CATALOG.filter(b => b.type === t.id).length}</span>
               </button>
             ))}
@@ -300,7 +303,7 @@ export function CatalogPage() {
           <div className="cat-sidebar-help">
             <div className="cat-sidebar-title">Yordam</div>
             <p>Kitob topmasangiz, kutubxonachiga murojaat qiling yoki buyurtma bering.</p>
-            <a href={`/${locale}/contact`} className="cat-help-link">📞 Bog'lanish</a>
+            <a href={`/${locale}/contact`} className="cat-help-link">Bog'lanish</a>
           </div>
         </aside>
 
@@ -319,15 +322,19 @@ export function CatalogPage() {
                 <option value="title">Nom bo'yicha</option>
               </select>
               <div className="cat-view-toggle">
-                <button className={viewMode === "grid" ? "active" : ""} onClick={() => setViewMode("grid")}>⊞</button>
-                <button className={viewMode === "list" ? "active" : ""} onClick={() => setViewMode("list")}>☰</button>
+                <button className={viewMode === "grid" ? "active" : ""} onClick={() => setViewMode("grid")}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </button>
+                <button className={viewMode === "list" ? "active" : ""} onClick={() => setViewMode("list")}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                </button>
               </div>
             </div>
           </div>
 
           {filtered.length === 0 ? (
             <div className="cat-empty">
-              <div style={{ fontSize: 48 }}>📚</div>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
               <h3>Natija topilmadi</h3>
               <p>Qidiruv so'rovini o'zgartirib ko'ring yoki filtrlarni bekor qiling.</p>
               <button className="cat-btn-primary" onClick={() => { setQuery(""); setActiveType("all"); setActiveLang("Barchasi"); setActiveYear("Barchasi"); }}>Filtrlarni tozalash</button>
@@ -348,11 +355,11 @@ export function CatalogPage() {
                     <p className="cat-card-author">{book.author_names.join(", ")}</p>
                     <StarRating rating={book.rating} />
                     <div className="cat-card-meta">
-                      <span>📁 {book.department_name}</span>
-                      <span>🌐 {book.language}</span>
+                      <span>{book.department_name}</span>
+                      <span>{book.language}</span>
                     </div>
                     <div className="cat-card-footer">
-                      <span className="cat-card-views">👁 {book.views_count.toLocaleString()}</span>
+                      <span className="cat-card-views">{book.views_count.toLocaleString()} ko'rish</span>
                       <button className="cat-card-btn">Ko'rish</button>
                     </div>
                   </div>
@@ -371,8 +378,8 @@ export function CatalogPage() {
                     <p className="cat-list-summary">{book.summary}</p>
                     <div className="cat-list-bottom">
                       <StarRating rating={book.rating} />
-                      <span>👁 {book.views_count.toLocaleString()}</span>
-                      <span>⬇ {book.downloads_count.toLocaleString()}</span>
+                      <span>{book.views_count.toLocaleString()} ko'rish</span>
+                      <span>{book.downloads_count.toLocaleString()} yuklab</span>
                       <span className={`cat-list-avail${book.available ? " ok" : " busy"}`}>{book.available ? "Mavjud" : "Band"}</span>
                     </div>
                   </div>

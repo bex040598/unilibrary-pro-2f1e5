@@ -19,9 +19,10 @@ const studentReadHistory = [
 ];
 
 const typeColor: Record<string,string> = {
-  "Darslik":"#1457a8","Laboratoriya ishi":"#0e9f6e",
-  "O'quv qo'llanma":"#d6a84f","Maqola":"#7c3aed",
-  "Video dars":"#dc2626","Test":"#0891b2",
+  "Darslik":"#002147","Laboratoriya ishi":"#002147",
+  "O'quv qo'llanma":"#002147","Maqola":"#002147",
+  "Video dars":"#002147","Test":"#002147",
+  "Amaliy mashg'ulot":"#002147","Metodik qo'llanma":"#002147",
 };
 
 const pendingResources  = allResources.filter(r => r.status === "pending_review");
