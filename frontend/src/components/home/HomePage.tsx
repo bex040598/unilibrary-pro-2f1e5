@@ -4,108 +4,124 @@ import { useParams } from "react-router-dom";
 const SERVICES = [
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
       </svg>
     ),
     title: "Elektron katalog",
-    desc: "157 000+ kitob, dissertatsiya va ilmiy maqolalar. Muallif, mavzu va kafedra bo'yicha qidiring.",
-    href: "catalog", color: "#002147",
+    desc: "Kitob, darslik, dissertatsiya va ilmiy maqolalarni muallif, mavzu yoki kafedrasi bo'yicha toping.",
+    href: "catalog",
+    color: "#002147",
   },
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z"/>
-        <circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="15" cy="13" r="1" fill="currentColor"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 8v4l3 3"/>
+        <path d="M3.05 11a9 9 0 1 0 .5-2.7"/>
       </svg>
     ),
     title: "AI Kutubxonachi",
-    desc: "Sun'iy intellekt yordamida kitob topish, iqtibos formatlash va o'quv maslahat olish.",
-    href: "elibrary/student", color: "#9b1a2f",
+    desc: "Savol bering, kitob toping, iqtibos formatlang — sun'iy intellekt 24 soat xizmatda.",
+    href: "elibrary/student",
+    color: "#9b1a2f",
   },
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
       </svg>
     ),
     title: "O'quv zali",
-    desc: "24/7 o'quv zallari va individual kabinetlarni onlayn bron qiling. 250+ o'rindiq mavjud.",
-    href: "library/reading-room", color: "#1a5c2a",
+    desc: "Individual kabinet yoki guruh zali — onlayn bron qiling va istalgan vaqt keling.",
+    href: "library/reading-room",
+    color: "#1a5c2a",
   },
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
       </svg>
     ),
-    title: "Kafedra kutubxonalari",
-    desc: "AT, Iqtisodiyot, Menejment, Pedagogika kafedralarining maxsus to'plamlari.",
-    href: "kafedralar", color: "#744210",
+    title: "Kafedra to'plamlari",
+    desc: "Axborot texnologiyalari, iqtisodiyot, menejment va boshqa kafedralarning maxsus fondi.",
+    href: "kafedralar",
+    color: "#744210",
   },
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
-        <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
       </svg>
     ),
     title: "E-Library portali",
-    desc: "O'qituvchi va talabalar uchun elektron materiallar: darsliklar, laboratoriya ishlari, video.",
-    href: "elibrary", color: "#1e3a5f",
+    desc: "O'qituvchilar material yuklaydi, talabalar onlayn o'qiydi — bir tizimda hammasi.",
+    href: "elibrary",
+    color: "#1e3a5f",
   },
   {
     icon: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
         <rect x="3" y="4" width="18" height="18" rx="2"/>
-        <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
         <line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
     ),
     title: "Kitob bron qilish",
-    desc: "Kerakli kitobni onlayn bron qiling, kutubxonaga kelib oling va muddatini uzaytiring.",
-    href: "reservations", color: "#5b21b6",
+    desc: "Kerakli nashrni oldindan band qiling, kutubxonaga kelib oling va muddatni uzaytiring.",
+    href: "reservations",
+    color: "#5b21b6",
   },
 ];
 
 const COLLECTIONS = [
-  { title: "Ilmiy maqolalar",    count: "12 500+", icon: "📄", bg: "#002147" },
-  { title: "Dissertatsiyalar",   count: "3 200+",  icon: "🎓", bg: "#9b1a2f" },
-  { title: "Elektron kitoblar",  count: "42 000+", icon: "📱", bg: "#1a5c2a" },
-  { title: "Video darslar",      count: "1 800+",  icon: "🎬", bg: "#744210" },
-  { title: "Qog'oz nashrlari",   count: "90 000+", icon: "📚", bg: "#1e3a5f" },
-  { title: "Atlaslar & xaritalar", count: "580+",  icon: "🗺️", bg: "#5b21b6" },
+  { title: "Ilmiy maqolalar",     count: "12 500+", emoji: "📄", bg: "#002147" },
+  { title: "Dissertatsiyalar",    count: "3 200+",  emoji: "🎓", bg: "#9b1a2f" },
+  { title: "Elektron kitoblar",   count: "42 000+", emoji: "📱", bg: "#1a5c2a" },
+  { title: "Video ma'ruzalar",    count: "1 800+",  emoji: "🎬", bg: "#744210" },
+  { title: "Qog'oz nashrlar",     count: "90 000+", emoji: "📚", bg: "#1e3a5f" },
+  { title: "Atlaslar va xaritalar", count: "580+",  emoji: "🗺️", bg: "#5b21b6" },
 ];
 
 const NEWS = [
   {
-    date: "28 Iyun 2026", category: "Yangilik",
-    title: "ATMU kutubxonasi Springer Nature bazasiga ulandi",
-    desc: "Endi barcha talabalar Springer Nature'ning 14 million+ ilmiy maqolasiga bepul kira oladilar.",
-    img: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=600&q=80",
+    date: "28 iyun 2026",
+    category: "Yangilik",
+    title: "Springer Nature ilmiy bazasiga kirish ochildi",
+    desc: "Universitetimiz 14 million dan ortiq ilmiy maqolani o'z ichiga olgan Springer Nature bazasiga ulanganidan so'ng, talaba va o'qituvchilar ushbu manbadan bepul foydalanishlari mumkin.",
+    img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=640&q=85&fit=crop",
   },
   {
-    date: "20 Iyun 2026", category: "Tadbir",
-    title: "Ilmiy iqtibos yozish bo'yicha bepul seminar",
-    desc: "APA 7, IEEE va GOST standartlarida iqtibos yozishni o'rgatuvchi seminar 5-iyulda bo'lib o'tadi.",
-    img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+    date: "20 iyun 2026",
+    category: "Tadbir",
+    title: "Ilmiy maqola va iqtibos yozish ustaxonasi",
+    desc: "APA 7, IEEE va GOST standartlarida to'g'ri iqtibos rasmiylashtirish bo'yicha amaliy ustaxona 5-iyul kuni kutubxona konferents-zalida bo'lib o'tadi. Qatnashish bepul.",
+    img: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=640&q=85&fit=crop",
   },
   {
-    date: "15 Iyun 2026", category: "E'lon",
-    title: "Yozgi o'quv zali ish tartibi o'zgardi",
-    desc: "1-iyuldan 31-avgustgacha o'quv zali dushanba–juma 08:00–22:00, dam olish 10:00–18:00.",
-    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80",
+    date: "10 iyun 2026",
+    category: "E'lon",
+    title: "Yozgi davr ish tartibi e'lon qilindi",
+    desc: "1-iyuldan 31-avgustgacha o'quv zali dushanba–juma kunlari soat 08:00–22:00, shanba–yakshanba kunlari esa 10:00–18:00 gacha ishlaydi.",
+    img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=640&q=85&fit=crop",
   },
 ];
 
 const STATS = [
   { value: "157 270", label: "Jami nashrlar" },
   { value: "12 500+", label: "Ilmiy maqolalar" },
-  { value: "48+",     label: "Kafedra to'plamlari" },
-  { value: "250",     label: "O'quv zali o'rinlari" },
+  { value: "48",      label: "Kafedra to'plamlari" },
+  { value: "250+",    label: "O'quv zali o'rinlari" },
   { value: "24/7",    label: "Onlayn kirish" },
-  { value: "6 000+",  label: "Faol foydalanuvchilar" },
+  { value: "6 000+",  label: "Ro'yxatdan o'tganlar" },
 ];
 
 export function HomePage() {
@@ -116,38 +132,38 @@ export function HomePage() {
 
       {/* ══ HERO ══ */}
       <section className="bod-hero">
-        <div className="bod-hero-overlay" />
         <div className="bod-hero-content">
-          <div className="bod-hero-badge">ATMU Smart UniLibrary · Qarshi 2026</div>
+          <div className="bod-hero-badge">ATMU Smart UniLibrary · Qarshi</div>
           <h1 className="bod-hero-h1">
-            Bilim va texnologiya<br/>markazi
+            Bilim — eng<br/>mustahkam poydevor
           </h1>
           <p className="bod-hero-sub">
-            157 000+ kitob, ilmiy maqola va elektron resurslarni qidiring.
-            Kafedra kutubxonalari, o'quv zali bron qilish va AI yordamchi.
+            O'n minglab kitob, ilmiy maqola va o'quv materiallarini bir joydan toping.
+            Kafedra kutubxonalari, o'quv zali va AI yordamchi — barchasi siz uchun.
           </p>
           <div className="bod-hero-searchbox">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2">
-              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
             <input
               type="text"
-              placeholder="Kitob, muallif yoki mavzu bo'yicha qidiring..."
+              placeholder="Kitob nomi, muallif yoki mavzu..."
               readOnly
               onClick={() => { window.location.href = `/${locale}/catalog`; }}
             />
             <Link to={`/${locale}/catalog`} className="bod-hero-searchbtn">Qidirish</Link>
           </div>
           <div className="bod-hero-chips">
-            <Link to={`/${locale}/catalog`}               className="bod-hero-chip bod-chip-filled">📚 Katalog</Link>
-            <Link to={`/${locale}/elibrary/student`}      className="bod-hero-chip">🤖 AI Yordamchi</Link>
-            <Link to={`/${locale}/library/reading-room`}  className="bod-hero-chip">🪑 O'quv zali</Link>
-            <Link to={`/${locale}/kafedralar`}            className="bod-hero-chip">🏛️ Kafedralar</Link>
+            <Link to={`/${locale}/catalog`}              className="bod-hero-chip bod-chip-filled">📚 Katalog</Link>
+            <Link to={`/${locale}/elibrary/student`}     className="bod-hero-chip">🤖 AI Yordamchi</Link>
+            <Link to={`/${locale}/library/reading-room`} className="bod-hero-chip">🪑 O'quv zali</Link>
+            <Link to={`/${locale}/kafedralar`}           className="bod-hero-chip">🏛 Kafedralar</Link>
           </div>
         </div>
       </section>
 
-      {/* ══ STATS BAR ══ */}
+      {/* ══ STATS ══ */}
       <div className="bod-statsbar">
         <div className="bod-statsbar-inner">
           {STATS.map((s) => (
@@ -159,20 +175,20 @@ export function HomePage() {
         </div>
       </div>
 
-      {/* ══ SERVICES ══ */}
+      {/* ══ XIZMATLAR ══ */}
       <section className="bod-section">
         <div className="bod-container">
           <div className="bod-section-head">
             <div className="bod-section-label">Xizmatlar</div>
-            <h2 className="bod-section-title">Kutubxona xizmatlaridan foydalaning</h2>
+            <h2 className="bod-section-title">Kutubxona imkoniyatlaridan foydalaning</h2>
             <p className="bod-section-desc">
-              Raqamli va jismoniy resurslardan foydalanish uchun zamonaviy vositalar
+              Raqamli va jismoniy resurslardan to'liq foydalanish uchun zamonaviy vositalar
             </p>
           </div>
           <div className="bod-services-grid">
             {SERVICES.map((s) => (
               <Link key={s.title} to={`/${locale}/${s.href}`} className="bod-service-card">
-                <div className="bod-service-icon" style={{ color: s.color, background: `${s.color}14` }}>
+                <div className="bod-service-icon" style={{ color: s.color, background: `${s.color}12` }}>
                   {s.icon}
                 </div>
                 <h3 className="bod-service-title">{s.title}</h3>
@@ -184,17 +200,17 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* ══ COLLECTIONS ══ */}
+      {/* ══ TO'PLAMLAR ══ */}
       <section className="bod-section bod-bg-light">
         <div className="bod-container">
           <div className="bod-section-head">
             <div className="bod-section-label">To'plamlar</div>
-            <h2 className="bod-section-title">Fondlar bo'yicha ko'rib chiqing</h2>
+            <h2 className="bod-section-title">Fond turlari bo'yicha ko'ring</h2>
           </div>
           <div className="bod-collections-grid">
             {COLLECTIONS.map((c) => (
               <Link key={c.title} to={`/${locale}/catalog`} className="bod-coll-card" style={{ background: c.bg }}>
-                <span className="bod-coll-icon">{c.icon}</span>
+                <span className="bod-coll-icon">{c.emoji}</span>
                 <strong className="bod-coll-count">{c.count}</strong>
                 <span className="bod-coll-label">{c.title}</span>
               </Link>
@@ -208,41 +224,44 @@ export function HomePage() {
         <div className="bod-container">
           <div className="bod-feature-row">
             <div className="bod-feature-img">
-              <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&q=80" alt="Kutubxona o'quv zali"/>
+              <img
+                src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=900&q=85&fit=crop"
+                alt="Talaba kutubxonada o'qimoqda"
+              />
               <div className="bod-feature-img-badge">
                 <strong>157 270</strong>
                 <span>nashr mavjud</span>
               </div>
             </div>
             <div className="bod-feature-body">
-              <div className="bod-section-label">AI Texnologiya</div>
-              <h2 className="bod-feature-title">Sun'iy intellekt yordamida o'qing</h2>
+              <div className="bod-section-label">Sun'iy intellekt</div>
+              <h2 className="bod-feature-title">AI yordamchi bilan o'qishni osonlashtiring</h2>
               <p className="bod-feature-desc">
-                ATMU AI Kutubxonachi — savol bering, kitob toping, iqtibos formatlang.
-                157 000+ manba bazasidan oniy javoblar oling. APA, IEEE, GOST
-                formatlarida avtomatik iqtibos yarating.
+                ATMU AI Kutubxonachi sizga savol berish, kerakli kitobni topish va iqtibos
+                rasmiylashtirish imkonini beradi. Kutubxona fondidan bir zumda javob oling —
+                istalgan vaqt, istalgan qurilmadan.
               </p>
               <ul className="bod-feature-list">
-                <li><span className="bod-list-dot"/><span>Kitob va maqola topib, tavsiya qiladi</span></li>
-                <li><span className="bod-list-dot"/><span>Iqtibos (citation) avtomatik formatlab beradi</span></li>
-                <li><span className="bod-list-dot"/><span>Mavzu bo'yicha adabiyotlar ro'yxatini tuzadi</span></li>
-                <li><span className="bod-list-dot"/><span>Kurs ishi va referat yozishda yordam beradi</span></li>
+                <li><span className="bod-list-dot"/><span>Kitob va maqola topib, tavsiya etadi</span></li>
+                <li><span className="bod-list-dot"/><span>APA, IEEE, GOST formatida iqtibos tuzadi</span></li>
+                <li><span className="bod-list-dot"/><span>Mavzu bo'yicha adabiyotlar ro'yxatini tayyorlaydi</span></li>
+                <li><span className="bod-list-dot"/><span>Kurs ishi va dissertatsiya yozishda ko'maklashadi</span></li>
               </ul>
               <Link to={`/${locale}/elibrary/student`} className="bod-btn-primary">
-                AI Yordamchiga kirish
+                AI Yordamchiga o'tish
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══ NEWS ══ */}
+      {/* ══ YANGILIKLAR ══ */}
       <section className="bod-section bod-bg-light">
         <div className="bod-container">
           <div className="bod-section-head bod-section-head-row">
             <div>
               <div className="bod-section-label">Yangiliklar</div>
-              <h2 className="bod-section-title">So'nggi xabarlar</h2>
+              <h2 className="bod-section-title">Kutubxona hayotidan</h2>
             </div>
             <Link to={`/${locale}`} className="bod-see-all">Barcha yangiliklar →</Link>
           </div>
@@ -257,7 +276,7 @@ export function HomePage() {
                   <time className="bod-news-date">{n.date}</time>
                   <h3 className="bod-news-title">{n.title}</h3>
                   <p className="bod-news-desc">{n.desc}</p>
-                  <a href="#" className="bod-news-link">Batafsil o'qish →</a>
+                  <a href="#" className="bod-news-link">Batafsil →</a>
                 </div>
               </article>
             ))}
@@ -270,18 +289,21 @@ export function HomePage() {
         <div className="bod-container">
           <div className="bod-feature-row bod-feature-row-rev">
             <div className="bod-feature-img">
-              <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=800&q=80" alt="O'quv zali"/>
+              <img
+                src="https://images.unsplash.com/photo-1568667256549-094345857637?w=900&q=85&fit=crop"
+                alt="Zamonaviy o'quv zali"
+              />
               <div className="bod-feature-img-badge">
                 <strong>250+</strong>
-                <span>o'rindiq</span>
+                <span>o'quv o'rni</span>
               </div>
             </div>
             <div className="bod-feature-body">
-              <div className="bod-section-label">O'quv zali</div>
-              <h2 className="bod-feature-title">Qulay muhitda o'qing va ishlang</h2>
+              <div className="bod-section-label">O'quv muhiti</div>
+              <h2 className="bod-feature-title">Qulay va jim muhitda diqqatni jamlang</h2>
               <p className="bod-feature-desc">
-                ATMU o'quv zali 250+ o'rindiq, individual va guruhli kabinetlar, yuqori
-                tezlikli Wi-Fi va kompyuter stansiyalari bilan jihozlangan.
+                Keng o'quv zali, individual kabinetlar va guruh xonalari siz uchun doim ochiq.
+                Tezkor Wi-Fi, kompyuter stansiyalari va tinch muhit — samarali o'qish uchun hamma narsa.
               </p>
               <div className="bod-mini-stats">
                 <div className="bod-mini-stat"><strong>250+</strong><span>O'rindiq</span></div>
@@ -289,7 +311,7 @@ export function HomePage() {
                 <div className="bod-mini-stat"><strong>08–22</strong><span>Ish vaqti</span></div>
               </div>
               <Link to={`/${locale}/library/reading-room`} className="bod-btn-primary">
-                O'quv zalini bron qilish
+                O'rindiq bron qilish
               </Link>
             </div>
           </div>
@@ -299,13 +321,14 @@ export function HomePage() {
       {/* ══ CTA ══ */}
       <section className="bod-cta-section">
         <div className="bod-cta-inner">
-          <h2 className="bod-cta-title">Kutubxonadan to'liq foydalaning</h2>
+          <h2 className="bod-cta-title">Kutubxonaga a'zo bo'ling</h2>
           <p className="bod-cta-desc">
-            Barcha xizmatlardan foydalanish uchun ro'yxatdan o'ting yoki tizimga kiring
+            Ro'yxatdan o'ting va barcha xizmatlardan bepul foydalaning —
+            katalog, o'quv zali, AI yordamchi va ko'proq.
           </p>
           <div className="bod-cta-btns">
             <Link to={`/${locale}/register`} className="bod-btn-white">Ro'yxatdan o'tish</Link>
-            <Link to={`/${locale}/catalog`}  className="bod-btn-outline-white">Katalogga kirish</Link>
+            <Link to={`/${locale}/catalog`}  className="bod-btn-outline-white">Katalogni ko'rish</Link>
           </div>
         </div>
       </section>
