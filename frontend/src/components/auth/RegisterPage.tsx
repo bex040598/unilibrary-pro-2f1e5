@@ -108,7 +108,7 @@ export function RegisterPage() {
         faculty_id: Number(form.faculty_id),
         course: Number(form.course),
         semester: Number(form.semester),
-      }) as { sms_sent?: boolean; generated_password?: string | null } & { role: string };
+      }) as unknown as { sms_sent?: boolean; generated_password?: string | null; role: string };
 
       setSuccess({
         email: form.email,

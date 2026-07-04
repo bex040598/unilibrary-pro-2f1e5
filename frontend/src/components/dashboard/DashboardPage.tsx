@@ -484,9 +484,9 @@ export function DashboardPage() {
                 {loans.map((l, i) => (
                   <tr key={l.id}>
                     <td className="px-td-muted">{i + 1}</td>
-                    <td className="px-td-main">{(l as { book?: { title?: string } }).book?.title ?? `Kitob #${l.book_id}`}</td>
+                    <td className="px-td-main">{l.book_title ?? `Kitob #${l.id}`}</td>
                     <td className="px-td-muted">{new Date(l.issued_at).toLocaleDateString("uz-UZ")}</td>
-                    <td className="px-td-muted">{new Date(l.due_date).toLocaleDateString("uz-UZ")}</td>
+                    <td className="px-td-muted">{new Date(l.due_at).toLocaleDateString("uz-UZ")}</td>
                     <td><span className="px-pill" style={l.status === "overdue" ? { color: "#9b1a2f", background: "#fce8ea" } : { color: "#065f46", background: "#d1fae5" }}>{l.status === "overdue" ? "Muddati o'tdi" : "Faol"}</span></td>
                   </tr>
                 ))}
