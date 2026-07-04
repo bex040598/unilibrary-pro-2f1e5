@@ -27,44 +27,120 @@ function WaffleChart({ segments }: { segments: { value: number; color: string; l
   );
 }
 
-/** Area sparkline with gradient fill */
+/** Premium Area chart — bezier, Y-o'q, value labels, animatsiya */
 function AreaChart({ data, color = "#002147", h = 80, showLabels = false }: {
   data: { label: string; value: number }[];
   color?: string; h?: number; showLabels?: boolean;
 }) {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const PAD_L = 44, PAD_R = 12, PAD_T = 24, PAD_B = showLabels ? 28 : 8;
+  const W = 460, fullH = h + PAD_T + PAD_B;
+  const chartW = W - PAD_L - PAD_R;
+  const chartH = h;
+
   const max = Math.max(...data.map(d => d.value), 1);
-  const W = 400;
-  const pts = data.map((d, i) => ({
-    x: (i / (data.length - 1)) * W,
-    y: h - (d.value / max) * (h - 10),
-  }));
-  const pathD = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
-  const areaD = `${pathD} L ${W} ${h} L 0 ${h} Z`;
-  const gradId = `ag${color.replace("#", "")}`;
+  const yRound = Math.ceil(max / 50) * 50;
+  const yTicks = [0, 0.25, 0.5, 0.75, 1];
+
+  const px = (i: number) => PAD_L + (i / (data.length - 1)) * chartW;
+  const py = (v: number) => PAD_T + chartH - (v / yRound) * chartH;
+
+  // Smooth bezier path (Catmull-Rom-like control points)
+  const pts = data.map((d, i) => ({ x: px(i), y: py(d.value) }));
+  let bezierD = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) {
+    const cp1x = pts[i - 1].x + (pts[i].x - pts[i - 1].x) * 0.45;
+    const cp1y = pts[i - 1].y;
+    const cp2x = pts[i].x - (pts[i].x - pts[i - 1].x) * 0.45;
+    const cp2y = pts[i].y;
+    bezierD += ` C ${cp1x} ${cp1y}, ${cp2x} ${cp2y}, ${pts[i].x} ${pts[i].y}`;
+  }
+  const areaD = `${bezierD} L ${pts[pts.length - 1].x} ${PAD_T + chartH} L ${pts[0].x} ${PAD_T + chartH} Z`;
+  const gradId = `grad_${color.replace("#", "")}_${h}`;
+  const clipId = `clip_${color.replace("#", "")}_${h}`;
 
   return (
-    <svg width="100%" viewBox={`0 0 ${W} ${h + (showLabels ? 20 : 4)}`} preserveAspectRatio="none">
+    <svg width="100%" viewBox={`0 0 ${W} ${fullH}`} style={{ overflow: "visible" }}>
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.18" />
-          <stop offset="100%" stopColor={color} stopOpacity="0.01" />
+          <stop offset="0%"   stopColor={color} stopOpacity="0.22" />
+          <stop offset="55%"  stopColor={color} stopOpacity="0.06" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
+        <clipPath id={clipId}>
+          <rect x={PAD_L} y={PAD_T} width={chartW} height={chartH + 2} />
+        </clipPath>
       </defs>
-      {/* Horizontal grid */}
-      {[0.25, 0.5, 0.75].map((f, i) => (
-        <line key={i} x1={0} y1={h - f * (h - 10)} x2={W} y2={h - f * (h - 10)}
-          stroke="#f1f5f9" strokeWidth="1" strokeDasharray="4 4" />
-      ))}
-      <path d={areaD} fill={`url(#${gradId})`} />
-      <path d={pathD} fill="none" stroke={color} strokeWidth="2.5"
-        strokeLinecap="round" strokeLinejoin="round" />
-      {/* Dots on peaks */}
+
+      {/* Y-axis gridlines + labels */}
+      {yTicks.map((f, i) => {
+        const yy = PAD_T + chartH - f * chartH;
+        return (
+          <g key={i}>
+            <line x1={PAD_L} y1={yy} x2={PAD_L + chartW} y2={yy}
+              stroke={f === 0 ? "#e5e7eb" : "#f1f5f9"} strokeWidth={f === 0 ? 1.5 : 1}
+              strokeDasharray={f === 0 ? "0" : "3 5"} />
+            <text x={PAD_L - 6} y={yy + 4} textAnchor="end"
+              fontSize="9" fill="#c4c9d4" fontWeight="600">
+              {Math.round(f * yRound)}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Area fill */}
+      <path d={areaD} fill={`url(#${gradId})`} clipPath={`url(#${clipId})`} />
+
+      {/* Vertical drop lines on hover */}
+      {hovered !== null && (
+        <line x1={pts[hovered].x} y1={PAD_T} x2={pts[hovered].x} y2={PAD_T + chartH}
+          stroke={color} strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
+      )}
+
+      {/* Bezier line */}
+      <path d={bezierD} fill="none" stroke={color} strokeWidth="2.5"
+        strokeLinecap="round" strokeLinejoin="round" clipPath={`url(#${clipId})`} />
+
+      {/* Data points */}
       {pts.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="3.5" fill="#fff" stroke={color} strokeWidth="2" />
+        <g key={i} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
+          style={{ cursor: "default" }}>
+          {/* Hover target */}
+          <rect x={p.x - 16} y={PAD_T} width={32} height={chartH + PAD_B} fill="transparent" />
+
+          {/* Value label — always visible on peaks, hover on others */}
+          {(hovered === i || data[i].value === max) && (
+            <g>
+              <rect x={p.x - 18} y={p.y - 22} width={36} height={16} rx="4"
+                fill={color} opacity="0.92" />
+              <text x={p.x} y={p.y - 11} textAnchor="middle"
+                fontSize="9.5" fill="#fff" fontWeight="700">
+                {data[i].value}
+              </text>
+              {/* Arrow */}
+              <polygon points={`${p.x - 4},${p.y - 7} ${p.x + 4},${p.y - 7} ${p.x},${p.y - 3}`}
+                fill={color} opacity="0.92" />
+            </g>
+          )}
+
+          {/* Outer glow ring */}
+          {hovered === i && (
+            <circle cx={p.x} cy={p.y} r="9" fill={color} opacity="0.12" />
+          )}
+          {/* Dot */}
+          <circle cx={p.x} cy={p.y} r={hovered === i ? 5 : 3.5}
+            fill="#fff" stroke={color} strokeWidth="2.5" />
+        </g>
       ))}
+
+      {/* X-axis labels */}
       {showLabels && data.map((d, i) => (
-        <text key={i} x={pts[i].x} y={h + 16} textAnchor="middle"
-          fontSize="9" fill="#9ca3af" fontWeight="600">{d.label}</text>
+        <text key={i} x={pts[i].x} y={fullH - 4} textAnchor="middle"
+          fontSize="10" fill={hovered === i ? color : "#9ca3af"}
+          fontWeight={hovered === i ? "700" : "600"}>
+          {d.label}
+        </text>
       ))}
     </svg>
   );
