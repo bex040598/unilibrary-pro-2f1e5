@@ -11,6 +11,7 @@ from app.models import Librarian, Role, Student, Teacher, User, UserRole, UserSe
 from app.schemas.common import LoginRequest, RefreshRequest, RegisterRequest
 from app.services.audit import write_audit_log
 from app.services.serializers import serialize_user
+from app.services.sms import generate_password, send_credentials_sms
 
 router = APIRouter()
 
@@ -40,10 +41,12 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> dict:
     if existing:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already exists")
 
+    auto_password = payload.password or generate_password()
+
     user = User(
         full_name=payload.full_name,
         email=payload.email,
-        password_hash=hash_password(payload.password),
+        password_hash=hash_password(auto_password),
         role_name=payload.role,
         phone=payload.phone,
         faculty_id=payload.faculty_id,
@@ -68,7 +71,15 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> dict:
     db.commit()
     db.refresh(user)
     write_audit_log(db, "auth.register", f"Registered {payload.email}", user.id)
-    return build_auth_payload(db, user)
+
+    sms_sent = False
+    if payload.phone:
+        sms_sent = send_credentials_sms(payload.phone, payload.email, auto_password)
+
+    result = build_auth_payload(db, user)
+    result["sms_sent"] = sms_sent
+    result["generated_password"] = auto_password if not payload.password else None
+    return result
 
 
 @router.post("/auth/login")

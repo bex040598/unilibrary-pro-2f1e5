@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../lib/auth";
 import { AtmuLogo } from "../common/AtmuLogo";
 
-const STEPS = ["Rol tanlash", "Shaxsiy ma'lumotlar", "O'quv ma'lumotlari", "Parol o'rnatish"];
+const STEPS = ["Rol tanlash", "Shaxsiy ma'lumotlar", "O'quv ma'lumotlari"];
 
 const ROLES = [
   {
@@ -54,14 +54,23 @@ const ROLES = [
   },
 ];
 
+interface SuccessData {
+  email: string;
+  password: string | null;
+  sms_sent: boolean;
+  phone: string;
+  role: string;
+}
+
 export function RegisterPage() {
   const { locale = "uz" } = useParams();
   const navigate = useNavigate();
   const { register } = useAuth();
-  const [step, setStep]       = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState<string | null>(null);
-  const [showPwd, setShowPwd] = useState(false);
+  const [step, setStep]           = useState(0);
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState<string | null>(null);
+  const [success, setSuccess]     = useState<SuccessData | null>(null);
+  const [copied, setCopied]       = useState(false);
 
   const [form, setForm] = useState({
     role: "student",
@@ -74,7 +83,6 @@ export function RegisterPage() {
     semester: "1",
     student_id: "",
     teacher_title: "",
-    password: "",
     consent_face_id: false,
   });
 
@@ -83,9 +91,8 @@ export function RegisterPage() {
 
   const canNext = useMemo(() => {
     if (step === 0) return Boolean(form.role);
-    if (step === 1) return Boolean(form.full_name.trim() && form.email.trim());
+    if (step === 1) return Boolean(form.full_name.trim() && form.email.trim() && form.phone.trim());
     if (step === 2) return Boolean(form.department_id);
-    if (step === 3) return form.password.length >= 8;
     return true;
   }, [form, step]);
 
@@ -95,21 +102,121 @@ export function RegisterPage() {
     try {
       setLoading(true);
       setError(null);
-      const user = await register({
+      const result = await register({
         ...form,
         department_id: Number(form.department_id),
         faculty_id: Number(form.faculty_id),
         course: Number(form.course),
         semester: Number(form.semester),
+      }) as { sms_sent?: boolean; generated_password?: string | null } & { role: string };
+
+      setSuccess({
+        email: form.email,
+        password: (result as { generated_password?: string | null }).generated_password ?? null,
+        sms_sent: (result as { sms_sent?: boolean }).sms_sent ?? false,
+        phone: form.phone,
+        role: result.role,
       });
-      navigate(`/${locale}/dashboard/${user.role}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Ro'yxatdan o'tishda xatolik yuz berdi. Qaytadan urinib ko'ring.");
+      setError(err instanceof Error ? err.message : "Ro'yxatdan o'tishda xatolik yuz berdi.");
     } finally {
       setLoading(false);
     }
   }
 
+  function copyCredentials() {
+    if (!success) return;
+    const text = `Login: ${success.email}\nParol: ${success.password ?? "—"}`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  /* ── Muvaffaqiyat ekrani ── */
+  if (success) {
+    return (
+      <div className="auth-root auth-root-reg">
+        <div className="auth-left">
+          <div className="auth-left-inner">
+            <div className="auth-logo-wrap">
+              <AtmuLogo size={80} dark={true} />
+            </div>
+            <div className="auth-org">
+              <h2 className="auth-org-name">
+                Axborot Texnologiyalari<br/>va Menejment Universiteti
+              </h2>
+              <p className="auth-org-type">Nodavlat oliy ta'lim tashkiloti</p>
+            </div>
+            <div className="auth-divider"/>
+            <div className="auth-left-footer">
+              <p>© 2026 ATMU Smart UniLibrary</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="auth-right">
+          <div className="auth-form-wrap">
+            <div className="reg-success">
+              <div className="reg-success-icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              </div>
+              <h1 className="reg-success-title">Ro'yxatdan o'tildi!</h1>
+              <p className="reg-success-sub">
+                {success.sms_sent
+                  ? <>Kirish ma'lumotlari <strong>{success.phone}</strong> raqamiga SMS orqali yuborildi.</>
+                  : "Quyidagi ma'lumotlar bilan tizimga kiring. Ularni xavfsiz joyda saqlang."}
+              </p>
+
+              <div className="reg-cred-box">
+                <div className="reg-cred-label">Kirish ma'lumotlari</div>
+                <div className="reg-cred-row">
+                  <span className="reg-cred-key">Login</span>
+                  <span className="reg-cred-val">{success.email}</span>
+                </div>
+                {success.password && (
+                  <div className="reg-cred-row">
+                    <span className="reg-cred-key">Parol</span>
+                    <span className="reg-cred-val reg-cred-pwd">{success.password}</span>
+                  </div>
+                )}
+                {success.password && (
+                  <button type="button" className="reg-copy-btn" onClick={copyCredentials}>
+                    {copied
+                      ? <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg> Nusxalandi</>
+                      : <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Nusxa olish</>
+                    }
+                  </button>
+                )}
+              </div>
+
+              {success.sms_sent && (
+                <div className="reg-sms-note">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.37 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  </svg>
+                  SMS kelmasa, yuqoridagi ma'lumotlardan foydalaning
+                </div>
+              )}
+
+              <button
+                type="button"
+                className="auth-submit"
+                style={{ marginTop: 8 }}
+                onClick={() => navigate(`/${locale}/login`)}
+              >
+                Tizimga kirish →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Asosiy forma ── */
   return (
     <div className="auth-root auth-root-reg">
 
@@ -130,7 +237,6 @@ export function RegisterPage() {
 
           <div className="auth-divider"/>
 
-          {/* Qadam ko'rsatkichi */}
           <div className="auth-steps-list">
             {STEPS.map((s, i) => (
               <div key={s} className={`auth-step-item ${i === step ? "auth-step-active" : i < step ? "auth-step-done" : ""}`}>
@@ -167,7 +273,6 @@ export function RegisterPage() {
       <div className="auth-right">
         <div className="auth-form-wrap">
 
-          {/* Mobil logo */}
           <div className="auth-mobile-logo">
             <div className="auth-mobile-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -181,7 +286,6 @@ export function RegisterPage() {
             </div>
           </div>
 
-          {/* Qadam sarlavhasi */}
           <div className="auth-step-header">
             <div className="auth-step-progress">
               <div className="auth-step-bar" style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}/>
@@ -246,13 +350,16 @@ export function RegisterPage() {
                   </div>
                 </div>
                 <div className="auth-field">
-                  <label className="auth-label" htmlFor="phone">Telefon raqam</label>
+                  <label className="auth-label" htmlFor="phone">
+                    Telefon raqam
+                    <span className="auth-label-req"> — SMS parol yuboriladi</span>
+                  </label>
                   <div className="auth-input-wrap">
                     <svg className="auth-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.37 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                     </svg>
                     <input id="phone" className="auth-input" placeholder="+998 90 000 00 00"
-                      value={form.phone} onChange={e => upd("phone", e.target.value)}/>
+                      value={form.phone} onChange={e => upd("phone", e.target.value)} required/>
                   </div>
                 </div>
               </div>
@@ -293,7 +400,7 @@ export function RegisterPage() {
                     </select>
                   </div>
                 </div>
-                {(form.role === "student") && (
+                {form.role === "student" && (
                   <div className="auth-field-row">
                     <div className="auth-field">
                       <label className="auth-label">Kurs</label>
@@ -325,52 +432,21 @@ export function RegisterPage() {
                     </div>
                   </div>
                 )}
-              </div>
-            )}
 
-            {/* ─ 4: Parol ─ */}
-            {step === 3 && (
-              <div className="auth-fields">
-                <div className="auth-field">
-                  <label className="auth-label" htmlFor="reg-pwd">Parol</label>
-                  <div className="auth-input-wrap">
-                    <svg className="auth-input-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
-                    <input id="reg-pwd" type={showPwd ? "text" : "password"} className="auth-input"
-                      placeholder="Kamida 8 ta belgi"
-                      value={form.password} onChange={e => upd("password", e.target.value)} required/>
-                    <button type="button" className="auth-eye" onClick={() => setShowPwd(v => !v)} tabIndex={-1}>
-                      {showPwd
-                        ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                        : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                      }
-                    </button>
-                  </div>
-                  {form.password.length > 0 && (
-                    <div className="auth-pwd-strength">
-                      <div className="auth-pwd-bars">
-                        {[1,2,3,4].map(n => (
-                          <div key={n} className="auth-pwd-bar"
-                            style={{ background: form.password.length >= n * 2
-                              ? (form.password.length >= 8 ? "#0e9f6e" : "#d6a84f")
-                              : "#e5e7eb" }}
-                          />
-                        ))}
-                      </div>
-                      <span>{form.password.length < 4 ? "Juda qisqa" : form.password.length < 8 ? "O'rtacha" : "Yaxshi"}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Xulosa kartasi */}
+                {/* Xulosa */}
                 <div className="auth-summary">
                   <h4 className="auth-summary-title">Ro'yxatdan o'tish ma'lumotlari</h4>
                   <div className="auth-summary-rows">
                     <div className="auth-summary-row"><span>Rol</span><strong>{ROLES.find(r => r.id === form.role)?.label}</strong></div>
                     <div className="auth-summary-row"><span>Ism</span><strong>{form.full_name || "—"}</strong></div>
                     <div className="auth-summary-row"><span>Email</span><strong>{form.email || "—"}</strong></div>
-                    {form.student_id && <div className="auth-summary-row"><span>ID</span><strong>{form.student_id}</strong></div>}
+                    <div className="auth-summary-row"><span>Telefon</span><strong>{form.phone || "—"}</strong></div>
+                  </div>
+                  <div className="auth-sms-hint">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.37 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.54a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    Login va parol SMS orqali {form.phone || "telefon raqamingizga"} yuboriladi
                   </div>
                 </div>
               </div>
@@ -393,7 +469,7 @@ export function RegisterPage() {
               )}
               <button type="submit" className="auth-submit auth-submit-flex" disabled={!canNext || loading}>
                 {loading
-                  ? <><span className="auth-spinner"/>Yakunlanmoqda...</>
+                  ? <><span className="auth-spinner"/>Yaratilmoqda...</>
                   : step === STEPS.length - 1
                     ? "Ro'yxatdan o'tish"
                     : "Davom etish →"

@@ -9,7 +9,7 @@ interface AuthContextValue {
   refreshToken: string | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<User>;
-  register: (payload: Record<string, unknown>) => Promise<User>;
+  register: (payload: Record<string, unknown>) => Promise<AuthResponse & { sms_sent?: boolean; generated_password?: string | null }>;
   logout: () => void;
   refreshProfile: () => Promise<void>;
   setAuth: (response: AuthResponse) => void;
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAccessToken(response.access_token);
       setRefreshToken(response.refresh_token);
       setUser(response.user);
-      return response.user;
+      return response;
     },
     logout() {
       localStorage.removeItem(ACCESS_KEY);

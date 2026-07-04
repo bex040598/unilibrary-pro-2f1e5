@@ -5,7 +5,7 @@ class RegisterRequest(BaseModel):
     role: str = "student"
     full_name: str
     email: str
-    password: str
+    password: str | None = None
     phone: str | None = None
     faculty_id: int | None = None
     department_id: int | None = None
