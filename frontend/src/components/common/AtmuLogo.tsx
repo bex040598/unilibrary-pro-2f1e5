@@ -6,16 +6,11 @@ export function AtmuLogo({
 }) {
   return (
     <img
-      src="/atmu-logo.jpg"
+      src="/atmu-logo.png"
       alt="ATMU"
       width={size}
       height={size}
-      style={{
-        objectFit: "contain",
-        display: "block",
-        mixBlendMode: "screen",
-        filter: "brightness(1.15) contrast(1.05)",
-      }}
+      style={{ objectFit: "contain", display: "block" }}
     />
   );
 }
@@ -29,17 +24,11 @@ export function AtmuBrandMark({
 }) {
   return (
     <img
-      src="/atmu-logo.jpg"
+      src="/atmu-logo.png"
       alt="ATMU"
       width={size}
       height={size}
-      style={{
-        objectFit: "contain",
-        display: "block",
-        mixBlendMode: "screen",
-        filter: "brightness(1.15) contrast(1.05)",
-        flexShrink: 0,
-      }}
+      style={{ objectFit: "contain", display: "block", flexShrink: 0 }}
     />
   );
 }
