@@ -12,7 +12,7 @@ export function Footer({ locale }: { locale: Locale }) {
           {/* Brand column */}
           <div className="bod-footer-brand">
             <div className="bod-footer-logo">
-              <AtmuLogo size={72} />
+              <AtmuLogo size={72} dark={true} />
               <div>
                 <strong>ATMU</strong>
                 <span>Smart UniLibrary</span>

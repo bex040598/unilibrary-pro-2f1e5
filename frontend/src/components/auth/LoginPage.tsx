@@ -52,7 +52,7 @@ export function LoginPage() {
 
           {/* Logotip */}
           <div className="auth-logo-wrap">
-            <AtmuLogo size={96} />
+            <AtmuLogo size={96} dark={true} />
           </div>
 
           {/* Tashkilot nomi */}

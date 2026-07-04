@@ -118,7 +118,7 @@ export function RegisterPage() {
         <div className="auth-left-inner">
 
           <div className="auth-logo-wrap">
-            <AtmuLogo size={80} dark={false} />
+            <AtmuLogo size={80} dark={true} />
           </div>
 
           <div className="auth-org">
