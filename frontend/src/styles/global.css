@@ -5698,7 +5698,7 @@ td {
 .bod-navbar { background:#fff; border-bottom:3px solid var(--bod-blue); box-shadow:0 1px 6px rgba(0,0,0,.06); }
 .bod-navbar-inner { max-width:var(--bod-max); margin:0 auto; padding:0 32px; display:flex; align-items:center; gap:32px; height:64px; }
 .bod-brand { display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--bod-blue); flex-shrink:0; }
-.bod-brand-icon { width:44px; height:44px; background:var(--bod-blue); color:#fff; border-radius:6px; display:flex; align-items:center; justify-content:center; }
+.bod-brand-icon { width:44px; height:44px; display:flex; align-items:center; justify-content:center; }
 .bod-brand-text strong { display:block; font-size:15px; font-weight:800; color:var(--bod-blue); line-height:1.2; }
 .bod-brand-text span   { display:block; font-size:11px; color:var(--bod-gray600); font-weight:500; }
 .bod-nav { display:flex; align-items:center; gap:0; flex:1; }

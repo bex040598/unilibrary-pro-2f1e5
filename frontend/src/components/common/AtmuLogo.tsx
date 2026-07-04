@@ -10,7 +10,14 @@ export function AtmuLogo({
       alt="ATMU"
       width={size}
       height={size}
-      style={{ objectFit: "contain", display: "block" }}
+      style={{
+        objectFit: "contain",
+        display: "block",
+        borderRadius: "50%",
+        border: "none",
+        outline: "none",
+        background: "transparent",
+      }}
     />
   );
 }
@@ -28,7 +35,15 @@ export function AtmuBrandMark({
       alt="ATMU"
       width={size}
       height={size}
-      style={{ objectFit: "contain", display: "block", flexShrink: 0 }}
+      style={{
+        objectFit: "contain",
+        display: "block",
+        borderRadius: "50%",
+        border: "none",
+        outline: "none",
+        background: "transparent",
+        flexShrink: 0,
+      }}
     />
   );
 }
