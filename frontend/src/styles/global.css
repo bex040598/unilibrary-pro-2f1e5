@@ -6306,7 +6306,8 @@ td {
 /* Xatolik */
 .auth-error {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 12px 16px;
   background: #fff5f5;
@@ -6598,6 +6599,22 @@ td {
 .auth-pwd-bar-weak   { background: #dc3545; }
 .auth-pwd-bar-medium { background: #ffc107; }
 .auth-pwd-bar-strong { background: #198754; }
+
+/* Qayta urinish tugmasi */
+.auth-retry-btn {
+  margin-left: auto;
+  background: #c53030;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.auth-retry-btn:hover { background: #9b2c2c; }
 
 /* SMS hint & label note */
 .auth-label-req {

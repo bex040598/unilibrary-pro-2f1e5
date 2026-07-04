@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navigate, Outlet, Route, Routes, useParams } from "react-router-dom";
 import { AppShell } from "./components/layout/AppShell";
 import { HomePage } from "./components/home/HomePage";
@@ -26,6 +27,13 @@ function LocaleGuard() {
 }
 
 export default function App() {
+  useEffect(() => {
+    // Render.com free tier uxlaydi — app ochilganda backendni uyg'otamiz
+    if (typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+      fetch("https://atmu-unilibrary-api.onrender.com/docs", { method: "HEAD", mode: "no-cors" }).catch(() => {});
+    }
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/uz" replace />} />
