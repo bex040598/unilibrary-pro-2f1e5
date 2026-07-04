@@ -1,27 +1,21 @@
 import type { ApiEnvelope, AuthResponse, Book, Department, Faculty, Loan, ReadingRoom, Reservation, Resource, Seat, User, AIAnswer } from "../types";
 
 const runtimeConfig = (globalThis as {
-  __ATMU_RUNTIME_CONFIG__?: {
-    apiBaseUrl?: string;
-  };
+  __ATMU_RUNTIME_CONFIG__?: { apiBaseUrl?: string };
 }).__ATMU_RUNTIME_CONFIG__;
 
-const inferredRenderApiBaseUrl =
-  typeof window !== "undefined" && window.location.hostname.endsWith(".onrender.com")
-    ? "https://atmu-unilibrary-api.onrender.com"
-    : undefined;
+const BACKEND_URL = "https://atmu-unilibrary-api.onrender.com";
 
-const browserFallbackApiBaseUrl =
-  typeof window !== "undefined" && window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost"
-    ? `${window.location.origin}/api`
-    : undefined;
+function resolveApiBase(): string {
+  if (runtimeConfig?.apiBaseUrl) return runtimeConfig.apiBaseUrl;
+  if (import.meta.env.VITE_API_BASE_URL) return import.meta.env.VITE_API_BASE_URL;
+  if (typeof window === "undefined") return BACKEND_URL;
+  const { hostname } = window.location;
+  if (hostname === "localhost" || hostname === "127.0.0.1") return "http://127.0.0.1:8000";
+  return BACKEND_URL;
+}
 
-const API_BASE_URL =
-  runtimeConfig?.apiBaseUrl ??
-  import.meta.env.VITE_API_BASE_URL ??
-  inferredRenderApiBaseUrl ??
-  browserFallbackApiBaseUrl ??
-  "http://127.0.0.1:8000";
+const API_BASE_URL = resolveApiBase();
 
 async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   const headers = new Headers(options.headers ?? {});
@@ -35,30 +29,34 @@ async function request<T>(path: string, options: RequestInit = {}, token?: strin
     headers.set("Authorization", `Bearer ${token}`);
   }
 
+  let response: Response;
   try {
-    const response = await fetch(`${API_BASE_URL}${path}`, {
-      ...options,
-      headers
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || `HTTP ${response.status}`);
-    }
-
-    const contentType = response.headers.get("content-type") ?? "";
-    if (!contentType.includes("application/json")) {
-      const htmlPreview = (await response.text()).slice(0, 120);
-      throw new Error(`API JSON o'rniga boshqa javob qaytardi. Tekshiring: ${API_BASE_URL}. Preview: ${htmlPreview}`);
-    }
-
-    return (await response.json()) as T;
-  } catch (error) {
-    if (error instanceof TypeError) {
-      throw new Error(`Serverga ulanib bo'lmadi. API manzilini tekshiring: ${API_BASE_URL}`);
-    }
-    throw error;
+    response = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
+  } catch {
+    throw new Error(
+      "Server bilan bog'lanib bo'lmadi. Backend uyg'onmoqda bo'lishi mumkin — bir oz kuting va qaytadan urining."
+    );
   }
+
+  if (!response.ok) {
+    let detail = `HTTP ${response.status}`;
+    try {
+      const body = await response.json();
+      detail = body?.detail ?? body?.message ?? detail;
+    } catch {
+      detail = (await response.text().catch(() => detail)) || detail;
+    }
+    throw new Error(detail);
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    throw new Error(
+      "Server noto'g'ri javob qaytardi. Backend uyg'onmoqda bo'lishi mumkin — 30 soniya kuting va qaytadan urining."
+    );
+  }
+
+  return (await response.json()) as T;
 }
 
 export const api = {
