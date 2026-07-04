@@ -5,44 +5,114 @@ import { useAuth } from "../../lib/auth";
 import type { Loan, Reservation, Resource } from "../../types";
 import { resources as fallbackResources } from "../../data/mock";
 
-const ROLE_LABELS: Record<string, string> = {
-  teacher: "O'qituvchi", librarian: "Kutubxonachi",
-  department: "Kafedra mudiri", admin: "Administrator",
-};
+/* ── SVG Charts ─────────────────────────────────────────── */
 
-const POPULAR = [
-  { id: 1, title: "Ma'lumotlar bazasi: amaliy qo'llanma", author: "Aziza Yuldasheva", type: "Laboratoriya ishi", views: 47 },
-  { id: 2, title: "Kiberxavfsizlik asoslari", author: "Jasur Qodirov", type: "Darslik", views: 38 },
-  { id: 3, title: "Python dasturlash tili", author: "Nodir Ergashev", type: "O'quv qo'llanma", views: 32 },
-  { id: 4, title: "Mikroiqtisodiyot", author: "Nodira Mamatqulova", type: "Darslik", views: 28 },
-  { id: 5, title: "Axborot xavfsizligi", author: "Bekzod Rahimov", type: "Ma'ruza", views: 24 },
-];
-
-const RECENT_ACTIVITY = [
-  { id: 1, type: "loan", text: "Bobur Toshmatov — Ma'lumotlar bazasi olindi", time: "2 daq oldin", status: "active" },
-  { id: 2, type: "approve", text: "Kiberxavfsizlik darsligi tasdiqlandi", time: "18 daq oldin", status: "success" },
-  { id: 3, type: "room", text: "Zilola Rahimova o'quv zalini bron qildi (A-14, 14:00)", time: "35 daq oldin", status: "active" },
-  { id: 4, type: "upload", text: "Aziza Yuldasheva yangi resurs yukladi", time: "1 soat oldin", status: "active" },
-  { id: 5, type: "overdue", text: "Sherzod Mirzayev — qaytarish muddati o'tdi (2 kun)", time: "2 soat oldin", status: "danger" },
-  { id: 6, type: "loan", text: "Nilufar Hasanova — Python darsligi olindi", time: "3 soat oldin", status: "active" },
-];
-
-const STATUS_META: Record<string, { color: string; bg: string; label: string }> = {
-  active:  { color: "#002147", bg: "#e8edf5", label: "Faol" },
-  success: { color: "#065f46", bg: "#d1fae5", label: "Tasdiqlandi" },
-  danger:  { color: "#9b1a2f", bg: "#fce8ea", label: "Muddati o'tdi" },
-  pending: { color: "#92400e", bg: "#fef3c7", label: "Kutmoqda" },
-};
-
-function Svg({ d, size = 16, color = "currentColor" }: { d: string; size?: number; color?: string }) {
+function DonutChart({ segments, size = 120 }: {
+  segments: { value: number; color: string; label: string }[];
+  size?: number;
+}) {
+  const total = segments.reduce((s, x) => s + x.value, 0) || 1;
+  const r = 42, cx = 60, cy = 60, circ = 2 * Math.PI * r;
+  let offset = 0;
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2">
-      <path d={d} />
+    <svg width={size} height={size} viewBox="0 0 120 120">
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#f1f5f9" strokeWidth="14" />
+      {segments.map((seg, i) => {
+        const pct = seg.value / total;
+        const dash = pct * circ;
+        const gap = circ - dash;
+        const rotate = offset * 360 - 90;
+        offset += pct;
+        return (
+          <circle key={i} cx={cx} cy={cy} r={r} fill="none"
+            stroke={seg.color} strokeWidth="14"
+            strokeDasharray={`${dash} ${gap}`}
+            strokeDashoffset={0}
+            transform={`rotate(${rotate} ${cx} ${cy})`}
+            strokeLinecap="butt"
+          />
+        );
+      })}
+      <text x={cx} y={cy - 4} textAnchor="middle" fontSize="18" fontWeight="800" fill="#002147">
+        {total.toLocaleString()}
+      </text>
+      <text x={cx} y={cy + 12} textAnchor="middle" fontSize="9" fill="#9ca3af" fontWeight="600">
+        JAMI
+      </text>
     </svg>
   );
 }
 
-const ICONS = {
+function BarChart({ data, height = 120 }: {
+  data: { label: string; value: number; color?: string }[];
+  height?: number;
+}) {
+  const max = Math.max(...data.map(d => d.value), 1);
+  const w = 360, barW = Math.floor(w / data.length) - 6;
+  return (
+    <svg width="100%" viewBox={`0 0 ${w} ${height + 28}`} preserveAspectRatio="none">
+      {data.map((d, i) => {
+        const bh = Math.max((d.value / max) * height, 3);
+        const x = i * (w / data.length) + 3;
+        const y = height - bh;
+        return (
+          <g key={i}>
+            <rect x={x} y={0} width={barW} height={height} rx="4" fill="#f1f5f9" />
+            <rect x={x} y={y} width={barW} height={bh} rx="4"
+              fill={d.color ?? "#002147"} opacity=".85" />
+            <text x={x + barW / 2} y={height + 14} textAnchor="middle"
+              fontSize="9" fill="#9ca3af" fontWeight="600">
+              {d.label}
+            </text>
+            <text x={x + barW / 2} y={y - 4} textAnchor="middle"
+              fontSize="9" fill="#002147" fontWeight="700">
+              {d.value > 0 ? d.value : ""}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function Sparkline({ values, color = "#002147" }: { values: number[]; color?: string }) {
+  const max = Math.max(...values, 1);
+  const w = 64, h = 24, step = w / (values.length - 1);
+  const pts = values.map((v, i) => `${i * step},${h - (v / max) * h}`).join(" ");
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`}>
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.8"
+        strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/* ── Constants ────────────────────────────────────────── */
+
+const WEEKLY = [
+  { label: "Du", value: 182 }, { label: "Se", value: 248 }, { label: "Ch", value: 215 },
+  { label: "Pa", value: 271 }, { label: "Ju", value: 198 }, { label: "Sh", value: 89 },
+  { label: "Ya", value: 32 },
+];
+
+const POPULAR = [
+  { title: "Ma'lumotlar bazasi: amaliy qo'llanma", author: "Aziza Yuldasheva", type: "Lab ishi", views: 47, trend: [20, 28, 35, 47] },
+  { title: "Kiberxavfsizlik asoslari", author: "Jasur Qodirov", type: "Darslik", views: 38, trend: [30, 33, 36, 38] },
+  { title: "Python dasturlash tili", author: "Nodir Ergashev", type: "Qo'llanma", views: 32, trend: [15, 20, 28, 32] },
+  { title: "Mikroiqtisodiyot", author: "Nodira Mamatqulova", type: "Darslik", views: 28, trend: [22, 24, 26, 28] },
+  { title: "Axborot xavfsizligi", author: "Bekzod Rahimov", type: "Ma'ruza", views: 24, trend: [10, 16, 20, 24] },
+];
+
+const ACTIVITY = [
+  { type: "loan",    text: "Bobur Toshmatov — Ma'lumotlar bazasi olindi",          time: "2 daq",   ok: true },
+  { type: "check",   text: "Kiberxavfsizlik darsligi tasdiqlandi",                  time: "18 daq",  ok: true },
+  { type: "room",    text: "Zilola Rahimova o'quv zalini bron qildi (A-14, 14:00)", time: "35 daq",  ok: true },
+  { type: "upload",  text: "Aziza Yuldasheva yangi resurs yukladi",                 time: "1 soat",  ok: true },
+  { type: "warning", text: "Sherzod Mirzayev — qaytarish muddati o'tdi (2 kun)",   time: "2 soat",  ok: false },
+  { type: "loan",    text: "Nilufar Hasanova — Python darsligi olindi",             time: "3 soat",  ok: true },
+];
+
+const ICON_PATHS: Record<string, string> = {
   book:     "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z",
   calendar: "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
   users:    "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
@@ -50,14 +120,28 @@ const ICONS = {
   clock:    "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 6v6l4 2",
   warning:  "M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01",
   eye:      "M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
-  check:    "M9 11l3 3L22 4M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11",
+  check:    "M9 11l3 3L22 4",
   layers:   "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
-  shield:   "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
   bar:      "M18 20V10M12 20V4M6 20v-6",
-  home:     "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
-  settings: "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z",
+  shield:   "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
+  arrow:    "M5 12h14M12 5l7 7-7 7",
+  grid:     "M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z",
   list:     "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+  home:     "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
+  loan:     "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6",
+  room:     "M2 3h20v14H2zM8 21h8M12 17v4",
 };
+
+function Icon({ id, size = 16, color = "currentColor" }: { id: string; size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2"
+      strokeLinecap="round" strokeLinejoin="round">
+      <path d={ICON_PATHS[id] ?? ICON_PATHS.book} />
+    </svg>
+  );
+}
+
+/* ── Main component ───────────────────────────────────── */
 
 export function DashboardPage() {
   const { dashboardRole, locale = "uz" } = useParams();
@@ -69,7 +153,7 @@ export function DashboardPage() {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [resources, setResources]     = useState<Resource[]>(fallbackResources);
   const [report, setReport]           = useState<Record<string, number>>({});
-  const [activeTab, setActiveTab]     = useState("overview");
+  const [tab, setTab]                 = useState("overview");
 
   useEffect(() => {
     if (role === "student") { navigate(`/${locale}`); return; }
@@ -77,430 +161,400 @@ export function DashboardPage() {
     api.myLoans(accessToken).then(setLoans).catch(() => undefined);
     api.myReservations(accessToken).then(setReservations).catch(() => undefined);
     api.departmentResources(user?.department_id ?? undefined).then(setResources).catch(() => undefined);
-    api.reportsLibrary(accessToken).then((r) => setReport(r.data ?? r)).catch(() => undefined);
+    api.reportsLibrary(accessToken).then(r => setReport(r.data ?? r)).catch(() => undefined);
   }, [accessToken, user?.department_id, role, locale, navigate]);
 
-  const stats = useMemo(() => {
+  const approved  = resources.filter(r => r.status === "approved").length  || 18;
+  const pending   = resources.filter(r => r.status === "pending_review").length || 4;
+  const rejected  = resources.filter(r => r.status === "rejected").length  || 1;
+  const drafts    = resources.filter(r => r.status === "draft").length     || 2;
+
+  const kpis = useMemo(() => {
     if (role === "teacher") return [
-      { label: "Jami resurslar", value: resources.length || 12, sub: "Yuklangan materiallar", icon: "book", accent: false },
-      { label: "Ko'rib chiqilmoqda", value: resources.filter(r => r.status === "pending_review").length || 3, sub: "Tasdiqlash kutmoqda", icon: "clock", accent: false },
-      { label: "Tasdiqlangan", value: resources.filter(r => r.status === "approved").length || 8, sub: "Katalogda ko'rinadi", icon: "check", accent: false },
-      { label: "Jami ko'rishlar", value: 3_842, sub: "Barcha resurslar bo'yicha", icon: "eye", accent: false },
+      { label: "Jami resurslar",   value: resources.length || 12, icon: "book",    spark: [6,8,9,11,12],    up: true  },
+      { label: "Ko'rib chiqilmoqda", value: pending,              icon: "clock",   spark: [2,3,4,3,4],      up: false },
+      { label: "Tasdiqlangan",     value: approved,               icon: "check",   spark: [10,12,14,16,18], up: true  },
+      { label: "Jami ko'rishlar",  value: 3842,                   icon: "eye",     spark: [3000,3200,3500,3700,3842], up: true },
     ];
     if (role === "librarian") return [
-      { label: "Bugungi bronlar", value: (report.today_reservations ?? reservations.length) || 8, sub: "Tasdiqlash navbatida", icon: "calendar", accent: false },
-      { label: "Bugun qaytarish", value: report.due_today ?? 5, sub: "Muddati tugaydi", icon: "clock", accent: false },
-      { label: "Muddati o'tgan", value: report.overdue ?? 3, sub: "Jarima talab qilinadi", icon: "warning", accent: true },
-      { label: "Zal bandligi", value: `${(report.reading_room_occupancy ?? 61)}%`, sub: "Hozirda band", icon: "layers", accent: false },
+      { label: "Bugungi bronlar",  value: (report.today_reservations ?? reservations.length) || 8, icon: "calendar", spark: [5,7,6,9,8], up: true  },
+      { label: "Qaytarish",        value: report.due_today ?? 5,    icon: "clock",   spark: [3,5,4,6,5], up: false },
+      { label: "Muddati o'tgan",   value: report.overdue ?? 3,      icon: "warning", spark: [5,4,4,3,3], up: true  },
+      { label: "Zal bandligi",     value: `${(report.reading_room_occupancy ?? 61)}%`, icon: "room", spark: [50,55,58,62,61], up: true },
     ];
     if (role === "department") return [
-      { label: "Jami resurslar", value: resources.length || 24, sub: "Kafedra bo'yicha", icon: "book", accent: false },
-      { label: "Tasdiqlangan", value: resources.filter(r => r.status === "approved").length || 18, sub: "Katalogda mavjud", icon: "check", accent: false },
-      { label: "Kutmoqda", value: resources.filter(r => r.status === "pending_review").length || 4, sub: "Ko'rib chiqilmoqda", icon: "clock", accent: false },
-      { label: "Faol o'qituvchilar", value: 17, sub: "Resurs yuklovchilar", icon: "users", accent: false },
+      { label: "Jami resurslar",   value: resources.length || 24, icon: "book",  spark: [18,20,22,23,24], up: true  },
+      { label: "Tasdiqlangan",     value: approved,               icon: "check", spark: [12,14,15,17,18], up: true  },
+      { label: "Kutmoqda",         value: pending,                icon: "clock", spark: [3,4,5,4,4],      up: false },
+      { label: "O'qituvchilar",    value: 17,                     icon: "users", spark: [14,15,16,16,17], up: true  },
     ];
-    // admin
     return [
-      { label: "Foydalanuvchilar", value: report.users ?? 2_840, sub: "Ro'yxatdan o'tganlar", icon: "users", accent: false },
-      { label: "Fondlar", value: report.books ?? 139_486, sub: "Katalogdagi resurslar", icon: "book", accent: false },
-      { label: "Bugungi kirishlar", value: report.today_logins ?? 248, sub: "Faol sessiyalar", icon: "bar", accent: false },
-      { label: "Muddati o'tgan", value: report.overdue ?? 3, sub: "Jarima talab qilinadi", icon: "warning", accent: true },
+      { label: "Foydalanuvchilar", value: report.users ?? 2840,        icon: "users", spark: [2600,2700,2750,2800,2840], up: true },
+      { label: "Resurslar",        value: report.books ?? 139486,       icon: "book",  spark: [130000,133000,136000,138000,139486], up: true },
+      { label: "Bugungi kirishlar",value: report.today_logins ?? 248,   icon: "bar",   spark: [180,220,195,260,248], up: true },
+      { label: "Muddati o'tgan",   value: report.overdue ?? 3,          icon: "warning",spark:[5,4,4,3,3], up: true },
     ];
-  }, [loans, reservations, report, resources, role]);
+  }, [resources, report, reservations, role, approved, pending]);
 
   const tabs = useMemo(() => {
-    const base = [{ id: "overview", label: "Umumiy ko'rinish" }];
-    if (role === "librarian") base.push({ id: "loans", label: "Ijaralar" }, { id: "reservations", label: "Bronlar" });
-    if (role === "teacher" || role === "department") base.push({ id: "resources", label: "Resurslar" });
-    if (role === "admin") base.push({ id: "users", label: "Foydalanuvchilar" }, { id: "security", label: "Xavfsizlik" });
-    return base;
+    const t = [{ id: "overview", label: "Umumiy" }];
+    if (role === "teacher" || role === "department") t.push({ id: "resources", label: "Resurslar" });
+    if (role === "librarian") t.push({ id: "loans", label: "Ijaralar" }, { id: "reservations", label: "Bronlar" });
+    if (role === "admin") t.push({ id: "analytics", label: "Tahlil" }, { id: "users", label: "Foydalanuvchilar" });
+    return t;
   }, [role]);
 
-  const today = new Date().toLocaleDateString("uz-UZ", { day: "numeric", month: "long", year: "numeric" });
+  const ROLE_META: Record<string, { label: string; color: string; desc: string }> = {
+    teacher:   { label: "O'qituvchi",    color: "#002147", desc: "Resurslar, ko'rishlar va talaba faolligi" },
+    librarian: { label: "Kutubxonachi",  color: "#002147", desc: "Bronlar, ijaralar va zal boshqaruvi" },
+    department:{ label: "Kafedra",       color: "#002147", desc: "Kafedra resurslari va o'qituvchilar" },
+    admin:     { label: "Administrator", color: "#002147", desc: "Tizim nazorati, foydalanuvchilar va xavfsizlik" },
+  };
+  const meta = ROLE_META[role] ?? ROLE_META.admin;
 
   return (
-    <div className="dsh-root">
+    <div className="px-root">
 
-      {/* ── Top bar ── */}
-      <div className="dsh-topbar">
-        <div className="dsh-topbar-inner">
-          <div className="dsh-topbar-left">
-            <div className="dsh-breadcrumb">
-              <Svg d={ICONS.home} size={14} />
-              <span>Boshqaruv paneli</span>
-              <span className="dsh-breadcrumb-sep">/</span>
-              <span className="dsh-breadcrumb-active">{ROLE_LABELS[role] ?? role}</span>
-            </div>
-            <h1 className="dsh-page-title">{ROLE_LABELS[role] ?? role} paneli</h1>
-            <p className="dsh-page-date">{today}</p>
+      {/* ── Identity header ── */}
+      <div className="px-header">
+        <div className="px-header-inner">
+          <div className="px-header-left">
+            <div className="px-role-pill">{meta.label}</div>
+            <h1 className="px-title">Boshqaruv paneli</h1>
+            <p className="px-subtitle">{meta.desc}</p>
           </div>
-          <div className="dsh-topbar-right">
+          <div className="px-header-actions">
             {(role === "teacher" || role === "department") && (
-              <Link to={`/${locale}/resources/upload`} className="dsh-btn-primary">
-                <Svg d={ICONS.upload} size={14} />
-                Resurs yuklash
+              <Link to={`/${locale}/resources/upload`} className="px-btn-primary">
+                <Icon id="upload" size={13} /> Resurs yuklash
               </Link>
             )}
             {role === "admin" && (
-              <Link to={`/${locale}/admin`} className="dsh-btn-primary">
-                <Svg d={ICONS.shield} size={14} />
-                Admin panel
+              <Link to={`/${locale}/admin`} className="px-btn-accent">
+                <Icon id="shield" size={13} /> Admin panel
               </Link>
             )}
-            <Link to={`/${locale}/elibrary/${role}`} className="dsh-btn-outline">
-              E-Library profil
+            <Link to={`/${locale}/elibrary/${role}`} className="px-btn-ghost">
+              E-Library profil →
             </Link>
           </div>
         </div>
       </div>
 
-      {/* ── Stats strip ── */}
-      <div className="dsh-stats-row">
-        {stats.map(s => (
-          <div key={s.label} className={`dsh-stat ${s.accent ? "dsh-stat-accent" : ""}`}>
-            <div className="dsh-stat-icon">
-              <Svg d={ICONS[s.icon as keyof typeof ICONS] ?? ICONS.book} size={18} />
+      {/* ── KPI strip ── */}
+      <div className="px-kpi-strip">
+        {kpis.map((k, i) => (
+          <div key={i} className={`px-kpi ${!k.up && i === 2 ? "px-kpi-warn" : ""}`}>
+            <div className="px-kpi-top">
+              <div className="px-kpi-icon"><Icon id={k.icon} size={15} /></div>
+              <Sparkline values={k.spark as number[]} color={!k.up && i === 2 ? "#9b1a2f" : "#002147"} />
             </div>
-            <div className="dsh-stat-body">
-              <div className="dsh-stat-value">{typeof s.value === "number" ? s.value.toLocaleString() : s.value}</div>
-              <div className="dsh-stat-label">{s.label}</div>
-              <div className="dsh-stat-sub">{s.sub}</div>
+            <div className="px-kpi-val">
+              {typeof k.value === "number" ? k.value.toLocaleString() : k.value}
+            </div>
+            <div className="px-kpi-label">{k.label}</div>
+            <div className={`px-kpi-trend ${k.up ? "px-trend-up" : "px-trend-dn"}`}>
+              {k.up ? "▲" : "▼"} {k.up ? "+6%" : "-2%"} so'nggi 30 kun
             </div>
           </div>
         ))}
       </div>
 
       {/* ── Tabs ── */}
-      <div className="dsh-tabs-bar">
-        {tabs.map(t => (
-          <button
-            key={t.id}
-            type="button"
-            className={`dsh-tab ${activeTab === t.id ? "dsh-tab-active" : ""}`}
-            onClick={() => setActiveTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="px-tabs">
+        <div className="px-tabs-inner">
+          {tabs.map(t => (
+            <button key={t.id} type="button"
+              className={`px-tab ${tab === t.id ? "px-tab-on" : ""}`}
+              onClick={() => setTab(t.id)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* ── Content ── */}
-      <div className="dsh-content">
+      {/* ── Overview ── */}
+      {tab === "overview" && (
+        <div className="px-body">
 
-        {/* Overview tab */}
-        {activeTab === "overview" && (
-          <div className="dsh-grid">
+          {/* Row 1: Wide activity + Donut */}
+          <div className="px-row">
 
-            {/* Activity feed */}
-            <div className="dsh-panel dsh-panel-wide">
-              <div className="dsh-panel-head">
+            {/* Activity timeline */}
+            <div className="px-card px-card-grow">
+              <div className="px-card-head">
                 <h3>So'nggi faoliyat</h3>
-                <span className="dsh-panel-badge">Jonli</span>
+                <span className="px-live-dot" />
               </div>
-              <table className="dsh-table">
+              <div className="px-timeline">
+                {ACTIVITY.map((a, i) => (
+                  <div key={i} className="px-tl-item">
+                    <div className={`px-tl-dot ${a.ok ? "" : "px-tl-dot-warn"}`}>
+                      <Icon id={a.type === "warning" ? "warning" : a.type === "check" ? "check" : a.type === "upload" ? "upload" : a.type === "room" ? "room" : "loan"} size={10} color={a.ok ? "#002147" : "#9b1a2f"} />
+                    </div>
+                    <div className="px-tl-line" />
+                    <div className="px-tl-body">
+                      <p className="px-tl-text">{a.text}</p>
+                      <span className="px-tl-time">{a.time} oldin</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Donut: resource status */}
+            <div className="px-card px-card-narrow">
+              <div className="px-card-head"><h3>Resurs holati</h3></div>
+              <div className="px-donut-wrap">
+                <DonutChart segments={[
+                  { value: approved, color: "#002147", label: "Tasdiqlangan" },
+                  { value: pending,  color: "#f59e0b", label: "Kutmoqda" },
+                  { value: rejected, color: "#9b1a2f", label: "Rad etilgan" },
+                  { value: drafts,   color: "#d1d5db", label: "Qoralama" },
+                ]} size={140} />
+              </div>
+              <div className="px-legend">
+                {[
+                  { label: "Tasdiqlangan", value: approved, color: "#002147" },
+                  { label: "Kutmoqda",     value: pending,  color: "#f59e0b" },
+                  { label: "Rad etilgan",  value: rejected, color: "#9b1a2f" },
+                  { label: "Qoralama",     value: drafts,   color: "#d1d5db" },
+                ].map(l => (
+                  <div key={l.label} className="px-legend-row">
+                    <span className="px-legend-dot" style={{ background: l.color }} />
+                    <span className="px-legend-label">{l.label}</span>
+                    <span className="px-legend-val">{l.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Row 2: Popular + Quick actions */}
+          <div className="px-row">
+
+            {/* Popular resources ranking */}
+            <div className="px-card px-card-grow">
+              <div className="px-card-head">
+                <h3>Eng ko'p foydalanilgan resurslar</h3>
+                <Link to={`/${locale}/catalog`} className="px-link">Katalog →</Link>
+              </div>
+              <table className="px-table">
                 <thead>
                   <tr>
-                    <th>Voqea</th>
-                    <th>Holat</th>
-                    <th>Vaqt</th>
+                    <th style={{ width: 28 }}>#</th>
+                    <th>Resurs</th>
+                    <th style={{ width: 64 }}>Trend</th>
+                    <th style={{ width: 48, textAlign: "right" }}>Ko'rish</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {RECENT_ACTIVITY.map(a => {
-                    const meta = STATUS_META[a.status] ?? STATUS_META.active;
-                    return (
-                      <tr key={a.id}>
-                        <td className="dsh-td-main">{a.text}</td>
-                        <td>
-                          <span className="dsh-pill" style={{ color: meta.color, background: meta.bg }}>
-                            {meta.label}
-                          </span>
-                        </td>
-                        <td className="dsh-td-muted">{a.time}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Popular resources */}
-            <div className="dsh-panel">
-              <div className="dsh-panel-head">
-                <h3>Eng ko'p foydalanilgan</h3>
-                <Link to={`/${locale}/catalog`} className="dsh-panel-link">Barchasi →</Link>
-              </div>
-              <div className="dsh-rank-list">
-                {POPULAR.map((b, i) => (
-                  <div key={b.id} className="dsh-rank-item">
-                    <span className="dsh-rank-num">{i + 1}</span>
-                    <div className="dsh-rank-info">
-                      <strong>{b.title}</strong>
-                      <span>{b.author} · {b.type}</span>
-                    </div>
-                    <div className="dsh-rank-bar-wrap">
-                      <div className="dsh-rank-bar" style={{ width: `${Math.round(b.views / POPULAR[0].views * 100)}%` }} />
-                      <span className="dsh-rank-count">{b.views}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Resource status */}
-            <div className="dsh-panel">
-              <div className="dsh-panel-head">
-                <h3>Resurs holati</h3>
-                <Link to={`/${locale}/resources/upload`} className="dsh-panel-link">Ko'rish →</Link>
-              </div>
-              <div className="dsh-status-list">
-                {[
-                  { label: "Tasdiqlangan", count: resources.filter(r => r.status === "approved").length || 18, color: "#065f46", bg: "#d1fae5", total: 25 },
-                  { label: "Ko'rib chiqilmoqda", count: resources.filter(r => r.status === "pending_review").length || 4, color: "#92400e", bg: "#fef3c7", total: 25 },
-                  { label: "Rad etilgan", count: resources.filter(r => r.status === "rejected").length || 1, color: "#9b1a2f", bg: "#fce8ea", total: 25 },
-                  { label: "Qoralama", count: resources.filter(r => r.status === "draft").length || 2, color: "#374151", bg: "#f3f4f6", total: 25 },
-                ].map(s => (
-                  <div key={s.label} className="dsh-status-row">
-                    <div className="dsh-status-meta">
-                      <span className="dsh-pill" style={{ color: s.color, background: s.bg }}>{s.label}</span>
-                      <span className="dsh-status-count">{s.count}</span>
-                    </div>
-                    <div className="dsh-progress-track">
-                      <div className="dsh-progress-fill" style={{ width: `${Math.min((s.count / s.total) * 100, 100)}%`, background: s.color }} />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Quick actions */}
-            <div className="dsh-panel">
-              <div className="dsh-panel-head">
-                <h3>Tezkor amallar</h3>
-              </div>
-              <div className="dsh-quick-list">
-                {[
-                  { label: "Elektron katalog", to: `/${locale}/catalog`, icon: ICONS.book },
-                  { label: "Bronlar ro'yxati", to: `/${locale}/reservations`, icon: ICONS.calendar },
-                  { label: "Ijaralar", to: `/${locale}/loans`, icon: ICONS.list },
-                  { label: "O'quv zali", to: `/${locale}/library/reading-room`, icon: ICONS.layers },
-                  { label: "E-Library", to: `/${locale}/elibrary/${role}`, icon: ICONS.eye },
-                  ...(role !== "librarian" ? [{ label: "Resurs yuklash", to: `/${locale}/resources/upload`, icon: ICONS.upload }] : []),
-                  ...(role === "admin" ? [{ label: "Admin panel", to: `/${locale}/admin`, icon: ICONS.shield }] : []),
-                ].map(q => (
-                  <Link key={q.to} to={q.to} className="dsh-quick-item">
-                    <div className="dsh-quick-icon">
-                      <Svg d={q.icon} size={16} />
-                    </div>
-                    <span>{q.label}</span>
-                    <Svg d="M9 18l6-6-6-6" size={14} color="#aaa" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* Resources tab */}
-        {activeTab === "resources" && (
-          <div className="dsh-panel dsh-panel-full">
-            <div className="dsh-panel-head">
-              <h3>Resurslar ro'yxati</h3>
-              <Link to={`/${locale}/resources/upload`} className="dsh-btn-primary dsh-btn-sm">
-                <Svg d={ICONS.upload} size={13} /> Yangi yuklash
-              </Link>
-            </div>
-            <table className="dsh-table dsh-table-hover">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Sarlavha</th>
-                  <th>Fan</th>
-                  <th>Tur</th>
-                  <th>Holat</th>
-                </tr>
-              </thead>
-              <tbody>
-                {resources.slice(0, 20).map((r, i) => {
-                  const st = r.status === "approved" ? STATUS_META.success
-                    : r.status === "pending_review" ? STATUS_META.pending
-                    : r.status === "rejected" ? STATUS_META.danger
-                    : STATUS_META.active;
-                  return (
-                    <tr key={r.id}>
-                      <td className="dsh-td-muted">{i + 1}</td>
-                      <td className="dsh-td-main">{r.title}</td>
-                      <td className="dsh-td-muted">{r.subject_name ?? "—"}</td>
-                      <td className="dsh-td-muted">{r.material_type ?? "—"}</td>
-                      <td><span className="dsh-pill" style={{ color: st.color, background: st.bg }}>{st.label}</span></td>
-                    </tr>
-                  );
-                })}
-                {resources.length === 0 && (
-                  <tr><td colSpan={5} className="dsh-table-empty">Resurslar topilmadi</td></tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Loans tab */}
-        {activeTab === "loans" && (
-          <div className="dsh-panel dsh-panel-full">
-            <div className="dsh-panel-head">
-              <h3>Faol ijaralar</h3>
-              <span className="dsh-panel-badge">{loans.length} ta</span>
-            </div>
-            <table className="dsh-table dsh-table-hover">
-              <thead>
-                <tr><th>#</th><th>Kitob</th><th>Foydalanuvchi</th><th>Berilgan</th><th>Qaytarish</th><th>Holat</th></tr>
-              </thead>
-              <tbody>
-                {loans.slice(0, 20).map((l, i) => (
-                  <tr key={l.id}>
-                    <td className="dsh-td-muted">{i + 1}</td>
-                    <td className="dsh-td-main">{(l as { book?: { title?: string } }).book?.title ?? `Kitob #${l.book_id}`}</td>
-                    <td className="dsh-td-muted">Foydalanuvchi</td>
-                    <td className="dsh-td-muted">{new Date(l.issued_at).toLocaleDateString("uz-UZ")}</td>
-                    <td className="dsh-td-muted">{new Date(l.due_date).toLocaleDateString("uz-UZ")}</td>
-                    <td><span className="dsh-pill" style={l.status === "overdue" ? { color: "#9b1a2f", background: "#fce8ea" } : { color: "#065f46", background: "#d1fae5" }}>{l.status === "overdue" ? "Muddati o'tdi" : "Faol"}</span></td>
-                  </tr>
-                ))}
-                {loans.length === 0 && <tr><td colSpan={6} className="dsh-table-empty">Ijaralar topilmadi</td></tr>}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Reservations tab */}
-        {activeTab === "reservations" && (
-          <div className="dsh-panel dsh-panel-full">
-            <div className="dsh-panel-head">
-              <h3>Bronlar</h3>
-              <span className="dsh-panel-badge">{reservations.length} ta</span>
-            </div>
-            <table className="dsh-table dsh-table-hover">
-              <thead>
-                <tr><th>#</th><th>Kitob</th><th>Olinish sanasi</th><th>Holat</th></tr>
-              </thead>
-              <tbody>
-                {reservations.slice(0, 20).map((r, i) => (
-                  <tr key={r.id}>
-                    <td className="dsh-td-muted">{i + 1}</td>
-                    <td className="dsh-td-main">{(r as { book?: { title?: string } }).book?.title ?? `Kitob #${r.book_id}`}</td>
-                    <td className="dsh-td-muted">{r.pickup_date}</td>
-                    <td><span className="dsh-pill" style={{ color: "#92400e", background: "#fef3c7" }}>Kutmoqda</span></td>
-                  </tr>
-                ))}
-                {reservations.length === 0 && <tr><td colSpan={4} className="dsh-table-empty">Bronlar topilmadi</td></tr>}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Users tab (admin) */}
-        {activeTab === "users" && (
-          <div className="dsh-panel dsh-panel-full">
-            <div className="dsh-panel-head">
-              <h3>Foydalanuvchilar statistikasi</h3>
-            </div>
-            <div className="dsh-user-stat-grid">
-              {[
-                { label: "Talabalar", value: report.students ?? 1_840, icon: ICONS.users, color: "#002147" },
-                { label: "O'qituvchilar", value: report.teachers ?? 420, icon: ICONS.users, color: "#002147" },
-                { label: "Kutubxonachilar", value: report.librarians ?? 12, icon: ICONS.book, color: "#002147" },
-                { label: "Kafedralar", value: report.departments ?? 24, icon: ICONS.layers, color: "#002147" },
-              ].map(s => (
-                <div key={s.label} className="dsh-user-stat">
-                  <Svg d={s.icon} size={22} color={s.color} />
-                  <div className="dsh-user-stat-val">{s.value.toLocaleString()}</div>
-                  <div className="dsh-user-stat-label">{s.label}</div>
-                </div>
-              ))}
-            </div>
-            <div className="dsh-panel-head" style={{ marginTop: 24 }}>
-              <h3>Kunlik kirishlar (so'nggi 7 kun)</h3>
-            </div>
-            <div className="dsh-bar-chart">
-              {[
-                { day: "Du", logins: 182 },
-                { day: "Se", logins: 248 },
-                { day: "Ch", logins: 215 },
-                { day: "Pa", logins: 271 },
-                { day: "Ju", logins: 198 },
-                { day: "Sh", logins: 89 },
-                { day: "Ya", logins: 32 },
-              ].map(d => (
-                <div key={d.day} className="dsh-bar-col">
-                  <div className="dsh-bar-fill" style={{ height: `${Math.round(d.logins / 271 * 100)}%` }} />
-                  <span className="dsh-bar-val">{d.logins}</span>
-                  <span className="dsh-bar-day">{d.day}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Security tab (admin) */}
-        {activeTab === "security" && (
-          <div className="dsh-grid">
-            <div className="dsh-panel dsh-panel-wide">
-              <div className="dsh-panel-head">
-                <h3>Xavfsizlik hodisalari</h3>
-                <span className="dsh-panel-badge dsh-badge-ok">Xavfsiz</span>
-              </div>
-              <table className="dsh-table">
-                <thead>
-                  <tr><th>Hodisa</th><th>IP manzil</th><th>Foydalanuvchi</th><th>Vaqt</th><th>Holat</th></tr>
-                </thead>
-                <tbody>
-                  {[
-                    { event: "Muvaffaqiyatli kirish", ip: "192.168.1.105", user: "admin@atmu.uz", time: "5 daq oldin", ok: true },
-                    { event: "Noto'g'ri parol", ip: "91.203.42.18", user: "nomaʼlum", time: "12 daq oldin", ok: false },
-                    { event: "Muvaffaqiyatli kirish", ip: "10.0.0.24", user: "norboyev@atmu.uz", time: "28 daq oldin", ok: true },
-                    { event: "Noto'g'ri parol", ip: "91.203.42.18", user: "nomaʼlum", time: "31 daq oldin", ok: false },
-                    { event: "Muvaffaqiyatli kirish", ip: "10.0.0.55", user: "rashidov@atmu.uz", time: "45 daq oldin", ok: true },
-                  ].map((row, i) => (
+                  {POPULAR.map((b, i) => (
                     <tr key={i}>
-                      <td className="dsh-td-main">{row.event}</td>
-                      <td><code className="dsh-code">{row.ip}</code></td>
-                      <td className="dsh-td-muted">{row.user}</td>
-                      <td className="dsh-td-muted">{row.time}</td>
                       <td>
-                        <span className="dsh-pill" style={row.ok ? { color: "#065f46", background: "#d1fae5" } : { color: "#9b1a2f", background: "#fce8ea" }}>
-                          {row.ok ? "OK" : "Bloklandi"}
-                        </span>
+                        <span className="px-rank-num">{i + 1}</span>
+                      </td>
+                      <td>
+                        <div className="px-res-title">{b.title}</div>
+                        <div className="px-res-meta">{b.author} · {b.type}</div>
+                      </td>
+                      <td><Sparkline values={b.trend} /></td>
+                      <td style={{ textAlign: "right" }}>
+                        <strong style={{ color: "#002147" }}>{b.views}</strong>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <div className="dsh-panel">
-              <div className="dsh-panel-head"><h3>Tizim holati</h3></div>
-              <div className="dsh-sys-list">
+
+            {/* Quick actions */}
+            <div className="px-card px-card-narrow">
+              <div className="px-card-head"><h3>Tezkor amallar</h3></div>
+              <div className="px-actions">
                 {[
-                  { label: "API server", ok: true },
-                  { label: "Maʼlumotlar bazasi", ok: true },
-                  { label: "SMS xizmati", ok: false },
-                  { label: "AI (RAG)", ok: true },
-                  { label: "Fayl saqlash", ok: true },
-                ].map(s => (
-                  <div key={s.label} className="dsh-sys-row">
-                    <div className={`dsh-sys-dot ${s.ok ? "dsh-sys-dot-ok" : "dsh-sys-dot-warn"}`} />
-                    <span>{s.label}</span>
-                    <span className="dsh-sys-status" style={{ color: s.ok ? "#065f46" : "#92400e" }}>
-                      {s.ok ? "Ishlayapti" : "Sozlanmagan"}
-                    </span>
+                  { label: "Elektron katalog",  to: `/${locale}/catalog`,               icon: "book" },
+                  { label: "Bronlar",            to: `/${locale}/reservations`,           icon: "calendar" },
+                  { label: "Ijaralar",           to: `/${locale}/loans`,                 icon: "list" },
+                  { label: "O'quv zali",         to: `/${locale}/library/reading-room`,  icon: "room" },
+                  { label: "E-Library",          to: `/${locale}/elibrary/${role}`,      icon: "layers" },
+                  ...(role !== "librarian" ? [{ label: "Resurs yuklash", to: `/${locale}/resources/upload`, icon: "upload" }] : []),
+                  ...(role === "admin" ? [{ label: "Admin panel", to: `/${locale}/admin`, icon: "shield" }] : []),
+                ].map(q => (
+                  <Link key={q.to} to={q.to} className="px-action-row">
+                    <div className="px-action-icon"><Icon id={q.icon} size={15} /></div>
+                    <span>{q.label}</span>
+                    <Icon id="arrow" size={13} color="#c4c9d4" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* ── Analytics tab (admin) ── */}
+      {tab === "analytics" && (
+        <div className="px-body">
+          <div className="px-row">
+            <div className="px-card px-card-grow">
+              <div className="px-card-head"><h3>Haftalik faollik — kirish statistikasi</h3></div>
+              <div className="px-chart-wrap">
+                <BarChart data={WEEKLY} height={140} />
+              </div>
+              <div className="px-chart-meta">
+                <span>Jami: <strong>{WEEKLY.reduce((a, b) => a + b.value, 0).toLocaleString()}</strong></span>
+                <span>O'rtacha: <strong>{Math.round(WEEKLY.reduce((a, b) => a + b.value, 0) / 7)}/kun</strong></span>
+                <span>Eng yuqori: <strong>{Math.max(...WEEKLY.map(d => d.value))} (Payshanba)</strong></span>
+              </div>
+            </div>
+            <div className="px-card px-card-narrow">
+              <div className="px-card-head"><h3>Foydalanuvchilar taqsimoti</h3></div>
+              <div className="px-donut-wrap">
+                <DonutChart segments={[
+                  { value: report.students    ?? 1840, color: "#002147", label: "Talaba" },
+                  { value: report.teachers    ?? 420,  color: "#3b82f6", label: "O'qituvchi" },
+                  { value: report.librarians  ?? 12,   color: "#f59e0b", label: "Kutubxonachi" },
+                  { value: report.departments ?? 24,   color: "#10b981", label: "Kafedra" },
+                ]} size={140} />
+              </div>
+              <div className="px-legend">
+                {[
+                  { label: "Talabalar",       value: report.students    ?? 1840, color: "#002147" },
+                  { label: "O'qituvchilar",   value: report.teachers    ?? 420,  color: "#3b82f6" },
+                  { label: "Kutubxonachilar", value: report.librarians  ?? 12,   color: "#f59e0b" },
+                  { label: "Kafedra",         value: report.departments ?? 24,   color: "#10b981" },
+                ].map(l => (
+                  <div key={l.label} className="px-legend-row">
+                    <span className="px-legend-dot" style={{ background: l.color }} />
+                    <span className="px-legend-label">{l.label}</span>
+                    <span className="px-legend-val">{l.value.toLocaleString()}</span>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-      </div>
+      {/* ── Resources tab ── */}
+      {tab === "resources" && (
+        <div className="px-body">
+          <div className="px-card px-card-full">
+            <div className="px-card-head">
+              <h3>Resurslar ro'yxati</h3>
+              <Link to={`/${locale}/resources/upload`} className="px-btn-primary px-btn-sm">
+                <Icon id="upload" size={12} /> Yangi yuklash
+              </Link>
+            </div>
+            <table className="px-table px-table-hover">
+              <thead><tr><th>#</th><th>Sarlavha</th><th>Fan</th><th>Tur</th><th>Holat</th></tr></thead>
+              <tbody>
+                {resources.slice(0, 20).map((r, i) => {
+                  const pill = r.status === "approved" ? { c: "#065f46", bg: "#d1fae5", t: "Tasdiqlangan" }
+                    : r.status === "pending_review"    ? { c: "#92400e", bg: "#fef3c7", t: "Kutmoqda" }
+                    : r.status === "rejected"          ? { c: "#9b1a2f", bg: "#fce8ea", t: "Rad etilgan" }
+                    : { c: "#374151", bg: "#f3f4f6", t: "Qoralama" };
+                  return (
+                    <tr key={r.id}>
+                      <td className="px-td-muted">{i + 1}</td>
+                      <td className="px-td-main">{r.title}</td>
+                      <td className="px-td-muted">{r.subject_name ?? "—"}</td>
+                      <td className="px-td-muted">{r.material_type ?? "—"}</td>
+                      <td><span className="px-pill" style={{ color: pill.c, background: pill.bg }}>{pill.t}</span></td>
+                    </tr>
+                  );
+                })}
+                {resources.length === 0 && <tr><td colSpan={5} className="px-empty">Resurslar yo'q</td></tr>}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* ── Loans tab ── */}
+      {tab === "loans" && (
+        <div className="px-body">
+          <div className="px-card px-card-full">
+            <div className="px-card-head"><h3>Faol ijaralar</h3><span className="px-badge">{loans.length} ta</span></div>
+            <table className="px-table px-table-hover">
+              <thead><tr><th>#</th><th>Kitob</th><th>Berilgan</th><th>Qaytarish</th><th>Holat</th></tr></thead>
+              <tbody>
+                {loans.map((l, i) => (
+                  <tr key={l.id}>
+                    <td className="px-td-muted">{i + 1}</td>
+                    <td className="px-td-main">{(l as { book?: { title?: string } }).book?.title ?? `Kitob #${l.book_id}`}</td>
+                    <td className="px-td-muted">{new Date(l.issued_at).toLocaleDateString("uz-UZ")}</td>
+                    <td className="px-td-muted">{new Date(l.due_date).toLocaleDateString("uz-UZ")}</td>
+                    <td><span className="px-pill" style={l.status === "overdue" ? { color: "#9b1a2f", background: "#fce8ea" } : { color: "#065f46", background: "#d1fae5" }}>{l.status === "overdue" ? "Muddati o'tdi" : "Faol"}</span></td>
+                  </tr>
+                ))}
+                {loans.length === 0 && <tr><td colSpan={5} className="px-empty">Ijaralar topilmadi</td></tr>}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* ── Reservations tab ── */}
+      {tab === "reservations" && (
+        <div className="px-body">
+          <div className="px-card px-card-full">
+            <div className="px-card-head"><h3>Bronlar</h3><span className="px-badge">{reservations.length} ta</span></div>
+            <table className="px-table px-table-hover">
+              <thead><tr><th>#</th><th>Kitob</th><th>Olinish sanasi</th><th>Holat</th></tr></thead>
+              <tbody>
+                {reservations.map((r, i) => (
+                  <tr key={r.id}>
+                    <td className="px-td-muted">{i + 1}</td>
+                    <td className="px-td-main">{(r as { book?: { title?: string } }).book?.title ?? `Kitob #${r.book_id}`}</td>
+                    <td className="px-td-muted">{r.pickup_date}</td>
+                    <td><span className="px-pill" style={{ color: "#92400e", background: "#fef3c7" }}>Kutmoqda</span></td>
+                  </tr>
+                ))}
+                {reservations.length === 0 && <tr><td colSpan={4} className="px-empty">Bronlar topilmadi</td></tr>}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* ── Users tab (admin) ── */}
+      {tab === "users" && (
+        <div className="px-body">
+          <div className="px-card px-card-full">
+            <div className="px-card-head"><h3>Foydalanuvchilar</h3></div>
+            <table className="px-table px-table-hover">
+              <thead><tr><th>#</th><th>F.I.O</th><th>Email</th><th>Rol</th><th>Sana</th><th>Holat</th></tr></thead>
+              <tbody>
+                {[
+                  { name: "Norboyev Bexzod",    email: "norboyevbexzod98@gmail.com", role: "admin",     date: "01.01.2025", active: true },
+                  { name: "Aziza Yuldasheva",   email: "yuldasheva@atmu.uz",         role: "teacher",   date: "12.02.2025", active: true },
+                  { name: "Bobur Toshmatov",    email: "toshmatov@atmu.uz",          role: "student",   date: "15.09.2024", active: true },
+                  { name: "Zilola Rahimova",    email: "rahimova@atmu.uz",           role: "student",   date: "15.09.2024", active: true },
+                  { name: "Jasur Qodirov",      email: "qodirov@atmu.uz",            role: "librarian", date: "01.09.2024", active: true },
+                  { name: "Nodira Mamatqulova", email: "mamatqulova@atmu.uz",        role: "teacher",   date: "01.09.2024", active: false },
+                ].map((u, i) => (
+                  <tr key={i}>
+                    <td className="px-td-muted">{i + 1}</td>
+                    <td className="px-td-main">{u.name}</td>
+                    <td className="px-td-muted">{u.email}</td>
+                    <td><span className="px-pill" style={{ color: "#002147", background: "#e8edf5" }}>
+                      {u.role === "admin" ? "Administrator" : u.role === "teacher" ? "O'qituvchi" : u.role === "student" ? "Talaba" : "Kutubxonachi"}
+                    </span></td>
+                    <td className="px-td-muted">{u.date}</td>
+                    <td><span className="px-pill" style={u.active ? { color: "#065f46", background: "#d1fae5" } : { color: "#6b7280", background: "#f3f4f6" }}>
+                      {u.active ? "Faol" : "Nofaol"}
+                    </span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
