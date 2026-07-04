@@ -2047,9 +2047,9 @@ td {
   flex-wrap: wrap;
 }
 
-.elib-hero-teacher { background: linear-gradient(135deg, #061b3a 0%, #0b3d73 100%); }
-.elib-hero-student { background: linear-gradient(135deg, #0b3d73 0%, #0e9f6e 100%); }
-.elib-hero-librarian { background: linear-gradient(135deg, #1a1a2e 0%, #d6a84f 100%); }
+.elib-hero-teacher { background: linear-gradient(135deg, #001535 0%, #002147 100%); }
+.elib-hero-student { background: linear-gradient(135deg, #001535 0%, #002147 100%); }
+.elib-hero-librarian { background: linear-gradient(135deg, #001535 0%, #002147 100%); }
 
 .elib-hero-icon {
   width: 72px;
@@ -5465,9 +5465,9 @@ td {
 /* E-LIBRARY + AI CHAT STYLES (elib-*) */
 .elib-page { max-width:1200px; margin:0 auto; padding:0 24px 48px; }
 .elib-hero { display:flex; align-items:center; gap:24px; padding:32px 36px; border-radius:20px; color:#fff; margin-bottom:0; }
-.elib-hero-teacher  { background:linear-gradient(135deg,#1457a8,#0d3d7a); }
-.elib-hero-student  { background:linear-gradient(135deg,#0e9f6e,#0a7050); }
-.elib-hero-librarian{ background:linear-gradient(135deg,#7c3aed,#5b21b6); }
+.elib-hero-teacher  { background:linear-gradient(135deg,#001535,#002147); }
+.elib-hero-student  { background:linear-gradient(135deg,#001535,#002147); }
+.elib-hero-librarian{ background:linear-gradient(135deg,#001535,#002147); }
 .elib-hero-icon { width:72px; height:72px; background:rgba(255,255,255,.18); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .elib-hero-role { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:1px; opacity:.75; margin:0 0 4px; }
 .elib-hero-name { font-size:26px; font-weight:800; margin:0 0 4px; }
@@ -5594,7 +5594,7 @@ td {
 .elib-role-card p  { font-size:14px; color:#667085; margin:0; }
 .elib-ai-wrap { padding:0 !important; border-radius:0 0 16px 16px; overflow:hidden; }
 .ai-chat-root { display:flex; flex-direction:column; height:640px; background:#f5f7fa; }
-.ai-chat-header { display:flex; align-items:center; gap:14px; padding:16px 24px; background:linear-gradient(135deg,#1457a8,#0d3d7a); color:#fff; }
+.ai-chat-header { display:flex; align-items:center; gap:14px; padding:16px 24px; background:linear-gradient(135deg,#001535,#002147); color:#fff; }
 .ai-chat-avatar { width:44px; height:44px; background:rgba(255,255,255,.20); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .ai-chat-name   { font-size:15px; font-weight:700; }
 .ai-chat-status { font-size:12px; opacity:.80; display:flex; align-items:center; gap:6px; }

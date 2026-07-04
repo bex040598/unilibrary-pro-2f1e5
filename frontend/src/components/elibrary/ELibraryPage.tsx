@@ -33,54 +33,54 @@ interface ChatMsg { id:number; role:"user"|"ai"; text:string; time:string; sourc
 const AI_RESPONSES: {k:string[]; a:string; sources?:{title:string;type:string}[]}[] = [
   {
     k:["salom","assalomu alaykum","hello","hi"],
-    a:"Assalomu alaykum! Men ATMU Smart UniLibrary AI yordamchisiman 🤖\n\nQuyidagi masalalarda yordam bera olaman:\n• 📚 Kitob va resurs qidirish\n• 🔬 Ilmiy mavzular bo'yicha tushuntirish\n• 📖 Referens va iqtibos tayyorlash\n• 🎓 O'quv rejasi bo'yicha maslahat\n• 📊 Ma'lumotlar bazasi bo'yicha yordam\n\nNima haqida bilmoqchisiz?",
+    a:"Assalomu alaykum! Men ATMU Smart UniLibrary AI yordamchisiman.\n\nQuyidagi masalalarda yordam bera olaman:\n— Kitob va resurs qidirish va tavsiya\n— Ilmiy mavzular bo'yicha tushuntirish\n— Iqtibos (citation) tayyorlash\n— O'quv rejasi bo'yicha maslahat\n— Ma'lumotlar bazasi bo'yicha yordam\n\nNima haqida bilmoqchisiz?",
   },
   {
     k:["ma'lumotlar bazasi","database","sql","postgresql"],
-    a:"**Ma'lumotlar bazasi** bo'yicha ATMU kutubxonasida quyidagi resurslar mavjud:\n\n📘 **Asosiy adabiyotlar:**\n• Coronel C. — *Database Systems* (10-nashr) — 847 bet\n• Ramakrishnan R. — *Database Management Systems* — inglizcha\n• Aziza Yuldasheva — *Ma'lumotlar bazasi: 2-kurs laboratoriya ishlari* — o'zbekcha\n\n🔍 **Mavzular:** SQL so'rovlar, normalizatsiya, ER-diagramma, tranzaksiyalar, indekslar\n\n💡 **Maslahat:** 2-kurs talabalar uchun avval Yuldasheva laboratoriya ishlaridan boshlash tavsiya etiladi.",
+    a:"**Ma'lumotlar bazasi** bo'yicha ATMU kutubxonasida quyidagi resurslar mavjud:\n\n**Asosiy adabiyotlar:**\n— Coronel C. — *Database Systems* (10-nashr) — 847 bet\n— Ramakrishnan R. — *Database Management Systems* — inglizcha\n— Aziza Yuldasheva — *Ma'lumotlar bazasi: 2-kurs laboratoriya ishlari* — o'zbekcha\n\n**Mavzular:** SQL so'rovlar, normalizatsiya, ER-diagramma, tranzaksiyalar, indekslar\n\n**Maslahat:** 2-kurs talabalar uchun avval Yuldasheva laboratoriya ishlaridan boshlash tavsiya etiladi.",
     sources:[{title:"Ma'lumotlar bazasi laboratoriya ishlari",type:"Laboratoriya ishi"},{title:"Database Systems — Coronel",type:"Darslik"}],
   },
   {
     k:["dasturlash","python","java","c++","programming"],
-    a:"**Dasturlash** bo'yicha kutubxonamizda:\n\n🐍 **Python:**\n• Lutz M. — *Learning Python* — 1600 bet (inglizcha)\n• Mirzayev F. — *Python asoslari* — o'zbekcha, 2024-yil\n\n☕ **Java:**\n• Eckel B. — *Thinking in Java* (4-nashr)\n• Oracle rasmiy hujjatlari (onlayn)\n\n⚡ **Algoritmlar:**\n• Cormen T. — *Introduction to Algorithms* — fundamental kitob\n\n📌 Qaysi til bo'yicha batafsil ma'lumot kerak?",
+    a:"**Dasturlash** bo'yicha kutubxonamizda:\n\n**Python:**\n— Lutz M. — *Learning Python* — 1600 bet (inglizcha)\n— Mirzayev F. — *Python asoslari* — o'zbekcha, 2024-yil\n\n**Java:**\n— Eckel B. — *Thinking in Java* (4-nashr)\n— Oracle rasmiy hujjatlari (onlayn)\n\n**Algoritmlar:**\n— Cormen T. — *Introduction to Algorithms* — fundamental kitob\n\nQaysi til bo'yicha batafsil ma'lumot kerak?",
     sources:[{title:"Python asoslari — Mirzayev",type:"Darslik"},{title:"Introduction to Algorithms",type:"Darslik"}],
   },
   {
     k:["kitob","qidirish","search","topish","mavjud"],
-    a:"📚 **Kitob qidirish bo'yicha:**\n\nKutubxonada jami **157 270** ta nashr mavjud:\n• 42 000+ elektron kitob (PDF/EPUB)\n• 12 500+ ilmiy maqola\n• 3 200+ dissertatsiya\n• 90 000+ qog'oz nashr\n\n🔍 **Qidiruv usullari:**\n1. **Elektron katalog** → muallif/nom/kafedra bo'yicha\n2. **AI qidiruv** — menda so'rang, tavsiya beraman\n3. **Kafedra bazasi** → yo'nalish bo'yicha\n\nQaysi sohada kitob qidirmoqdasiz?",
+    a:"**Kitob qidirish bo'yicha:**\n\nKutubxonada jami **157 270** ta nashr mavjud:\n— 42 000+ elektron kitob (PDF/EPUB)\n— 12 500+ ilmiy maqola\n— 3 200+ dissertatsiya\n— 90 000+ qog'oz nashr\n\n**Qidiruv usullari:**\n1. Elektron katalog — muallif, nom, kafedra bo'yicha\n2. AI qidiruv — menda so'rang, tavsiya beraman\n3. Kafedra bazasi — yo'nalish bo'yicha\n\nQaysi sohada kitob qidirmoqdasiz?",
   },
   {
     k:["iqtibos","citation","adabiyotlar","bibliografiya","reference"],
-    a:"📋 **Iqtibos (Citation) formatlari:**\n\n**APA 7-nashr:**\n```\nMuallif, I. (Yil). *Kitob nomi*. Nashriyot.\n```\nMisol: Yuldasheva, A. (2024). *Ma'lumotlar bazasi asoslari*. ATMU nashriyoti.\n\n**IEEE:**\n```\n[1] I. Muallif, \"Maqola nomi,\" *Jurnal*, vol. X, pp. Y–Z, Yil.\n```\n\n**GOST (O'zbekiston standarti):**\n```\nMuallif I.O. Kitob nomi / I.O. Muallif. — Shahar: Nashriyot, Yil. — Betlar soni b.\n```\n\n💡 Qaysi manba uchun iqtibos kerak? To'liq formatlab beraman.",
+    a:"**Iqtibos (Citation) formatlari:**\n\n**APA 7-nashr:**\nMuallif, I. (Yil). *Kitob nomi*. Nashriyot.\nMisol: Yuldasheva, A. (2024). *Ma'lumotlar bazasi asoslari*. ATMU nashriyoti.\n\n**IEEE:**\n[1] I. Muallif, \"Maqola nomi,\" *Jurnal*, vol. X, pp. Y-Z, Yil.\n\n**GOST:**\nMuallif I.O. Kitob nomi. — Shahar: Nashriyot, Yil. — Betlar soni b.\n\nQaysi manba uchun iqtibos kerak? To'liq formatlab beraman.",
   },
   {
     k:["sun'iy intellekt","ai","artificial intelligence","machine learning","ml"],
-    a:"🤖 **Sun'iy intellekt va Machine Learning:**\n\nATMU kutubxonasida:\n\n📘 **Asosiy adabiyotlar:**\n• Russell S., Norvig P. — *Artificial Intelligence: A Modern Approach* (4-nashr)\n• Goodfellow I. — *Deep Learning* — MIT Press (bepul onlayn)\n• Rashidov A. — *ML asoslari o'zbek tilida* (2025)\n\n🎓 **Kurslar va online resurslar:**\n• Coursera — Andrew Ng Machine Learning kursi\n• Fast.ai — amaliy deep learning\n\n📊 **Dissertatsiyalar:** ATMU da 47 ta AI/ML yo'nalishidagi dissertatsiya mavjud.\n\nQaysi yo'nalish qiziqtiradi: kompyuter ko'rish, NLP, yoki umumiy ML?",
+    a:"**Sun'iy intellekt va Machine Learning:**\n\nATMU kutubxonasida:\n\n**Asosiy adabiyotlar:**\n— Russell S., Norvig P. — *Artificial Intelligence: A Modern Approach* (4-nashr)\n— Goodfellow I. — *Deep Learning* — MIT Press (bepul onlayn)\n— Rashidov A. — *ML asoslari o'zbek tilida* (2025)\n\n**Online resurslar:**\n— Coursera — Andrew Ng Machine Learning kursi\n— Fast.ai — amaliy deep learning\n\nATMU da 47 ta AI/ML yo'nalishidagi dissertatsiya mavjud.\n\nQaysi yo'nalish qiziqtiradi?",
     sources:[{title:"AI: A Modern Approach",type:"Darslik"},{title:"ML asoslari — Rashidov",type:"Darslik"}],
   },
   {
     k:["kiberxavfsizlik","security","xavfsizlik","cybersecurity"],
-    a:"🔐 **Kiberxavfsizlik** bo'yicha:\n\n📚 **Kutubxonadagi resurslar:**\n• Stallings W. — *Cryptography and Network Security* (7-nashr)\n• Raximov Sh. — *Kiberxavfsizlik asoslari* — o'zbekcha (2023)\n\n🛡️ **Asosiy mavzular:**\n• Kriptografiya va shifrlash algoritmlari\n• Tarmoq xavfsizligi (firewall, VPN, IDS)\n• Penetrasion testlash\n• Ma'lumotlarni himoya qilish (GDPR, ISO 27001)\n\n⚠️ **Amaliy maslahat:** Etik xakerlik o'rganish uchun TryHackMe yoki HackTheBox platformalarini ko'ring.\n\nQaysi bo'lim bo'yicha chuqurroq ma'lumot kerak?",
+    a:"**Kiberxavfsizlik** bo'yicha:\n\n**Kutubxonadagi resurslar:**\n— Stallings W. — *Cryptography and Network Security* (7-nashr)\n— Raximov Sh. — *Kiberxavfsizlik asoslari* — o'zbekcha (2023)\n\n**Asosiy mavzular:**\n— Kriptografiya va shifrlash algoritmlari\n— Tarmoq xavfsizligi (firewall, VPN, IDS)\n— Penetrasion testlash\n— Ma'lumotlarni himoya qilish (GDPR, ISO 27001)\n\nQaysi bo'lim bo'yicha chuqurroq ma'lumot kerak?",
     sources:[{title:"Kiberxavfsizlik asoslari — Raximov",type:"Darslik"}],
   },
   {
     k:["referat","kurs ishi","diplom","loyiha","yozish"],
-    a:"📝 **Referat/Kurs ishi yozish bo'yicha maslahat:**\n\n**Tuzilma:**\n1. Mundarija\n2. Kirish (dolzarblik, maqsad, vazifalar) — 1-2 bet\n3. Asosiy qism (2-4 bob)\n4. Xulosa — 1-2 bet\n5. Adabiyotlar ro'yxati\n6. Ilovalar (jadvallar, grafiklar)\n\n**Adabiyot topish:**\n• ATMU katalog — asosiy adabiyotlar\n• Google Scholar — ilmiy maqolalar\n• ResearchGate — to'liq matnlar\n• eLibrary.ru — rus tilidagi maqolalar\n\n**Plagiat tekshirish:**\n• Antiplagiat.uz — O'zbekiston tizimi\n• Turnitin — xalqaro standart\n\nMavzuingiz nima? Adabiyot tavsiya qilib beraman! 📖",
+    a:"**Referat va kurs ishi yozish bo'yicha:**\n\n**Tuzilma:**\n1. Mundarija\n2. Kirish — dolzarblik, maqsad, vazifalar (1-2 bet)\n3. Asosiy qism (2-4 bob)\n4. Xulosa (1-2 bet)\n5. Adabiyotlar ro'yxati\n6. Ilovalar\n\n**Adabiyot topish:**\n— ATMU katalog — asosiy adabiyotlar\n— Google Scholar — ilmiy maqolalar\n— ResearchGate — to'liq matnlar\n\n**Plagiat tekshirish:**\n— Antiplagiat.uz, Turnitin\n\nMavzuingiz nima? Adabiyot tavsiya qilib beraman.",
   },
   {
     k:["iqtisodiyot","economics","moliya","finance","buxgalteriya"],
-    a:"💼 **Iqtisodiyot va Moliya** bo'yicha:\n\n📚 **Asosiy adabiyotlar:**\n• Mankiw N.G. — *Principles of Economics* (8-nashr)\n• Samuelson P. — *Iqtisodiyot* (o'zbek tarjimasi)\n• Umarov F.R. — *Iqtisodiyot nazariyasi* — ATMU nashri (2022)\n\n📊 **Moliya:**\n• Brealey R. — *Principles of Corporate Finance*\n• O'zbekiston Moliya vazirligi statistik to'plamlari\n\n🏦 **Buxgalteriya:**\n• BNMS — O'zbekiston buxgalteriya standartlari\n• 1C dasturi qo'llanmasi — o'zbekcha\n\nQaysi yo'nalish: makro yoki mikroiqtisodiyot?",
+    a:"**Iqtisodiyot va Moliya** bo'yicha:\n\n**Asosiy adabiyotlar:**\n— Mankiw N.G. — *Principles of Economics* (8-nashr)\n— Samuelson P. — *Iqtisodiyot* (o'zbek tarjimasi)\n— Umarov F.R. — *Iqtisodiyot nazariyasi* — ATMU nashri (2022)\n\n**Moliya:**\n— Brealey R. — *Principles of Corporate Finance*\n— O'zbekiston Moliya vazirligi statistik to'plamlari\n\n**Buxgalteriya:**\n— BNMS — O'zbekiston buxgalteriya standartlari\n\nQaysi yo'nalish: makro yoki mikroiqtisodiyot?",
     sources:[{title:"Iqtisodiyot nazariyasi — Umarov",type:"Darslik"}],
   },
 ];
 
 const QUICK_PROMPTS = [
-  "📚 Dasturlash bo'yicha kitob tavsiya qiling",
-  "🔍 Ma'lumotlar bazasi resurslari",
-  "📝 Kurs ishi yozish bo'yicha yordam",
-  "🤖 AI va Machine Learning haqida",
-  "📋 APA iqtibos formati",
-  "🔐 Kiberxavfsizlik adabiyotlari",
+  "Dasturlash bo'yicha kitob tavsiya qiling",
+  "Ma'lumotlar bazasi resurslari",
+  "Kurs ishi yozish bo'yicha yordam",
+  "AI va Machine Learning haqida",
+  "APA iqtibos formati",
+  "Kiberxavfsizlik adabiyotlari",
 ];
 
 function getAIResponse(userMsg: string): { text: string; sources?: {title:string;type:string}[] } {
@@ -91,7 +91,7 @@ function getAIResponse(userMsg: string): { text: string; sources?: {title:string
     }
   }
   return {
-    text: `🔍 **"${userMsg}"** bo'yicha qidiruv natijasi:\n\nKutubxona katalogida shu mavzuga oid materiallar topildi. Aniqroq ma'lumot uchun:\n\n1. **Elektron katalog**ga o'ting → [Katalogga kirish]\n2. Mavzuni aniqlashtiring — masalan: kafedra, kurs, til\n3. Kutubxonachi bilan bog'laning: library@atmu.uz\n\n💡 **Maslahat:** "Ma'lumotlar bazasi", "Dasturlash", "Iqtisodiyot" kabi kalit so'zlar bilan so'rang — aniq javob beraman!`,
+    text: `**"${userMsg}"** bo'yicha qidiruv natijasi:\n\nKutubxona katalogida shu mavzuga oid materiallar topildi. Aniqroq ma'lumot uchun:\n\n1. **Elektron katalog**ga o'ting\n2. Mavzuni aniqlashtiring — masalan: kafedra, kurs, til\n3. Kutubxonachi bilan bog'laning: library@atmu.uz\n\n**Maslahat:** "Ma'lumotlar bazasi", "Dasturlash", "Iqtisodiyot" kabi kalit so'zlar bilan so'rang — aniq javob beraman.`,
   };
 }
 
@@ -100,7 +100,7 @@ function AIChat() {
   const [msgs, setMsgs] = useState<ChatMsg[]>([
     {
       id: 0, role:"ai", time: new Date().toLocaleTimeString("uz",{hour:"2-digit",minute:"2-digit"}),
-      text:"Assalomu alaykum! Men **ATMU Smart UniLibrary** sun'iy intellekt yordamchisiman 🤖\n\nSizga quyidagi masalalarda yordam bera olaman:\n• 📚 Kitob va resurs qidirish va tavsiya\n• 🔬 Ilmiy mavzular bo'yicha tushuntirish\n• 📖 Iqtibos (citation) tayyorlash\n• 🎓 O'quv rejasi bo'yicha maslahat\n\nSavolingizni yozing yoki quyidagi mavzulardan birini tanlang 👇",
+      text:"Assalomu alaykum! Men **ATMU Smart UniLibrary** sun'iy intellekt yordamchisiman.\n\nQuyidagi masalalarda yordam bera olaman:\n— Kitob va resurs qidirish va tavsiya\n— Ilmiy mavzular bo'yicha tushuntirish\n— Iqtibos (citation) tayyorlash\n— O'quv rejasi bo'yicha maslahat\n\nSavolingizni yozing yoki quyidagi mavzulardan birini tanlang:",
     }
   ]);
   const [input, setInput] = useState("");
@@ -167,7 +167,7 @@ function AIChat() {
               <div className="ai-msg-body">{renderText(m.text)}</div>
               {m.sources && m.sources.length > 0 && (
                 <div className="ai-msg-sources">
-                  <div className="ai-sources-title">📎 Tegishli resurslar:</div>
+                  <div className="ai-sources-title">Tegishli resurslar:</div>
                   {m.sources.map((s,i) => (
                     <div key={i} className="ai-source-item">
                       <span className="ai-source-type">{s.type}</span>
@@ -242,7 +242,7 @@ function ResourceCard({ r, showStatus, onRead }: { r: typeof allResources[0]; sh
         <h3 className="elib-resource-title">{r.title}</h3>
         <p className="elib-resource-meta">{r.author_name} · {r.subject_name} · {r.course}-kurs</p>
         <div className="elib-resource-stats">
-          <span>👁 {r.views_count}</span><span>⬇ {r.downloads_count}</span><span>⭐ {r.average_rating}</span>
+          <span>{r.views_count} ko'rish</span><span>{r.downloads_count} yuklab</span><span>{r.average_rating} baho</span>
         </div>
         <div className="elib-resource-actions">
           {r.online_read_allowed && <button type="button" className="elib-btn elib-btn-primary" onClick={onRead}>O'qish</button>}
@@ -276,8 +276,8 @@ function TeacherELibrary({ locale }: { locale: string }) {
         </div>
       </div>
       <div className="elib-tabs">
-        {([["resources","📚","Materiallarim"],["activity","📊","Talabalar faolligi"],["upload","⬆","Material yuklash"],["ai","🤖","AI Yordamchi"]] as const).map(([t,ic,lb])=>(
-          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t)}>{ic} {lb}</button>
+        {([["resources","Materiallarim"],["activity","Talabalar faolligi"],["upload","Material yuklash"],["ai","AI Yordamchi"]] as const).map(([t,lb])=>(
+          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t)}>{lb}</button>
         ))}
       </div>
       {activeTab==="resources" && (
@@ -290,8 +290,8 @@ function TeacherELibrary({ locale }: { locale: string }) {
         <div className="elib-content">
           <div className="elib-section-header"><h2>Talabalar faolligi</h2></div>
           <div className="elib-activity-summary">
-            {[["👥","47","Faol talabalar","#1457a8"],["👁","1 230","Jami ko'rishlar","#0e9f6e"],["⬇","742","Jami yuklashlar","#d6a84f"],["📈","12","Bu hafta yangi","#7c3aed"]].map(([ic,v,l,c])=>(
-              <div key={l} className="elib-activity-stat"><div className="elib-act-ic" style={{color:c as string,background:`${c}18`}}>{ic}</div><div><strong>{v}</strong><span>{l}</span></div></div>
+            {[["47","Faol talabalar"],["1 230","Jami ko'rishlar"],["742","Jami yuklashlar"],["12","Bu hafta yangi"]].map(([v,l])=>(
+              <div key={l} className="elib-activity-stat"><div><strong>{v}</strong><span>{l}</span></div></div>
             ))}
           </div>
           <div className="elib-table-wrap">
@@ -368,7 +368,7 @@ function StudentELibrary({ locale }: { locale: string }) {
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#1457a8" strokeWidth="1"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             <p>Hujjat ko'rish paneli</p>
             <p className="elib-pdf-note">Haqiqiy tizimda PDF/EPUB onlayn o'quvchi ko'rsatiladi</p>
-            {readingResource.download_allowed && <button type="button" className="elib-btn elib-btn-primary">⬇ PDF yuklab olish</button>}
+            {readingResource.download_allowed && <button type="button" className="elib-btn elib-btn-primary">PDF yuklab olish</button>}
           </div>
         </div>
       </div>
@@ -393,8 +393,8 @@ function StudentELibrary({ locale }: { locale: string }) {
         </div>
       </div>
       <div className="elib-tabs">
-        {([["ai","🤖","AI Yordamchi"],["browse","📚","Materiallar"],["history","📈","O'qish tarixi"],["loans","📖","Kitoblarim"]] as const).map(([t,ic,lb])=>(
-          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t)}>{ic} {lb}</button>
+        {([["ai","AI Yordamchi"],["browse","Materiallar"],["history","O'qish tarixi"],["loans","Kitoblarim"]] as const).map(([t,lb])=>(
+          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t)}>{lb}</button>
         ))}
       </div>
       {activeTab==="ai"      && <div className="elib-content elib-ai-wrap"><AIChat/></div>}
@@ -464,8 +464,8 @@ function LibrarianELibrary({ locale: _locale }: { locale: string }) {
         </div>
       </div>
       <div className="elib-tabs">
-        {([["pending","⏳",`Ko'rib chiqish (${pendingResources.length})`],["all","📋","Barcha materiallar"],["activity","📊","Umumiy faollik"],["ai","🤖","AI Yordamchi"]] as const).map(([t,ic,lb])=>(
-          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t as any)}>{ic} {lb}</button>
+        {([["pending",`Ko'rib chiqish (${pendingResources.length})`],["all","Barcha materiallar"],["activity","Umumiy faollik"],["ai","AI Yordamchi"]] as const).map(([t,lb])=>(
+          <button key={t} type="button" className={`elib-tab${activeTab===t?" active":""}`} onClick={()=>setActiveTab(t as any)}>{lb}</button>
         ))}
       </div>
       {activeTab==="pending" && (
@@ -510,8 +510,8 @@ function LibrarianELibrary({ locale: _locale }: { locale: string }) {
       {activeTab==="activity" && (
         <div className="elib-content">
           <div className="elib-activity-summary">
-            {[["👥","89","Faol talabalar"],["👁","5 234","Jami ko'rishlar"],["⬇","2 108","Jami yuklashlar"],["⚠","5","Muddati o'tgan"]].map(([ic,v,l])=>(
-              <div key={l} className="elib-activity-stat"><div style={{fontSize:28}}>{ic}</div><div><strong>{v}</strong><span>{l}</span></div></div>
+            {[["89","Faol talabalar"],["5 234","Jami ko'rishlar"],["2 108","Jami yuklashlar"],["5","Muddati o'tgan"]].map(([v,l])=>(
+              <div key={l} className="elib-activity-stat"><div><strong>{v}</strong><span>{l}</span></div></div>
             ))}
           </div>
           <div className="elib-table-wrap">
@@ -551,9 +551,18 @@ export function ELibraryPage() {
           <div className="elib-role-select">
             <h2>E-Library profilini tanlang</h2>
             <div className="elib-role-cards">
-              <Link to={`/${locale}/elibrary/student`}   className="elib-role-card"><span style={{fontSize:40}}>🎓</span><h3>Talaba</h3><p>AI yordamchi va materiallar</p></Link>
-              <Link to={`/${locale}/elibrary/teacher`}   className="elib-role-card"><span style={{fontSize:40}}>👨‍🏫</span><h3>O'qituvchi</h3><p>Material yuklash va monitoring</p></Link>
-              <Link to={`/${locale}/elibrary/librarian`} className="elib-role-card"><span style={{fontSize:40}}>📚</span><h3>Kutubxonachi</h3><p>Barcha materiallar boshqaruvi</p></Link>
+              <Link to={`/${locale}/elibrary/student`}   className="elib-role-card">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                <h3>Talaba</h3><p>AI yordamchi va materiallar</p>
+              </Link>
+              <Link to={`/${locale}/elibrary/teacher`}   className="elib-role-card">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <h3>O'qituvchi</h3><p>Material yuklash va monitoring</p>
+              </Link>
+              <Link to={`/${locale}/elibrary/librarian`} className="elib-role-card">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <h3>Kutubxonachi</h3><p>Barcha materiallar boshqaruvi</p>
+              </Link>
             </div>
           </div>
         </div>

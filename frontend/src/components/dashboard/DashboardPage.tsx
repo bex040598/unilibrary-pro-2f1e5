@@ -10,16 +10,16 @@ const ROLE_LABELS: Record<string, string> = {
   department: "Kafedra mudiri", admin: "Administrator",
 };
 const ROLE_COLORS: Record<string, string> = {
-  student: "#1457a8", teacher: "#065f46", librarian: "#6b21a8",
-  department: "#9a3412", admin: "#1e3a5f",
+  student: "#002147", teacher: "#002147", librarian: "#002147",
+  department: "#002147", admin: "#002147",
 };
 
 const ACTIVITY_FEED = [
-  { id: 1, icon: "book", text: "Bobur Toshmatov ma'lumotlar bazasi darsligini yuklab oldi", time: "2 daqiqa oldin", color: "#1457a8" },
-  { id: 2, icon: "check", text: "Kiberxavfsizlik darsligi tasdiqlandi", time: "18 daqiqa oldin", color: "#065f46" },
-  { id: 3, icon: "clock", text: "Zilola Rahimova o'quv zalini bron qildi (A-14, 14:00)", time: "35 daqiqa oldin", color: "#b45309" },
-  { id: 4, icon: "upload", text: "Aziza Yuldasheva yangi resurs yukladi", time: "1 soat oldin", color: "#6b21a8" },
-  { id: 5, icon: "warning", text: "Sherzod Mirzayev — qaytarish muddati o'tdi (2 kun)", time: "2 soat oldin", color: "#dc2626" },
+  { id: 1, icon: "book", text: "Bobur Toshmatov ma'lumotlar bazasi darsligini yuklab oldi", time: "2 daqiqa oldin", color: "#002147" },
+  { id: 2, icon: "check", text: "Kiberxavfsizlik darsligi tasdiqlandi", time: "18 daqiqa oldin", color: "#002147" },
+  { id: 3, icon: "clock", text: "Zilola Rahimova o'quv zalini bron qildi (A-14, 14:00)", time: "35 daqiqa oldin", color: "#002147" },
+  { id: 4, icon: "upload", text: "Aziza Yuldasheva yangi resurs yukladi", time: "1 soat oldin", color: "#002147" },
+  { id: 5, icon: "warning", text: "Sherzod Mirzayev — qaytarish muddati o'tdi (2 kun)", time: "2 soat oldin", color: "#9b1a2f" },
 ];
 
 const POPULAR_BOOKS = [
@@ -69,34 +69,34 @@ export function DashboardPage() {
 
   const cards = useMemo(() => {
     if (role === "student") return [
-      { label: "Olingan kitoblar", value: loans.length || 3, sub: "Jami ijaraga olingan", icon: "book", color: "#1457a8" },
-      { label: "Bronlar", value: reservations.length || 2, sub: "Kutib olinishi kerak", icon: "calendar", color: "#065f46" },
-      { label: "O'quv zali", value: report.seat_reservations ?? 1, sub: "Faol bron", icon: "monitor", color: "#b45309" },
-      { label: "O'qilgan sahifalar", value: 284, sub: "Bu oy", icon: "layers", color: "#6b21a8" },
+      { label: "Olingan kitoblar", value: loans.length || 3, sub: "Jami ijaraga olingan", icon: "book", color: "#002147" },
+      { label: "Bronlar", value: reservations.length || 2, sub: "Kutib olinishi kerak", icon: "calendar", color: "#002147" },
+      { label: "O'quv zali", value: report.seat_reservations ?? 1, sub: "Faol bron", icon: "monitor", color: "#002147" },
+      { label: "O'qilgan sahifalar", value: 284, sub: "Bu oy", icon: "layers", color: "#002147" },
     ];
     if (role === "teacher") return [
-      { label: "Resurslar", value: resources.length || 12, sub: "Jami yuklangan", icon: "upload", color: "#1457a8" },
-      { label: "Ko'rib chiqilmoqda", value: resources.filter((r) => r.status === "pending_review").length || 2, sub: "Tasdiqlash kutmoqda", icon: "clock", color: "#b45309" },
-      { label: "Ko'rishlar", value: 3200, sub: "Jami foydalanish", icon: "eye", color: "#065f46" },
-      { label: "Talaba faolligi", value: 47, sub: "Oxirgi 30 kunda", icon: "users", color: "#6b21a8" },
+      { label: "Resurslar", value: resources.length || 12, sub: "Jami yuklangan", icon: "upload", color: "#002147" },
+      { label: "Ko'rib chiqilmoqda", value: resources.filter((r) => r.status === "pending_review").length || 2, sub: "Tasdiqlash kutmoqda", icon: "clock", color: "#002147" },
+      { label: "Ko'rishlar", value: 3200, sub: "Jami foydalanish", icon: "eye", color: "#002147" },
+      { label: "Talaba faolligi", value: 47, sub: "Oxirgi 30 kunda", icon: "users", color: "#002147" },
     ];
     if (role === "librarian") return [
-      { label: "Bugungi bronlar", value: report.today_reservations ?? (reservations.length || 8), sub: "Tasdiqlash navbatida", icon: "calendar", color: "#1457a8" },
-      { label: "Qaytarish sanasi", value: report.due_today ?? 5, sub: "Bugun qaytarilishi kerak", icon: "clock", color: "#b45309" },
-      { label: "Muddati o'tgan", value: report.overdue ?? 3, sub: "Jarima talab qilinadi", icon: "warning", color: "#dc2626" },
-      { label: "Zal bandligi", value: `${report.reading_room_occupancy ?? 61}%`, sub: "Hozirda band", icon: "monitor", color: "#065f46" },
+      { label: "Bugungi bronlar", value: report.today_reservations ?? (reservations.length || 8), sub: "Tasdiqlash navbatida", icon: "calendar", color: "#002147" },
+      { label: "Qaytarish sanasi", value: report.due_today ?? 5, sub: "Bugun qaytarilishi kerak", icon: "clock", color: "#002147" },
+      { label: "Muddati o'tgan", value: report.overdue ?? 3, sub: "Jarima talab qilinadi", icon: "warning", color: "#9b1a2f" },
+      { label: "Zal bandligi", value: `${report.reading_room_occupancy ?? 61}%`, sub: "Hozirda band", icon: "monitor", color: "#002147" },
     ];
     if (role === "department") return [
-      { label: "Jami resurslar", value: resources.length || 24, sub: "Kafedra bo'yicha", icon: "book", color: "#1457a8" },
-      { label: "Tasdiqlangan", value: resources.filter((r) => r.status === "approved").length || 18, sub: "Katalogda ko'rinadi", icon: "check", color: "#065f46" },
-      { label: "Kutmoqda", value: resources.filter((r) => r.status === "pending_review").length || 4, sub: "Ko'rib chiqilmoqda", icon: "clock", color: "#b45309" },
-      { label: "O'qituvchilar", value: 17, sub: "Faol resurs yuklovchilar", icon: "users", color: "#6b21a8" },
+      { label: "Jami resurslar", value: resources.length || 24, sub: "Kafedra bo'yicha", icon: "book", color: "#002147" },
+      { label: "Tasdiqlangan", value: resources.filter((r) => r.status === "approved").length || 18, sub: "Katalogda ko'rinadi", icon: "check", color: "#002147" },
+      { label: "Kutmoqda", value: resources.filter((r) => r.status === "pending_review").length || 4, sub: "Ko'rib chiqilmoqda", icon: "clock", color: "#002147" },
+      { label: "O'qituvchilar", value: 17, sub: "Faol resurs yuklovchilar", icon: "users", color: "#002147" },
     ];
     return [
-      { label: "Foydalanuvchilar", value: report.users ?? 2840, sub: "Ro'yxatdan o'tganlar", icon: "users", color: "#1457a8" },
-      { label: "Kitoblar", value: report.books ?? 139486, sub: "Fondda mavjud", icon: "book", color: "#065f46" },
-      { label: "Kafedralar", value: report.departments ?? 24, sub: "Faol bo'limlar", icon: "layers", color: "#b45309" },
-      { label: "AI so'rovlari", value: report.ai_queries ?? 3421, sub: "Bu oy", icon: "eye", color: "#6b21a8" },
+      { label: "Foydalanuvchilar", value: report.users ?? 2840, sub: "Ro'yxatdan o'tganlar", icon: "users", color: "#002147" },
+      { label: "Kitoblar", value: report.books ?? 139486, sub: "Fondda mavjud", icon: "book", color: "#002147" },
+      { label: "Kafedralar", value: report.departments ?? 24, sub: "Faol bo'limlar", icon: "layers", color: "#002147" },
+      { label: "AI so'rovlari", value: report.ai_queries ?? 3421, sub: "Bu oy", icon: "eye", color: "#002147" },
     ];
   }, [loans.length, reservations.length, report, resources, role]);
 

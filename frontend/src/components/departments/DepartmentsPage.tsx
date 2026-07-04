@@ -5,12 +5,12 @@ import { api } from "../../lib/api";
 import type { Department } from "../../types";
 
 const DEPT_COLORS = [
-  { bg: "#1a2f5a", light: "#e8edf7" },
-  { bg: "#1a5c45", light: "#e6f4ef" },
-  { bg: "#6b21a8", light: "#f3e8ff" },
-  { bg: "#9a3412", light: "#fef0e7" },
-  { bg: "#0e4f6e", light: "#e6f2f9" },
-  { bg: "#374151", light: "#f3f4f6" },
+  { bg: "#002147", light: "#e8edf7" },
+  { bg: "#002147", light: "#e8edf7" },
+  { bg: "#002147", light: "#e8edf7" },
+  { bg: "#002147", light: "#e8edf7" },
+  { bg: "#002147", light: "#e8edf7" },
+  { bg: "#002147", light: "#e8edf7" },
 ];
 
 const DEPT_IMGS: Record<number, string> = {
