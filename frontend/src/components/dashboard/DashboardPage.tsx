@@ -199,7 +199,7 @@ export function DashboardPage() {
   const tabs = useMemo(() => {
     const t = [{ id: "overview", label: "Umumiy" }];
     if (role === "teacher" || role === "department") t.push({ id: "resources", label: "Resurslar" });
-    if (role === "librarian") t.push({ id: "loans", label: "Ijaralar" }, { id: "reservations", label: "Bronlar" });
+    if (role === "librarian") t.push({ id: "resources", label: "Resurslar" }, { id: "loans", label: "Ijaralar" }, { id: "reservations", label: "Bronlar" });
     if (role === "admin") t.push({ id: "analytics", label: "Tahlil" }, { id: "users", label: "Foydalanuvchilar" });
     return t;
   }, [role]);
@@ -224,7 +224,7 @@ export function DashboardPage() {
             <p className="px-subtitle">{meta.desc}</p>
           </div>
           <div className="px-header-actions">
-            {(role === "teacher" || role === "department") && (
+            {(role === "teacher" || role === "department" || role === "librarian") && (
               <Link to={`/${locale}/resources/upload`} className="px-btn-primary">
                 <Icon id="upload" size={13} /> Resurs yuklash
               </Link>
@@ -330,6 +330,94 @@ export function DashboardPage() {
             </div>
           </div>
 
+          {/* Librarian: IFLA roles panel */}
+          {role === "librarian" && (
+            <div className="px-row">
+              <div className="px-card px-card-full">
+                <div className="px-card-head">
+                  <h3>Kutubxonachi vazifalari <span className="px-ifla-badge">IFLA standartlari</span></h3>
+                  <Link to={`/${locale}/resources/upload`} className="px-btn-primary px-btn-sm">
+                    <Icon id="upload" size={12} /> Resurs yuklash
+                  </Link>
+                </div>
+                <div className="px-lib-roles">
+                  {[
+                    {
+                      icon: "layers",
+                      color: "#002147",
+                      title: "To'plam shakllantirish",
+                      sub: "Collection Development",
+                      desc: "Kutubxona fondini boyitish: kitoblar, elektron resurslar, ilmiy maqolalar va o'quv materiallari qo'shish va kataloglash.",
+                      actions: [{ label: "Resurs yuklash", to: `/${locale}/resources/upload` }, { label: "Katalog", to: `/${locale}/catalog` }],
+                    },
+                    {
+                      icon: "check",
+                      color: "#0e7490",
+                      title: "Resurslarni ko'rib chiqish",
+                      sub: "Content Review",
+                      desc: "O'qituvchilar yuklagan materiallarni sifat va standartlarga mosligini tekshirib tasdiqlash yoki rad etish.",
+                      actions: [{ label: "Review queue", to: `/${locale}/dashboard/librarian` }],
+                    },
+                    {
+                      icon: "loan",
+                      color: "#065f46",
+                      title: "Ijara xizmati",
+                      sub: "Circulation Services",
+                      desc: "Kitob berish, qaytarish, uzaytirish va muddati o'tgan hollarni boshqarish — RFID yoki QR orqali.",
+                      actions: [{ label: "Ijaralar", to: `/${locale}/loans` }],
+                    },
+                    {
+                      icon: "calendar",
+                      color: "#7c1d3f",
+                      title: "Bron va zal xizmati",
+                      sub: "Reader Services",
+                      desc: "Kitob bronlarini tasdiqlash, o'quv zali o'rinlarini nazorat qilish va foydalanuvchi so'rovlariga javob berish.",
+                      actions: [{ label: "Bronlar", to: `/${locale}/reservations` }, { label: "O'quv zali", to: `/${locale}/library/reading-room` }],
+                    },
+                    {
+                      icon: "shield",
+                      color: "#5b21b6",
+                      title: "Raqamli xizmatlar",
+                      sub: "Digital Services",
+                      desc: "E-Library portal, AI yordamchi so'rovlarini nazorat qilish va raqamli resurslardan foydalanishni ta'minlash.",
+                      actions: [{ label: "E-Library", to: `/${locale}/elibrary/librarian` }],
+                    },
+                    {
+                      icon: "bar",
+                      color: "#92400e",
+                      title: "Hisobot va tahlil",
+                      sub: "Reporting & Analytics",
+                      desc: "Kutubxona statistikasi, foydalanish ko'rsatkichlari va IFLA standartlariga mos yillik hisobotlar tayyorlash.",
+                      actions: [],
+                    },
+                  ].map(r => (
+                    <div key={r.title} className="px-lib-role-card">
+                      <div className="px-lib-role-icon" style={{ background: r.color + "18", color: r.color }}>
+                        <Icon id={r.icon} size={18} color={r.color} />
+                      </div>
+                      <div className="px-lib-role-body">
+                        <div className="px-lib-role-head">
+                          <span className="px-lib-role-title">{r.title}</span>
+                          <span className="px-lib-role-sub">{r.sub}</span>
+                        </div>
+                        <p className="px-lib-role-desc">{r.desc}</p>
+                        {r.actions.length > 0 && (
+                          <div className="px-lib-role-actions">
+                            {r.actions.map(a => (
+                              <Link key={a.to} to={a.to} className="px-lib-role-link">
+                                {a.label} →
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Row 2: Popular + Quick actions */}
           <div className="px-row">
 
@@ -378,7 +466,7 @@ export function DashboardPage() {
                   { label: "Ijaralar",           to: `/${locale}/loans`,                 icon: "list" },
                   { label: "O'quv zali",         to: `/${locale}/library/reading-room`,  icon: "room" },
                   { label: "E-Library",          to: `/${locale}/elibrary/${role}`,      icon: "layers" },
-                  ...(role !== "librarian" ? [{ label: "Resurs yuklash", to: `/${locale}/resources/upload`, icon: "upload" }] : []),
+                  { label: "Resurs yuklash", to: `/${locale}/resources/upload`, icon: "upload" },
                   ...(role === "admin" ? [{ label: "Admin panel", to: `/${locale}/admin`, icon: "shield" }] : []),
                 ].map(q => (
                   <Link key={q.to} to={q.to} className="px-action-row">
