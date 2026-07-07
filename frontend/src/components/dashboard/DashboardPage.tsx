@@ -75,132 +75,253 @@ function BarChart({ data, height = 120 }: {
   );
 }
 
-/* ── Line Chart (Kunlik dinamika) ── */
-function LineChart({ data }: { data: { label: string; value: number }[] }) {
-  const w = 500, h = 130, pad = { top: 24, right: 16, bottom: 28, left: 48 };
-  const iw = w - pad.left - pad.right;
-  const ih = h - pad.top - pad.bottom;
+/* ── Smooth bezier path helper ── */
+function smoothPath(pts: { x: number; y: number }[]) {
+  if (pts.length < 2) return "";
+  let d = `M ${pts[0].x} ${pts[0].y}`;
+  for (let i = 1; i < pts.length; i++) {
+    const prev = pts[i - 1], cur = pts[i];
+    const cpx = (prev.x + cur.x) / 2;
+    d += ` C ${cpx} ${prev.y} ${cpx} ${cur.y} ${cur.x} ${cur.y}`;
+  }
+  return d;
+}
+
+/* ── Kunlik dinamika card ── */
+function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] }) {
+  const W = 540, H = 160;
+  const pad = { top: 20, right: 12, bottom: 32, left: 44 };
+  const iw = W - pad.left - pad.right;
+  const ih = H - pad.top - pad.bottom;
   const max = Math.max(...data.map(d => d.value), 1);
-  const min = 0;
-  const range = max - min || 1;
+  const avg = Math.round(data.reduce((s, d) => s + d.value, 0) / data.length);
+  const last = data[data.length - 1].value;
+  const prev = data[data.length - 2].value;
+  const trendUp = last >= prev;
+  const trendPct = prev > 0 ? Math.abs(Math.round(((last - prev) / prev) * 100)) : 0;
 
   const pts = data.map((d, i) => ({
     x: pad.left + (i / (data.length - 1)) * iw,
-    y: pad.top + ih - ((d.value - min) / range) * ih,
+    y: pad.top + ih - (d.value / max) * ih,
     ...d,
   }));
 
-  const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
-  const areaPath = `${linePath} L ${pts[pts.length - 1].x} ${pad.top + ih} L ${pts[0].x} ${pad.top + ih} Z`;
+  const line = smoothPath(pts);
+  const area = `${line} L ${pts[pts.length-1].x} ${pad.top+ih} L ${pts[0].x} ${pad.top+ih} Z`;
+  const ticks = [0, Math.round(max * 0.5), max];
 
-  /* Y-axis ticks */
-  const ticks = [0, Math.round(max * 0.33), Math.round(max * 0.66), max];
+  /* avg line y */
+  const avgY = pad.top + ih - (avg / max) * ih;
 
   return (
-    <svg width="100%" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="xMidYMid meet">
-      <defs>
-        <linearGradient id="lc-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.18"/>
-          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0"/>
-        </linearGradient>
-      </defs>
+    <div className="px-dyn-card">
+      {/* Header */}
+      <div className="px-dyn-head">
+        <div>
+          <p className="px-dyn-eyebrow">FAOLLIK TAHLILI</p>
+          <h3 className="px-dyn-title">Kunlik dinamika</h3>
+        </div>
+        <div className="px-dyn-badges">
+          <span className={`px-dyn-trend ${trendUp ? "up" : "dn"}`}>
+            {trendUp ? "▲" : "▼"} {trendPct}%
+          </span>
+          <span className="px-dyn-period">So'nggi {data.length} kun</span>
+        </div>
+      </div>
 
-      {/* Grid lines */}
-      {ticks.map((t, i) => {
-        const y = pad.top + ih - ((t - min) / range) * ih;
-        return (
+      {/* Big number */}
+      <div className="px-dyn-peak">
+        <span className="px-dyn-peak-n">{Math.max(...data.map(d=>d.value)).toLocaleString()}</span>
+        <span className="px-dyn-peak-l">eng yuqori kun</span>
+      </div>
+
+      {/* Chart */}
+      <svg width="100%" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid meet" className="px-dyn-svg">
+        <defs>
+          <linearGradient id="dyn-grad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stopColor="#6366f1" stopOpacity="0.22"/>
+            <stop offset="70%"  stopColor="#6366f1" stopOpacity="0.04"/>
+            <stop offset="100%" stopColor="#6366f1" stopOpacity="0"/>
+          </linearGradient>
+          <filter id="dyn-glow">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        {/* Y grid + labels */}
+        {ticks.map((t, i) => {
+          const y = pad.top + ih - (t / max) * ih;
+          return (
+            <g key={i}>
+              <line x1={pad.left} y1={y} x2={pad.left+iw} y2={y}
+                stroke={i === 0 ? "#cbd5e1" : "#f1f5f9"} strokeWidth={i===0?1:1}/>
+              <text x={pad.left-8} y={y+4} textAnchor="end" fontSize="9" fill="#94a3b8" fontWeight="600">
+                {t >= 1000 ? `${(t/1000).toFixed(0)}k` : t}
+              </text>
+            </g>
+          );
+        })}
+
+        {/* Avg dashed line */}
+        <line x1={pad.left} y1={avgY} x2={pad.left+iw} y2={avgY}
+          stroke="#a5b4fc" strokeWidth="1" strokeDasharray="5 4" opacity="0.7"/>
+        <text x={pad.left+iw+4} y={avgY+4} fontSize="8" fill="#818cf8" fontWeight="700">avg</text>
+
+        {/* Area */}
+        <path d={area} fill="url(#dyn-grad)"/>
+
+        {/* Line */}
+        <path d={line} fill="none" stroke="#6366f1" strokeWidth="2.4"
+          strokeLinecap="round" filter="url(#dyn-glow)"/>
+
+        {/* Points */}
+        {pts.map((p, i) => (
           <g key={i}>
-            <line x1={pad.left} y1={y} x2={pad.left + iw} y2={y}
-              stroke="#e2e8f0" strokeWidth="1" strokeDasharray="4 3"/>
-            <text x={pad.left - 6} y={y + 3.5} textAnchor="end"
-              fontSize="8.5" fill="#94a3b8" fontWeight="500">
-              {t >= 1000 ? `${(t/1000).toFixed(1)}k` : t}
+            <circle cx={p.x} cy={p.y} r="5" fill="#fff" stroke="#6366f1" strokeWidth="2.2"/>
+            <circle cx={p.x} cy={p.y} r="2" fill="#6366f1"/>
+            {/* value label — only on first and last, and peaks */}
+            {(i === 0 || i === pts.length-1 || p.value === max) && (
+              <text x={p.x} y={p.y - 11} textAnchor="middle"
+                fontSize="9" fill="#4338ca" fontWeight="800">
+                {p.value.toLocaleString()}
+              </text>
+            )}
+            {/* date label */}
+            <text x={p.x} y={pad.top+ih+16} textAnchor="middle"
+              fontSize="9" fill="#94a3b8" fontWeight="500">
+              {p.label}
             </text>
           </g>
-        );
-      })}
+        ))}
+      </svg>
 
-      {/* Area fill */}
-      <path d={areaPath} fill="url(#lc-grad)"/>
-
-      {/* Line */}
-      <path d={linePath} fill="none" stroke="#0ea5e9" strokeWidth="2.2"
-        strokeLinecap="round" strokeLinejoin="round"/>
-
-      {/* Points + labels */}
-      {pts.map((p, i) => (
-        <g key={i}>
-          <circle cx={p.x} cy={p.y} r="4" fill="#fff" stroke="#0ea5e9" strokeWidth="2"/>
-          <text x={p.x} y={p.y - 9} textAnchor="middle"
-            fontSize="8.5" fill="#0369a1" fontWeight="700">
-            {p.value.toLocaleString()}
-          </text>
-          <text x={p.x} y={pad.top + ih + 14} textAnchor="middle"
-            fontSize="8.5" fill="#94a3b8" fontWeight="500">
-            {p.label}
-          </text>
-        </g>
-      ))}
-    </svg>
+      {/* Footer stats */}
+      <div className="px-dyn-footer">
+        <div className="px-dyn-fstat">
+          <span className="px-dyn-fval">{avg.toLocaleString()}</span>
+          <span className="px-dyn-flbl">Kunlik o'rtacha</span>
+        </div>
+        <div className="px-dyn-sep"/>
+        <div className="px-dyn-fstat">
+          <span className="px-dyn-fval">{data.reduce((s,d)=>s+d.value,0).toLocaleString()}</span>
+          <span className="px-dyn-flbl">Jami {data.length} kunda</span>
+        </div>
+        <div className="px-dyn-sep"/>
+        <div className="px-dyn-fstat">
+          <span className="px-dyn-fval">{last.toLocaleString()}</span>
+          <span className="px-dyn-flbl">Bugun</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
-/* ── Gender Donut ── */
-function GenderDonut({ male, female }: { male: number; female: number }) {
+/* ── Jins taqsimoti card ── */
+function GenderCard({ male, female, role }: { male: number; female: number; role: string }) {
   const total = male + female || 1;
-  const r = 52, cx = 80, cy = 80, stroke = 18;
-  const circ = 2 * Math.PI * r;
-  const mPct = male / total;
-  const fDash = (1 - mPct) * circ;
-  const mDash = mPct * circ;
+  const mPct = (male / total) * 100;
+  const fPct = (female / total) * 100;
+
+  /* Teacher-specific data */
+  const isTeacher = role === "teacher";
+  const label = isTeacher ? "O'qituvchilar jins tarkibi" : "Foydalanuvchilar jins tarkibi";
+  const eyebrow = isTeacher ? "PEDAGOGIK TARKIB" : "DEMOGRAFIK TAHLIL";
+
+  /* SVG donut */
+  const R = 48, CX = 60, CY = 60, SW = 14;
+  const circ = 2 * Math.PI * R;
+  const fArc = (fPct / 100) * circ;
+  const mArc = (mPct / 100) * circ;
 
   return (
-    <div className="px-gender-wrap">
-      {/* Left: Male */}
-      <div className="px-gender-side">
-        <div className="px-gender-icon male">
-          <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#3b82f6" strokeWidth="1.8" strokeLinecap="round"/>
-          </svg>
-        </div>
-        <span className="px-gender-label">Erkak</span>
-        <span className="px-gender-n male">{male.toLocaleString()}</span>
-        <span className="px-gender-pct male">{((male/total)*100).toFixed(1)}%</span>
+    <div className="px-gc-root">
+      {/* Header */}
+      <div className="px-gc-head">
+        <p className="px-gc-eyebrow">{eyebrow}</p>
+        <h3 className="px-gc-title">{label}</h3>
       </div>
 
-      {/* Center: donut */}
-      <div className="px-gender-donut">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#fbcfe8" strokeWidth={stroke}/>
-          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#ec4899" strokeWidth={stroke}
-            strokeDasharray={`${fDash} ${circ - fDash}`}
-            strokeDashoffset={0}
-            transform={`rotate(-90 ${cx} ${cy})`}
-          />
-          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#3b82f6" strokeWidth={stroke}
-            strokeDasharray={`${mDash} ${circ - mDash}`}
-            strokeDashoffset={-(fDash)}
-            transform={`rotate(-90 ${cx} ${cy})`}
-          />
-          <text x={cx} y={cy - 6} textAnchor="middle" fontSize="19" fontWeight="800" fill="#0f172a">
-            {total.toLocaleString()}
-          </text>
-          <text x={cx} y={cx + 10} textAnchor="middle" fontSize="9" fill="#94a3b8" fontWeight="600">
-            JAMI
-          </text>
-        </svg>
-      </div>
-
-      {/* Right: Female */}
-      <div className="px-gender-side">
-        <div className="px-gender-icon female">
-          <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
-            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#ec4899" strokeWidth="1.8" strokeLinecap="round"/>
+      <div className="px-gc-body">
+        {/* Donut */}
+        <div className="px-gc-donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <defs>
+              <filter id="gc-shadow">
+                <feDropShadow dx="0" dy="1" stdDeviation="3" floodColor="#6366f1" floodOpacity="0.15"/>
+              </filter>
+            </defs>
+            {/* Track */}
+            <circle cx={CX} cy={CY} r={R} fill="none" stroke="#f1f5f9" strokeWidth={SW}/>
+            {/* Female arc */}
+            <circle cx={CX} cy={CY} r={R} fill="none"
+              stroke="#ec4899" strokeWidth={SW}
+              strokeDasharray={`${fArc} ${circ - fArc}`}
+              strokeDashoffset={0}
+              strokeLinecap="round"
+              transform={`rotate(-90 ${CX} ${CY})`}
+              filter="url(#gc-shadow)"
+            />
+            {/* Male arc */}
+            <circle cx={CX} cy={CY} r={R} fill="none"
+              stroke="#6366f1" strokeWidth={SW}
+              strokeDasharray={`${mArc} ${circ - mArc}`}
+              strokeDashoffset={-(fArc + 3)}
+              strokeLinecap="round"
+              transform={`rotate(-90 ${CX} ${CY})`}
+            />
+            {/* Center */}
+            <text x={CX} y={CY - 7} textAnchor="middle" fontSize="16" fontWeight="800" fill="#0f172a">
+              {total.toLocaleString()}
+            </text>
+            <text x={CX} y={CY + 8} textAnchor="middle" fontSize="8" fill="#94a3b8" fontWeight="700" letterSpacing="0.5">
+              JAMI
+            </text>
           </svg>
         </div>
-        <span className="px-gender-label">Ayol</span>
-        <span className="px-gender-n female">{female.toLocaleString()}</span>
-        <span className="px-gender-pct female">{((female/total)*100).toFixed(1)}%</span>
+
+        {/* Stats */}
+        <div className="px-gc-stats">
+          {/* Female */}
+          <div className="px-gc-row">
+            <div className="px-gc-dot" style={{background:"#ec4899"}}/>
+            <div className="px-gc-info">
+              <div className="px-gc-info-top">
+                <span className="px-gc-name">Ayol</span>
+                <span className="px-gc-num" style={{color:"#db2777"}}>{female.toLocaleString()}</span>
+              </div>
+              <div className="px-gc-bar-track">
+                <div className="px-gc-bar-fill" style={{width:`${fPct.toFixed(1)}%`, background:"#ec4899"}}/>
+              </div>
+              <span className="px-gc-pct">{fPct.toFixed(1)}%</span>
+            </div>
+          </div>
+
+          {/* Male */}
+          <div className="px-gc-row">
+            <div className="px-gc-dot" style={{background:"#6366f1"}}/>
+            <div className="px-gc-info">
+              <div className="px-gc-info-top">
+                <span className="px-gc-name">Erkak</span>
+                <span className="px-gc-num" style={{color:"#4338ca"}}>{male.toLocaleString()}</span>
+              </div>
+              <div className="px-gc-bar-track">
+                <div className="px-gc-bar-fill" style={{width:`${mPct.toFixed(1)}%`, background:"#6366f1"}}/>
+              </div>
+              <span className="px-gc-pct">{mPct.toFixed(1)}%</span>
+            </div>
+          </div>
+
+          {/* Ratio chip */}
+          <div className="px-gc-ratio">
+            <span style={{color:"#db2777"}}>♀ {fPct.toFixed(0)}%</span>
+            <div className="px-gc-ratio-bar">
+              <div style={{width:`${fPct}%`, background:"linear-gradient(90deg,#ec4899,#f472b6)"}}/>
+              <div style={{width:`${mPct}%`, background:"linear-gradient(90deg,#818cf8,#6366f1)"}}/>
+            </div>
+            <span style={{color:"#4338ca"}}>♂ {mPct.toFixed(0)}%</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -560,40 +681,15 @@ export function DashboardPage() {
             </div>
           )}
 
-          {/* Admin & Teacher: Analytics charts row */}
-          {(role === "admin" || role === "teacher") && (
-            <div className="px-row">
-              {/* Kunlik dinamika */}
-              <div className="px-card px-card-grow">
-                <div className="px-card-head">
-                  <h3>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" strokeWidth="2.2" strokeLinecap="round" style={{verticalAlign:"middle",marginRight:6}}>
-                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-                    </svg>
-                    Kunlik dinamika
-                  </h3>
-                  <span className="px-chart-meta-tag">So'nggi 6 kun</span>
-                </div>
-                <div className="px-lc-val">
-                  {DAILY_DYNAMICS[0].value.toLocaleString()}
-                </div>
-                <div className="px-chart-wrap">
-                  <LineChart data={DAILY_DYNAMICS} />
-                </div>
-              </div>
-
-              {/* Jins bo'yicha taqsimot */}
-              <div className="px-card px-card-narrow">
-                <div className="px-card-head">
-                  <h3>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" style={{verticalAlign:"middle",marginRight:6}}>
-                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-                    </svg>
-                    Jins bo'yicha taqsimot
-                  </h3>
-                </div>
-                <GenderDonut male={GENDER.male} female={GENDER.female} />
-              </div>
+          {/* Admin | Teacher | Librarian: Analytics charts */}
+          {(role === "admin" || role === "teacher" || role === "librarian") && (
+            <div className="px-row px-row-charts">
+              <DailyDynamicsCard data={DAILY_DYNAMICS} />
+              <GenderCard
+                male={role === "teacher" ? 6 : GENDER.male}
+                female={role === "teacher" ? 11 : GENDER.female}
+                role={role}
+              />
             </div>
           )}
 
