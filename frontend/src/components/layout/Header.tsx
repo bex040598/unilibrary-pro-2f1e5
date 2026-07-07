@@ -21,7 +21,7 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
     navigate(`/${locale}`);
   }
 
-  const showDashboard = user && user.role !== "student";
+  const dashboardPath = user ? `/${locale}/dashboard/${user.role}` : null;
 
   const navLinks = [
     { to: `/${locale}`, label: "Bosh sahifa" },
@@ -29,7 +29,7 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
     { to: `/${locale}/elibrary`, label: "E-Library" },
     { to: `/${locale}/kafedralar`, label: "Kafedralar" },
     { to: `/${locale}/library/reading-room`, label: "O'quv zali" },
-    ...(showDashboard ? [{ to: `/${locale}/dashboard`, label: "Boshqaruv" }] : []),
+    ...(dashboardPath ? [{ to: dashboardPath, label: "Boshqaruv" }] : []),
   ];
 
   const isActive = (to: string) =>
@@ -151,6 +151,12 @@ export function Header({ locale }: { locale: Locale; currentPath: string }) {
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 Shaxsiy ma'lumotlar
               </Link>
+              {dashboardPath && (
+                <Link to={dashboardPath} onClick={() => setDropOpen(false)} className="bod-drop-link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                  Boshqaruv paneli
+                </Link>
+              )}
               <Link to={`/${locale}/loans`} onClick={() => setDropOpen(false)} className="bod-drop-link">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
                 Mening kitoblarim
