@@ -458,64 +458,104 @@ export function AISearchCard() {
 ════════════════════════════════════ */
 export function FeatureStatsCard() {
   const STATS = [
-    { icon:"search", label:"AI qidiruv",       uses:1247, growth:34, color:"#4f46e5", spark:[800,950,1050,1180,1247] },
-    { icon:"quote",  label:"Iqtibos generator", uses:892,  growth:18, color:"#0891b2", spark:[580,670,750,830,892]   },
-    { icon:"shield", label:"Plagiat tekshiruv", uses:437,  growth:61, color:"#7c3aed", spark:[170,240,320,390,437]   },
-    { icon:"target", label:"Kitob tavsiyalar",  uses:2184, growth:42, color:"#059669", spark:[1100,1450,1750,1980,2184]},
-    { icon:"pack",   label:"Course Pack",       uses:156,  growth:28, color:"#d97706", spark:[75,100,118,138,156]    },
-    { icon:"qr",     label:"QR navigatsiya",    uses:341,  growth:89, color:"#dc2626", spark:[90,145,210,275,341]    },
-    { icon:"flame",  label:"Streak / Progress", uses:678,  growth:53, color:"#f97316", spark:[280,380,490,590,678]   },
+    { icon:"target", label:"Kitob tavsiyalar",  uses:2184, growth:42, color:"#34d399", spark:[1100,1450,1750,1980,2184] },
+    { icon:"search", label:"AI qidiruv",        uses:1247, growth:34, color:"#818cf8", spark:[800,950,1050,1180,1247]   },
+    { icon:"quote",  label:"Iqtibos generator", uses:892,  growth:18, color:"#38bdf8", spark:[580,670,750,830,892]      },
+    { icon:"flame",  label:"Streak / Progress", uses:678,  growth:53, color:"#fb923c", spark:[280,380,490,590,678]      },
+    { icon:"shield", label:"Plagiat tekshiruv", uses:437,  growth:61, color:"#c084fc", spark:[170,240,320,390,437]      },
+    { icon:"qr",     label:"QR navigatsiya",    uses:341,  growth:89, color:"#f87171", spark:[90,145,210,275,341]       },
+    { icon:"pack",   label:"Course Pack",       uses:156,  growth:28, color:"#fbbf24", spark:[75,100,118,138,156]       },
   ];
   const total = STATS.reduce((s,x) => s+x.uses, 0);
-  const maxUses = Math.max(...STATS.map(s=>s.uses));
+  const maxUses = STATS[0].uses;
+  const topGrower = [...STATS].sort((a,b)=>b.growth-a.growth)[0];
+
+  /* mini sparkline helper */
+  function Spark({ vals, color }: { vals: number[]; color: string }) {
+    const W=44, H=20, mx=Math.max(...vals), mn=Math.min(...vals), range=mx-mn||1;
+    const pts = vals.map((v,i)=>`${i*(W/(vals.length-1))},${H-((v-mn)/range)*H}`).join(" ");
+    return (
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{flexShrink:0,overflow:"visible"}}>
+        <polyline points={pts} fill="none" stroke={color} strokeWidth="1.6"
+          strokeLinecap="round" strokeLinejoin="round" opacity=".9"/>
+        <circle cx={W} cy={H-((vals[vals.length-1]-mn)/range)*H} r="2.5" fill={color}/>
+      </svg>
+    );
+  }
+
   return (
-    <div className="sf-stats-card">
-      <div className="sf-stats-head">
-        <div>
-          <p className="sf-eyebrow" style={{color:"#a5b4fc"}}>SMART XIZMATLAR · REAL-TIME TAHLIL</p>
-          <h3 className="sf-title">Funksiyalar foydalanish ko'rsatkichlari</h3>
+    <div className="fsc-root">
+      {/* ── Header ── */}
+      <div className="fsc-header">
+        <div className="fsc-header-left">
+          <span className="fsc-live-dot"/>
+          <span className="fsc-eyebrow">FAOLLIK TAHLILI · BUGUN</span>
         </div>
-        <div className="sf-stats-total">
-          <span className="sf-stats-total-n">{total.toLocaleString()}</span>
-          <span className="sf-stats-total-l">Jami session</span>
+        <div className="fsc-header-right">
+          <span className="fsc-total-n">{total.toLocaleString()}</span>
+          <span className="fsc-total-l">jami session</span>
         </div>
       </div>
-      <div className="sf-rainbow">
+
+      {/* ── Usage river ── */}
+      <div className="fsc-river">
         {STATS.map((s,i) => (
-          <div key={i} title={s.label}
-            className="sf-rainbow-seg"
-            style={{flex:s.uses, background:s.color}}/>
+          <div key={i} className="fsc-river-seg" title={`${s.label}: ${s.uses}`}
+            style={{flex:s.uses, background:s.color, opacity:.85}}/>
         ))}
       </div>
-      <div className="sf-stats-grid">
+
+      {/* ── Leaderboard ── */}
+      <div className="fsc-board">
+        <div className="fsc-board-header">
+          <span className="fsc-col-rank">#</span>
+          <span className="fsc-col-name">Funksiya</span>
+          <span className="fsc-col-bar">Foydalanish</span>
+          <span className="fsc-col-spark">Trend</span>
+          <span className="fsc-col-n">Sessiya</span>
+          <span className="fsc-col-g">O'sish</span>
+        </div>
         {STATS.map((s,i) => {
-          const W=52, H=24;
-          const mx = Math.max(...s.spark);
-          const pts = s.spark.map((v,j)=>`${j*(W/(s.spark.length-1))},${H-(v/mx)*H}`).join(" ");
-          const barW = ((s.uses/maxUses)*100).toFixed(1);
+          const pct = (s.uses / maxUses) * 100;
           return (
-            <div key={i} className="sf-stat-tile">
-              <div className="sf-stat-tile-top">
-                <div className="sf-stat-tile-icon" style={{background:s.color+"15",color:s.color}}>
-                  <I n={s.icon} s={14} c={s.color}/>
-                </div>
-                <span className="sf-stat-tile-label">{s.label}</span>
-                <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{flexShrink:0}}>
-                  <polyline points={pts} fill="none" stroke={s.color} strokeWidth="1.6"
-                    strokeLinecap="round" strokeLinejoin="round" opacity=".8"/>
-                  <circle cx={W} cy={H-(s.spark[s.spark.length-1]/mx)*H} r="2.2" fill={s.color}/>
-                </svg>
-              </div>
-              <div className="sf-stat-tile-mid">
-                <span className="sf-stat-tile-n">{s.uses.toLocaleString()}</span>
-                <span className="sf-stat-tile-g" style={{color:"#16a34a",background:"#dcfce7"}}>+{s.growth}%</span>
-              </div>
-              <div className="sf-stat-bar-track">
-                <div style={{width:`${barW}%`, height:"100%", background:s.color, borderRadius:2, opacity:.7}}/>
-              </div>
+            <div key={i} className="fsc-row" style={{"--fsc-color": s.color} as React.CSSProperties}>
+              <span className="fsc-col-rank">
+                {i === 0
+                  ? <span className="fsc-crown">①</span>
+                  : <span className="fsc-rank-n">{i+1}</span>
+                }
+              </span>
+              <span className="fsc-col-name">
+                <span className="fsc-icon-dot" style={{background: s.color + "22", color: s.color}}>
+                  <I n={s.icon} s={12} c={s.color}/>
+                </span>
+                <span className="fsc-name-text">{s.label}</span>
+              </span>
+              <span className="fsc-col-bar">
+                <span className="fsc-bar-track">
+                  <span className="fsc-bar-fill" style={{width:`${pct}%`, background: s.color}}/>
+                </span>
+              </span>
+              <span className="fsc-col-spark">
+                <Spark vals={s.spark} color={s.color}/>
+              </span>
+              <span className="fsc-col-n">{s.uses.toLocaleString()}</span>
+              <span className="fsc-col-g" style={{color: s.growth > 50 ? "#4ade80" : s.growth > 30 ? "#a3e635" : "#facc15"}}>
+                +{s.growth}%
+              </span>
             </div>
           );
         })}
+      </div>
+
+      {/* ── Footer callout ── */}
+      <div className="fsc-footer">
+        <span className="fsc-trophy">↑</span>
+        <span className="fsc-footer-text">
+          Eng tez o'suvchi: <strong style={{color: topGrower.color}}>{topGrower.label}</strong>
+          <span className="fsc-footer-pct"> +{topGrower.growth}% bu hafta</span>
+        </span>
+        <span className="fsc-footer-period">So'nggi 30 kun</span>
       </div>
     </div>
   );
