@@ -75,6 +75,137 @@ function BarChart({ data, height = 120 }: {
   );
 }
 
+/* ── Line Chart (Kunlik dinamika) ── */
+function LineChart({ data }: { data: { label: string; value: number }[] }) {
+  const w = 500, h = 130, pad = { top: 24, right: 16, bottom: 28, left: 48 };
+  const iw = w - pad.left - pad.right;
+  const ih = h - pad.top - pad.bottom;
+  const max = Math.max(...data.map(d => d.value), 1);
+  const min = 0;
+  const range = max - min || 1;
+
+  const pts = data.map((d, i) => ({
+    x: pad.left + (i / (data.length - 1)) * iw,
+    y: pad.top + ih - ((d.value - min) / range) * ih,
+    ...d,
+  }));
+
+  const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
+  const areaPath = `${linePath} L ${pts[pts.length - 1].x} ${pad.top + ih} L ${pts[0].x} ${pad.top + ih} Z`;
+
+  /* Y-axis ticks */
+  const ticks = [0, Math.round(max * 0.33), Math.round(max * 0.66), max];
+
+  return (
+    <svg width="100%" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="xMidYMid meet">
+      <defs>
+        <linearGradient id="lc-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.18"/>
+          <stop offset="100%" stopColor="#0ea5e9" stopOpacity="0"/>
+        </linearGradient>
+      </defs>
+
+      {/* Grid lines */}
+      {ticks.map((t, i) => {
+        const y = pad.top + ih - ((t - min) / range) * ih;
+        return (
+          <g key={i}>
+            <line x1={pad.left} y1={y} x2={pad.left + iw} y2={y}
+              stroke="#e2e8f0" strokeWidth="1" strokeDasharray="4 3"/>
+            <text x={pad.left - 6} y={y + 3.5} textAnchor="end"
+              fontSize="8.5" fill="#94a3b8" fontWeight="500">
+              {t >= 1000 ? `${(t/1000).toFixed(1)}k` : t}
+            </text>
+          </g>
+        );
+      })}
+
+      {/* Area fill */}
+      <path d={areaPath} fill="url(#lc-grad)"/>
+
+      {/* Line */}
+      <path d={linePath} fill="none" stroke="#0ea5e9" strokeWidth="2.2"
+        strokeLinecap="round" strokeLinejoin="round"/>
+
+      {/* Points + labels */}
+      {pts.map((p, i) => (
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r="4" fill="#fff" stroke="#0ea5e9" strokeWidth="2"/>
+          <text x={p.x} y={p.y - 9} textAnchor="middle"
+            fontSize="8.5" fill="#0369a1" fontWeight="700">
+            {p.value.toLocaleString()}
+          </text>
+          <text x={p.x} y={pad.top + ih + 14} textAnchor="middle"
+            fontSize="8.5" fill="#94a3b8" fontWeight="500">
+            {p.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+/* ── Gender Donut ── */
+function GenderDonut({ male, female }: { male: number; female: number }) {
+  const total = male + female || 1;
+  const r = 52, cx = 80, cy = 80, stroke = 18;
+  const circ = 2 * Math.PI * r;
+  const mPct = male / total;
+  const fDash = (1 - mPct) * circ;
+  const mDash = mPct * circ;
+
+  return (
+    <div className="px-gender-wrap">
+      {/* Left: Male */}
+      <div className="px-gender-side">
+        <div className="px-gender-icon male">
+          <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#3b82f6" strokeWidth="1.8" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <span className="px-gender-label">Erkak</span>
+        <span className="px-gender-n male">{male.toLocaleString()}</span>
+        <span className="px-gender-pct male">{((male/total)*100).toFixed(1)}%</span>
+      </div>
+
+      {/* Center: donut */}
+      <div className="px-gender-donut">
+        <svg width="160" height="160" viewBox="0 0 160 160">
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#fbcfe8" strokeWidth={stroke}/>
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#ec4899" strokeWidth={stroke}
+            strokeDasharray={`${fDash} ${circ - fDash}`}
+            strokeDashoffset={0}
+            transform={`rotate(-90 ${cx} ${cy})`}
+          />
+          <circle cx={cx} cy={cy} r={r} fill="none" stroke="#3b82f6" strokeWidth={stroke}
+            strokeDasharray={`${mDash} ${circ - mDash}`}
+            strokeDashoffset={-(fDash)}
+            transform={`rotate(-90 ${cx} ${cy})`}
+          />
+          <text x={cx} y={cy - 6} textAnchor="middle" fontSize="19" fontWeight="800" fill="#0f172a">
+            {total.toLocaleString()}
+          </text>
+          <text x={cx} y={cx + 10} textAnchor="middle" fontSize="9" fill="#94a3b8" fontWeight="600">
+            JAMI
+          </text>
+        </svg>
+      </div>
+
+      {/* Right: Female */}
+      <div className="px-gender-side">
+        <div className="px-gender-icon female">
+          <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+            <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#ec4899" strokeWidth="1.8" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <span className="px-gender-label">Ayol</span>
+        <span className="px-gender-n female">{female.toLocaleString()}</span>
+        <span className="px-gender-pct female">{((female/total)*100).toFixed(1)}%</span>
+      </div>
+    </div>
+  );
+}
+
 function Sparkline({ values, color = "#002147" }: { values: number[]; color?: string }) {
   const max = Math.max(...values, 1);
   const w = 64, h = 24, step = w / (values.length - 1);
@@ -94,6 +225,17 @@ const WEEKLY = [
   { label: "Pa", value: 271 }, { label: "Ju", value: 198 }, { label: "Sh", value: 89 },
   { label: "Ya", value: 32 },
 ];
+
+const DAILY_DYNAMICS = [
+  { label: "01.07", value: 4244 },
+  { label: "02.07", value: 2064 },
+  { label: "03.07", value: 1423 },
+  { label: "04.07", value: 1143 },
+  { label: "05.07", value: 881  },
+  { label: "06.07", value: 1233 },
+];
+
+const GENDER = { male: 2800, female: 8188 };
 
 const POPULAR = [
   { title: "Ma'lumotlar bazasi: amaliy qo'llanma", author: "Aziza Yuldasheva", type: "Lab ishi", views: 47, trend: [20, 28, 35, 47] },
@@ -414,6 +556,43 @@ export function DashboardPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* Admin & Teacher: Analytics charts row */}
+          {(role === "admin" || role === "teacher") && (
+            <div className="px-row">
+              {/* Kunlik dinamika */}
+              <div className="px-card px-card-grow">
+                <div className="px-card-head">
+                  <h3>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" strokeWidth="2.2" strokeLinecap="round" style={{verticalAlign:"middle",marginRight:6}}>
+                      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                    Kunlik dinamika
+                  </h3>
+                  <span className="px-chart-meta-tag">So'nggi 6 kun</span>
+                </div>
+                <div className="px-lc-val">
+                  {DAILY_DYNAMICS[0].value.toLocaleString()}
+                </div>
+                <div className="px-chart-wrap">
+                  <LineChart data={DAILY_DYNAMICS} />
+                </div>
+              </div>
+
+              {/* Jins bo'yicha taqsimot */}
+              <div className="px-card px-card-narrow">
+                <div className="px-card-head">
+                  <h3>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" style={{verticalAlign:"middle",marginRight:6}}>
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    Jins bo'yicha taqsimot
+                  </h3>
+                </div>
+                <GenderDonut male={GENDER.male} female={GENDER.female} />
               </div>
             </div>
           )}

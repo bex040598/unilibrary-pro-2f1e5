@@ -10167,3 +10167,74 @@ td {
   .px-lib-roles { grid-template-columns: repeat(2, 1fr); }
 }
 
+
+/* в”Ђв”Ђ Line chart в”Ђв”Ђ */
+.px-chart-meta-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.px-lc-val {
+  font-size: 28px;
+  font-weight: 800;
+  color: #002147;
+  font-family: Georgia, serif;
+  margin: 0 0 8px;
+  letter-spacing: -1px;
+}
+
+/* в”Ђв”Ђ Gender donut в”Ђв”Ђ */
+.px-gender-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0 4px;
+  gap: 8px;
+}
+.px-gender-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 72px;
+}
+.px-gender-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+}
+.px-gender-icon.male   { background: #dbeafe; }
+.px-gender-icon.female { background: #fce7f3; }
+.px-gender-label {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+}
+.px-gender-n {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.px-gender-n.male   { color: #1d4ed8; }
+.px-gender-n.female { color: #db2777; }
+.px-gender-pct {
+  font-size: 12px;
+  font-weight: 600;
+}
+.px-gender-pct.male   { color: #3b82f6; }
+.px-gender-pct.female { color: #ec4899; }
+.px-gender-donut { flex-shrink: 0; }
+
+@media (max-width: 600px) {
+  .px-gender-wrap { flex-direction: column; gap: 16px; }
+  .px-gender-donut svg { width: 130px; height: 130px; }
+}
+
