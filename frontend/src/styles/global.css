@@ -11042,3 +11042,266 @@ td {
   .fsc-row { grid-template-columns: 24px 1fr 70px 0 52px 38px; }
   .fsc-col-spark { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════
+   NEW 8 AI FEATURES — CSS
+   ═══════════════════════════════════════════════════ */
+
+/* ── AI Answer bubble ── */
+.sf-ai-answer {
+  display:flex; gap:10px; align-items:flex-start;
+  background:#f0f9ff; border:1px solid #bae6fd;
+  border-radius:10px; padding:11px 13px;
+}
+.sf-ai-answer-dot {
+  width:8px; height:8px; border-radius:50%;
+  background:#0284c7; flex-shrink:0; margin-top:4px;
+  box-shadow:0 0 0 3px #bae6fd;
+}
+.sf-ai-answer-text { font-size:12px; color:#0c4a6e; line-height:1.6; margin:0; }
+
+/* ═══════════════════════════════
+   2. Reading Planner  sfp-*
+═══════════════════════════════ */
+.sfp-week {
+  display:flex; justify-content:space-between; gap:4px;
+}
+.sfp-day-col { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.sfp-ring {
+  width:32px; height:32px; border-radius:50%;
+  border:2px solid #e2e8f0; background:#f8fafc;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s;
+}
+.sfp-ring-done { background:#0891b2; border-color:#0891b2; }
+.sfp-ring-today { border-color:#0891b2; border-width:2.5px; background:#e0f7fa; }
+.sfp-day-n { font-size:10px; font-weight:700; color:#94a3b8; }
+.sfp-day-lbl { font-size:9px; font-weight:600; color:#94a3b8; letter-spacing:.04em; }
+
+.sfp-progress-row {
+  display:flex; align-items:center; gap:10px; margin-top:2px;
+}
+.sfp-pct-label { font-size:11px; font-weight:700; color:#0891b2; white-space:nowrap; }
+
+.sfp-plan-list { display:flex; flex-direction:column; gap:5px; }
+.sfp-plan-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; border-radius:8px;
+  background:#f8fafc; border:1px solid #f1f5f9;
+  transition:background .12s;
+}
+.sfp-plan-done { background:#f0fdf4; border-color:#bbf7d0; }
+.sfp-plan-today { background:#e0f7fa; border-color:#a5f3fc; }
+.sfp-plan-check {
+  width:18px; height:18px; border-radius:50%;
+  border:1.5px solid #e2e8f0; background:#fff;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.sfp-plan-done .sfp-plan-check { border-color:#0891b2; background:#e0f7fa; }
+.sfp-plan-body { flex:1; display:flex; flex-direction:column; }
+.sfp-plan-task { font-size:12px; font-weight:700; color:#0f172a; }
+.sfp-plan-book { font-size:10.5px; color:#64748b; }
+.sfp-today-badge {
+  font-size:9.5px; font-weight:700; padding:2px 8px;
+  border-radius:20px; background:#0891b2; color:#fff; flex-shrink:0;
+}
+
+/* ═══════════════════════════════
+   3. Research Gap  sfr-*
+═══════════════════════════════ */
+.sfr-body { display:flex; flex-direction:column; gap:10px; }
+.sfr-inp { flex:1; }
+.sfr-results { display:flex; flex-direction:column; gap:7px; }
+.sfr-hint { font-size:10.5px; color:#64748b; font-style:italic; }
+.sfr-row { display:flex; flex-direction:column; gap:4px; }
+.sfr-label-wrap { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.sfr-label { font-size:11.5px; color:#334155; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sfr-tag {
+  font-size:9.5px; font-weight:700; padding:2px 7px;
+  border-radius:20px; flex-shrink:0; white-space:nowrap;
+}
+.sfr-bar-wrap {
+  display:flex; align-items:center; gap:8px;
+  height:6px; position:relative;
+}
+.sfr-bar-wrap { height:auto; }
+.sfr-bar-fill-track { height:6px; background:#f1f5f9; border-radius:10px; overflow:hidden; flex:1; }
+.sfr-bar-fill {
+  height:6px; border-radius:10px; transition:width .6s cubic-bezier(.34,1.56,.64,1);
+  opacity:.8;
+}
+.sfr-pct { font-size:10px; font-weight:700; color:#64748b; width:28px; text-align:right; font-family:ui-monospace,monospace; }
+
+/* Fix: bar-wrap rewrite */
+.sfr-bar-wrap { display:flex; align-items:center; gap:8px; }
+.sfr-bar-track-bg { flex:1; height:6px; background:#f1f5f9; border-radius:10px; overflow:hidden; }
+
+/* ═══════════════════════════════
+   4. Voice Search  sfv-*
+═══════════════════════════════ */
+.sfv-body { display:flex; flex-direction:column; gap:12px; align-items:stretch; }
+.sfv-mic-wrap { display:flex; flex-direction:column; align-items:center; gap:8px; position:relative; }
+.sfv-mic-btn {
+  width:60px; height:60px; border-radius:50%;
+  background:#fff7ed; border:2px solid #fed7aa;
+  color:#d97706; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all .2s; position:relative; z-index:1;
+}
+.sfv-mic-btn:hover { background:#fef3c7; border-color:#fbbf24; transform:scale(1.05); }
+.sfv-mic-active { background:#d97706 !important; border-color:#d97706 !important; color:#fff !important; }
+.sfv-ripple {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:60px; height:60px; border-radius:50%;
+  background:rgba(217,119,6,.2);
+  animation:sfv-ripple-anim 1.2s ease-out infinite;
+}
+@keyframes sfv-ripple-anim {
+  0%   { width:60px; height:60px; opacity:.7; }
+  100% { width:100px; height:100px; opacity:0; }
+}
+.sfv-mic-hint { font-size:11px; color:#94a3b8; }
+
+.sfv-transcript {
+  display:flex; gap:6px; padding:10px 12px;
+  background:#fffbeb; border:1px solid #fde68a; border-radius:9px;
+}
+.sfv-q-icon { font-size:20px; color:#d97706; line-height:1; flex-shrink:0; font-family:Georgia,serif; }
+.sfv-q-text { font-size:12.5px; color:#92400e; font-style:italic; }
+
+.sfv-results { display:flex; flex-direction:column; gap:5px; }
+.sfv-result-row {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 10px; background:#f8fafc; border-radius:7px; border:1px solid #f1f5f9;
+}
+.sfv-result-n {
+  width:20px; height:20px; border-radius:5px;
+  background:#fed7aa; color:#92400e;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:800; flex-shrink:0;
+}
+.sfv-result-title { font-size:12px; color:#334155; }
+
+.sfv-recent { display:flex; flex-direction:column; gap:4px; }
+.sfv-recent-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; }
+.sfv-recent-row {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 8px; border-radius:7px; background:none; border:none;
+  cursor:pointer; text-align:left; color:#64748b; font-size:12px;
+  transition:background .12s;
+}
+.sfv-recent-row:hover { background:#f8fafc; color:#334155; }
+
+/* ═══════════════════════════════
+   5. Live Translator  sft-*
+═══════════════════════════════ */
+.sft-body { display:flex; flex-direction:column; gap:10px; }
+.sft-out-box {
+  background:#f0f9ff; border:1px solid #bae6fd;
+  border-radius:9px; padding:11px 13px;
+}
+.sft-out-text { font-size:12.5px; color:#0c4a6e; line-height:1.65; margin:0; font-family:Georgia,serif; }
+.sft-terms { display:flex; flex-direction:column; gap:6px; }
+.sft-terms-label { font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:.06em; }
+.sft-terms-grid { display:flex; flex-direction:column; gap:4px; }
+.sft-term-row {
+  display:flex; align-items:center; gap:8px;
+  padding:5px 9px; background:#f8fafc; border-radius:7px;
+  border-left:3px solid #0284c7;
+}
+.sft-term-en { font-size:11.5px; font-weight:700; color:#0f172a; font-family:ui-monospace,monospace; }
+.sft-term-arr { color:#94a3b8; font-size:12px; }
+.sft-term-uz { font-size:11.5px; color:#0284c7; font-weight:600; }
+
+/* ═══════════════════════════════
+   6. Collection Analytics  sfca-*
+═══════════════════════════════ */
+.sfca-body { display:flex; flex-direction:column; gap:8px; }
+.sfca-legend { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:2px; }
+.sfca-leg-item { display:flex; align-items:center; gap:5px; font-size:10px; color:#64748b; font-weight:600; }
+.sfca-leg-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+.sfca-row { display:flex; align-items:center; gap:8px; }
+.sfca-subject { font-size:11px; font-weight:700; color:#334155; width:76px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sfca-bars { flex:1; display:flex; flex-direction:column; gap:3px; }
+.sfca-bar-bg { height:6px; background:#f1f5f9; border-radius:10px; overflow:hidden; }
+.sfca-bar-demand { height:100%; border-radius:10px; transition:width .6s; }
+.sfca-bar-stock  { height:100%; border-radius:10px; transition:width .6s; }
+.sfca-gap-badge {
+  font-size:10px; font-weight:800; padding:2px 7px;
+  border-radius:20px; flex-shrink:0; font-family:ui-monospace,monospace;
+}
+.sfca-gap-bad { background:#fce8ea; color:#9b1a2f; }
+.sfca-gap-ok  { background:#d1fae5; color:#065f46; }
+.sfca-footer-note {
+  display:flex; align-items:center; gap:6px;
+  font-size:11px; color:#64748b; padding:8px 10px;
+  background:#fef2f2; border-radius:8px; border:1px solid #fecaca;
+  margin-top:4px;
+}
+
+/* ═══════════════════════════════
+   7. Return Prediction  sfrp-*
+═══════════════════════════════ */
+.sfrp-body { display:flex; flex-direction:column; }
+.sfrp-header-row {
+  display:grid; grid-template-columns:1fr 1fr 80px 70px;
+  padding:6px 8px; background:#f8fafc; border-radius:7px; margin-bottom:4px;
+  font-size:9.5px; font-weight:700; color:#94a3b8; letter-spacing:.06em; text-transform:uppercase;
+  font-family:ui-monospace,monospace;
+}
+.sfrp-row {
+  display:grid; grid-template-columns:1fr 1fr 80px 70px;
+  padding:8px 8px; align-items:center;
+  border-bottom:1px solid #f1f5f9;
+  transition:background .12s;
+}
+.sfrp-row:last-of-type { border-bottom:none; }
+.sfrp-row:hover { background:#f8fafc; }
+.sfrp-col-name { display:flex; align-items:center; gap:7px; font-size:12px; color:#0f172a; font-weight:600; min-width:0; }
+.sfrp-col-book { font-size:11px; color:#64748b; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sfrp-col-days { font-size:11px; white-space:nowrap; }
+.sfrp-col-risk { display:flex; align-items:center; gap:5px; }
+.sfrp-avatar {
+  width:22px; height:22px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:800; flex-shrink:0; font-family:ui-monospace,monospace;
+}
+.sfrp-risk-bar { width:36px; height:5px; background:#f1f5f9; border-radius:3px; overflow:hidden; flex-shrink:0; }
+.sfrp-footer {
+  display:flex; align-items:center; gap:8px;
+  margin-top:8px; padding:8px 10px;
+  background:#fef2f2; border-radius:8px; border:1px solid #fecaca;
+  font-size:11px; color:#9b1a2f;
+}
+.sfrp-alert-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:#dc2626; flex-shrink:0;
+  animation:fsc-pulse 1.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════
+   8. Serendipity  sfse-*
+═══════════════════════════════ */
+.sfse-body { display:flex; flex-direction:column; gap:12px; }
+.sfse-sliders { display:flex; flex-direction:column; gap:8px; }
+.sfse-slider-row { display:flex; align-items:center; gap:10px; }
+.sfse-slider-label { font-size:11.5px; color:#64748b; width:80px; flex-shrink:0; font-weight:600; }
+.sfse-range { flex:1; }
+.sfse-slider-val { font-size:11px; color:#9333ea; letter-spacing:1px; width:60px; text-align:right; flex-shrink:0; }
+
+.sfse-book {
+  display:flex; gap:12px; align-items:center;
+  padding:12px; border-radius:10px; border:1.5px solid #e2e8f0;
+  background:#faf5ff;
+}
+.sfse-book-cover {
+  width:44px; height:56px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; font-weight:900; font-family:Georgia,serif;
+  flex-shrink:0; letter-spacing:.5px;
+}
+.sfse-book-info { flex:1; display:flex; flex-direction:column; gap:3px; }
+.sfse-book-title  { font-size:13px; font-weight:700; color:#0f172a; font-family:Georgia,serif; }
+.sfse-book-author { font-size:10.5px; color:#64748b; }
+.sfse-book-why    { font-size:11px; color:#7e22ce; font-style:italic; }
+.sfse-match       { font-size:12px; font-weight:800; font-family:ui-monospace,monospace; }

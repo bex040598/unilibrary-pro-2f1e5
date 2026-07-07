@@ -561,6 +561,419 @@ export function FeatureStatsCard() {
   );
 }
 
+/* ════════════════════════════════════════════════════
+   NEW AI FEATURES — 8 ta yangi AI komponent
+════════════════════════════════════════════════════ */
+
+/* 1. AI O'QISH HAMKOHI — Student + Teacher */
+export function AICompanionCard() {
+  const [query, setQuery] = useState("");
+  const [answer, setAnswer] = useState<string|null>(null);
+  const [loading, setLoading] = useState(false);
+  const CHIPS = ["Bu kitobni qisqacha tushuntir", "O'xshash kitoblar tavsiya qil", "Asosiy g'oyalar nima?"];
+  function ask(q: string) {
+    setLoading(true); setAnswer(null);
+    setTimeout(() => {
+      setAnswer(`"${q}" bo'yicha kutubxona ma'lumotlar bazasida 14 ta tegishli manba topildi. Eng mos: Karimov A. "Axborot tizimlar nazariyasi" (2021) — bu kitob sizning so'rovingizga 94% mos keladi. Shuningdek 3 ta elektron resurs va 2 ta dissertatsiya mavjud.`);
+      setLoading(false);
+    }, 1400);
+  }
+  return (
+    <Card accent="#6366f1">
+      <CardHead eyebrow="AI · CHAT INTERFEYS" title="AI o'qish hamkohi" icon="search" accent="#6366f1"/>
+      <div className="sf-ai-body">
+        <div className="sf-ai-row">
+          <input className="sf-input sf-ai-inp" placeholder="Kitob yoki savol yozing..." value={query}
+            onChange={e=>setQuery(e.target.value)} onKeyDown={e=>e.key==="Enter"&&query&&ask(query)}/>
+          <button className="sf-action-btn sf-action-sm" style={{background:"#6366f1"}}
+            onClick={()=>query&&ask(query)} disabled={loading}>
+            {loading ? <span className="sf-spinner"/> : <I n="arrow" s={13} c="#fff"/>}
+          </button>
+        </div>
+        <div className="sf-suggestion-row">
+          {CHIPS.map((c,i)=>(
+            <button key={i} className="sf-suggestion-chip" onClick={()=>{setQuery(c);ask(c);}}>
+              {c}
+            </button>
+          ))}
+        </div>
+        {answer && (
+          <div className="sf-ai-answer">
+            <div className="sf-ai-answer-dot"/>
+            <p className="sf-ai-answer-text">{answer}</p>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+/* 2. SMART O'QISH JADVALI — Student */
+export function ReadingPlannerCard() {
+  const DAYS = ["Du","Se","Ch","Pa","Ju","Sh","Ya"];
+  const DONE = [true,true,true,false,false,false,false];
+  const PLAN = [
+    {day:"Dushanba", task:"1-3 bob", book:"Python dasturlash", done:true},
+    {day:"Seshanba", task:"4-6 bob", book:"Python dasturlash", done:true},
+    {day:"Chorshanba", task:"7-9 bob", book:"Python dasturlash", done:true},
+    {day:"Payshanba", task:"1-2 bob", book:"Ma'lumotlar bazasi", done:false},
+    {day:"Juma", task:"3-4 bob", book:"Ma'lumotlar bazasi", done:false},
+  ];
+  const pct = Math.round((DONE.filter(Boolean).length/7)*100);
+  return (
+    <Card accent="#0891b2">
+      <CardHead eyebrow="AI · SHAXSIY JADVAL" title="Smart o'qish rejasi" icon="book" accent="#0891b2"/>
+      <div className="sfp-week">
+        {DAYS.map((d,i)=>(
+          <div key={i} className="sfp-day-col">
+            <div className={`sfp-ring ${DONE[i]?"sfp-ring-done":i===3?"sfp-ring-today":""}`}>
+              {DONE[i] ? <I n="check" s={11} c="#fff"/> : <span className="sfp-day-n">{i+1}</span>}
+            </div>
+            <span className="sfp-day-lbl">{d}</span>
+          </div>
+        ))}
+      </div>
+      <div className="sfp-progress-row">
+        <span className="sfp-pct-label">Haftalik: {pct}%</span>
+        <div className="sf-progress-bar-wrap" style={{flex:1}}>
+          <div className="sf-progress-bar" style={{width:`${pct}%`, background:"#0891b2"}}/>
+        </div>
+      </div>
+      <div className="sfp-plan-list">
+        {PLAN.map((p,i)=>(
+          <div key={i} className={`sfp-plan-row ${p.done?"sfp-plan-done":i===3?"sfp-plan-today":""}`}>
+            <div className="sfp-plan-check">
+              {p.done ? <I n="check" s={11} c="#0891b2"/> : <span/>}
+            </div>
+            <div className="sfp-plan-body">
+              <span className="sfp-plan-task">{p.task}</span>
+              <span className="sfp-plan-book">{p.book}</span>
+            </div>
+            {i===3 && <span className="sfp-today-badge">Bugun</span>}
+          </div>
+        ))}
+      </div>
+    </Card>
+  );
+}
+
+/* 3. TADQIQOT BO'SHLIQ IZLOVCHI — Student + Teacher */
+export function ResearchGapCard() {
+  const [topic, setTopic] = useState("");
+  const [result, setResult] = useState<null|{gaps:{label:string;level:number;color:string;tag:string}[]}>(null);
+  const [loading, setLoading] = useState(false);
+  function analyze() {
+    if (!topic) return;
+    setLoading(true);
+    setTimeout(() => {
+      setResult({gaps:[
+        {label:`${topic} va sun'iy intellekt`, level:12, color:"#dc2626", tag:"Kam tadqiq"},
+        {label:`${topic}: zamonaviy yondashuvlar`, level:38, color:"#d97706", tag:"O'rta"},
+        {label:`${topic} nazariy asoslari`, level:74, color:"#059669", tag:"O'rganilgan"},
+        {label:`${topic} amaliy qo'llanilishi`, level:21, color:"#dc2626", tag:"Kam tadqiq"},
+        {label:`${topic} va boshqa fanlar`, level:9, color:"#7c3aed", tag:"Bo'shliq"},
+      ]});
+      setLoading(false);
+    }, 1600);
+  }
+  return (
+    <Card accent="#7c3aed">
+      <CardHead eyebrow="AI · RESEARCH INTELLIGENCE" title="Tadqiqot bo'shliq izlovchi" icon="search" accent="#7c3aed"/>
+      <div className="sfr-body">
+        <div className="sf-ai-row">
+          <input className="sf-input sfr-inp" placeholder="Tadqiqot mavzuingizni yozing..." value={topic}
+            onChange={e=>setTopic(e.target.value)} onKeyDown={e=>e.key==="Enter"&&analyze()}/>
+          <button className="sf-action-btn sf-action-sm" style={{background:"#7c3aed"}}
+            onClick={analyze} disabled={loading}>
+            {loading ? <span className="sf-spinner"/> : "Tahlil"}
+          </button>
+        </div>
+        {result && (
+          <div className="sfr-results">
+            <p className="sfr-hint">Katalogdagi tadqiqot darajasi ({topic}):</p>
+            {result.gaps.map((g,i)=>(
+              <div key={i} className="sfr-row">
+                <div className="sfr-label-wrap">
+                  <span className="sfr-label">{g.label}</span>
+                  <span className="sfr-tag" style={{color:g.color, background:g.color+"15"}}>{g.tag}</span>
+                </div>
+                <div className="sfr-bar-wrap">
+                  <div className="sfr-bar-fill" style={{width:`${g.level}%`, background:g.color}}/>
+                  <span className="sfr-pct">{g.level}%</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+/* 4. OVOZLI QIDIRUV — Student + Librarian */
+export function VoiceSearchCard() {
+  const [active, setActive] = useState(false);
+  const [transcript, setTranscript] = useState("");
+  const [results, setResults] = useState<string[]>([]);
+  const RECENT = ["2020-yildan keyin iqtisodiyot bo'yicha kitoblar","Karimov muallifli dissertatsiyalar","Dasturlash bo'yicha o'zbek tili manbalari"];
+  function startListen() {
+    setActive(true); setTranscript("Tinglayapman...");
+    setTimeout(()=>{
+      const q = "Axborot xavfsizligi bo'yicha inglizcha manbalar";
+      setTranscript(q);
+      setResults(["Information Security Essentials — 2022","Cybersecurity Fundamentals — Anderson","Network Security — Stallings 2021"]);
+      setActive(false);
+    }, 2000);
+  }
+  return (
+    <Card accent="#d97706">
+      <CardHead eyebrow="AI · NLP · OVOZLI" title="Ovozli qidiruv" icon="search" accent="#d97706"/>
+      <div className="sfv-body">
+        <div className="sfv-mic-wrap">
+          <button className={`sfv-mic-btn ${active?"sfv-mic-active":""}`} onClick={startListen} disabled={active}>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/>
+            </svg>
+          </button>
+          {active && <div className="sfv-ripple"/>}
+          <p className="sfv-mic-hint">{active ? "Gapiring..." : "Mikrofonga bosing"}</p>
+        </div>
+        {transcript && transcript !== "Tinglayapman..." && (
+          <div className="sfv-transcript">
+            <span className="sfv-q-icon">"</span>
+            <span className="sfv-q-text">{transcript}</span>
+          </div>
+        )}
+        {results.length > 0 && (
+          <div className="sfv-results">
+            {results.map((r,i)=>(
+              <div key={i} className="sfv-result-row">
+                <span className="sfv-result-n">{i+1}</span>
+                <span className="sfv-result-title">{r}</span>
+              </div>
+            ))}
+          </div>
+        )}
+        {!transcript && (
+          <div className="sfv-recent">
+            <p className="sfv-recent-label">So'nggi ovozli qidiruvlar</p>
+            {RECENT.map((r,i)=>(
+              <button key={i} className="sfv-recent-row" onClick={()=>setTranscript(r)}>
+                <I n="search" s={12} c="#94a3b8"/>
+                <span>{r}</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+/* 5. REAL-VAQT TARJIMOCHI — Student */
+export function LiveTranslatorCard() {
+  const [text, setText] = useState("");
+  const [translated, setTranslated] = useState<{out:string;terms:{en:string;uz:string}[]}|null>(null);
+  const [loading, setLoading] = useState(false);
+  const EXAMPLE = "Machine learning algorithms require large datasets for training. The backpropagation method adjusts neural network weights iteratively.";
+  function translate(src?: string) {
+    const src2 = src ?? text;
+    if (!src2) return;
+    setText(src2); setLoading(true);
+    setTimeout(()=>{
+      setTranslated({
+        out:"Mashinali o'rganish algoritmlari o'qitish uchun katta ma'lumotlar to'plamlarini talab qiladi. Orqaga tarqalish usuli neyron tarmoq og'irliklarini iterativ ravishda sozlaydi.",
+        terms:[
+          {en:"Machine learning",uz:"Mashinali o'rganish"},
+          {en:"backpropagation",uz:"orqaga tarqalish"},
+          {en:"neural network",uz:"neyron tarmoq"},
+          {en:"datasets",uz:"ma'lumotlar to'plami"},
+        ]
+      });
+      setLoading(false);
+    },1200);
+  }
+  return (
+    <Card accent="#0284c7">
+      <CardHead eyebrow="AI · OCR · NLP" title="Real-vaqt tarjimochi" icon="layers" accent="#0284c7"/>
+      <div className="sft-body">
+        <textarea className="sf-textarea" rows={3} placeholder="Inglizcha matn kiriting..." value={text}
+          onChange={e=>setText(e.target.value)}/>
+        <div style={{display:"flex",gap:8}}>
+          <button className="sf-action-btn" style={{background:"#0284c7",fontSize:12}} onClick={()=>translate()}>
+            {loading ? <span className="sf-spinner"/> : "Tarjima qilish"}
+          </button>
+          <button className="sf-ghost-btn" onClick={()=>translate(EXAMPLE)}>Namuna</button>
+        </div>
+        {translated && (
+          <>
+            <div className="sft-out-box">
+              <p className="sft-out-text">{translated.out}</p>
+            </div>
+            <div className="sft-terms">
+              <p className="sft-terms-label">Texnik atamalar:</p>
+              <div className="sft-terms-grid">
+                {translated.terms.map((t,i)=>(
+                  <div key={i} className="sft-term-row">
+                    <span className="sft-term-en">{t.en}</span>
+                    <span className="sft-term-arr">→</span>
+                    <span className="sft-term-uz">{t.uz}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </Card>
+  );
+}
+
+/* 6. KOLLEKSIYA TAHLILCHISI — Librarian + Admin */
+export function CollectionAnalyticsCard() {
+  const SUBJECTS = [
+    {name:"Dasturlash",    demand:87, stock:42, color:"#6366f1"},
+    {name:"Iqtisodiyot",   demand:74, stock:68, color:"#0891b2"},
+    {name:"Matematik",     demand:61, stock:58, color:"#059669"},
+    {name:"Huquq",         demand:55, stock:23, color:"#dc2626"},
+    {name:"Psixologiya",   demand:48, stock:41, color:"#d97706"},
+    {name:"Tarix",         demand:32, stock:55, color:"#7c3aed"},
+  ];
+  return (
+    <Card accent="#059669">
+      <CardHead eyebrow="AI · COLLECTION INTELLIGENCE" title="Kolleksiya tahlilchisi" icon="bar" accent="#059669"/>
+      <div className="sfca-body">
+        <div className="sfca-legend">
+          <span className="sfca-leg-item"><span className="sfca-leg-dot" style={{background:"#334155"}}/> Talab</span>
+          <span className="sfca-leg-item"><span className="sfca-leg-dot" style={{background:"#cbd5e1"}}/> Mavjud fond</span>
+          <span className="sfca-leg-item"><span className="sfca-leg-dot" style={{background:"#fca5a5"}}/> Tanqis</span>
+        </div>
+        {SUBJECTS.map((s,i)=>{
+          const gap = s.demand > s.stock;
+          return (
+            <div key={i} className="sfca-row">
+              <span className="sfca-subject">{s.name}</span>
+              <div className="sfca-bars">
+                <div className="sfca-bar-bg">
+                  <div className="sfca-bar-demand" style={{width:`${s.demand}%`, background: gap?"#fca5a5":"#c7d2fe"}}/>
+                </div>
+                <div className="sfca-bar-bg">
+                  <div className="sfca-bar-stock" style={{width:`${s.stock}%`, background:s.color, opacity:.7}}/>
+                </div>
+              </div>
+              <span className={`sfca-gap-badge ${gap?"sfca-gap-bad":"sfca-gap-ok"}`}>
+                {gap ? `−${s.demand-s.stock}` : "OK"}
+              </span>
+            </div>
+          );
+        })}
+        <div className="sfca-footer-note">
+          <I n="shield" s={12} c="#dc2626"/> 2 ta sohada kitob tanqisligi aniqlandi — xarid tavsiyasi tayyorlandi
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+/* 7. QAYTARISH BASHORATCHI — Librarian + Admin */
+export function ReturnPredictionCard() {
+  const LOANS = [
+    {name:"S. Mirzayev", book:"Algoritm asoslari", days:-2, risk:98, color:"#dc2626"},
+    {name:"N. Hasanova",  book:"Veb dasturlash",    days:1,  risk:84, color:"#ea580c"},
+    {name:"B. Toshmatov", book:"Ma'lumotlar bazasi",days:3,  risk:61, color:"#d97706"},
+    {name:"Z. Rahimova",  book:"Ingliz tili",       days:5,  risk:32, color:"#ca8a04"},
+    {name:"A. Yusupov",   book:"Matematika I",      days:8,  risk:12, color:"#65a30d"},
+  ];
+  return (
+    <Card accent="#dc2626">
+      <CardHead eyebrow="ML · BASHORAT · ALERT" title="Qaytarish bashoratchi" icon="shield" accent="#dc2626"/>
+      <div className="sfrp-body">
+        <div className="sfrp-header-row">
+          <span className="sfrp-col-name">O'quvchi</span>
+          <span className="sfrp-col-book">Kitob</span>
+          <span className="sfrp-col-days">Kun</span>
+          <span className="sfrp-col-risk">Risk</span>
+        </div>
+        {LOANS.map((l,i)=>(
+          <div key={i} className="sfrp-row">
+            <span className="sfrp-col-name">
+              <span className="sfrp-avatar" style={{background:l.color+"22",color:l.color}}>
+                {l.name.split(" ").map(x=>x[0]).join("")}
+              </span>
+              {l.name}
+            </span>
+            <span className="sfrp-col-book">{l.book}</span>
+            <span className="sfrp-col-days" style={{color:l.days<0?"#dc2626":l.days<=3?"#d97706":"#65a30d",fontWeight:700}}>
+              {l.days<0 ? `${Math.abs(l.days)} kun o'tdi` : `${l.days} kun`}
+            </span>
+            <span className="sfrp-col-risk">
+              <span className="sfrp-risk-bar">
+                <span style={{width:`${l.risk}%`,height:"100%",background:l.color,display:"block",borderRadius:3,opacity:.8}}/>
+              </span>
+              <span style={{color:l.color,fontWeight:700,fontSize:11}}>{l.risk}%</span>
+            </span>
+          </div>
+        ))}
+        <div className="sfrp-footer">
+          <span className="sfrp-alert-dot"/>
+          <span>2 ta muddati o'tgan — SMS eslatma yuborildi</span>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+/* 8. TEMATIK KASHFIYOTCHI — Student + Teacher */
+export function SerendipityCard() {
+  const [loading, setLoading] = useState(false);
+  const [book, setBook] = useState<{title:string;author:string;year:number;match:number;why:string;color:string}|null>(null);
+  const [prefs, setPrefs] = useState({sci:3, hist:2, tech:4});
+  const BOOKS = [
+    {title:"Turing sinovlari",         author:"A. Hodges",    year:2019, match:94, why:"Siz ko'p o'qigan texnologiya kitoblariga mos", color:"#6366f1"},
+    {title:"Ulug' Ipak yo'li",         author:"P. Frankopan",  year:2020, match:88, why:"Tarix va madaniyat qiziqishingiz asosida",    color:"#d97706"},
+    {title:"Fikrning geometriyasi",    author:"S. Carroll",   year:2021, match:91, why:"Fan va matematik o'qishlaringizga mos",        color:"#0891b2"},
+    {title:"Insoniyat qisqacha tarixi",author:"Y. Harari",    year:2018, match:86, why:"Ko'p yoqtirgan janrlaringiz asosida",           color:"#059669"},
+  ];
+  function discover() {
+    setLoading(true); setBook(null);
+    setTimeout(()=>{ setBook(BOOKS[Math.floor(Math.random()*BOOKS.length)]); setLoading(false); },1300);
+  }
+  return (
+    <Card accent="#9333ea">
+      <CardHead eyebrow="AI · SERENDIPITY ENGINE" title="Tematik kashfiyotchi" icon="star" accent="#9333ea"/>
+      <div className="sfse-body">
+        <div className="sfse-sliders">
+          {([["sci","Fan va ilm",prefs.sci],["hist","Tarix",prefs.hist],["tech","Texnologiya",prefs.tech]] as [string,string,number][]).map(([k,label,val])=>(
+            <div key={k} className="sfse-slider-row">
+              <span className="sfse-slider-label">{label}</span>
+              <input type="range" min={1} max={5} value={val} className="sfse-range"
+                onChange={e=>setPrefs(p=>({...p,[k]:Number(e.target.value)}))}/>
+              <span className="sfse-slider-val">{"●".repeat(val)+"○".repeat(5-val)}</span>
+            </div>
+          ))}
+        </div>
+        <button className="sf-action-btn" style={{background:"#9333ea",alignSelf:"stretch",justifyContent:"center"}} onClick={discover}>
+          {loading ? <span className="sf-spinner"/> : <><I n="star" s={13} c="#fff"/> Kitob kashf qil</>}
+        </button>
+        {book && (
+          <div className="sfse-book" style={{borderColor:book.color+"44"}}>
+            <div className="sfse-book-cover" style={{background:book.color+"22",color:book.color}}>
+              {book.title.split(" ").map(w=>w[0]).join("").slice(0,3)}
+            </div>
+            <div className="sfse-book-info">
+              <span className="sfse-book-title">{book.title}</span>
+              <span className="sfse-book-author">{book.author} · {book.year}</span>
+              <span className="sfse-book-why">{book.why}</span>
+              <span className="sfse-match" style={{color:book.color}}>{book.match}% mos</span>
+            </div>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+}
+
 /* ════════════════════════════════════
    PANEL WRAPPER — role-based 2-col grid
 ════════════════════════════════════ */
@@ -577,19 +990,45 @@ export function SmartFeaturesPanel({ role }: { role: string }) {
             <CitationCard />
             <PlagiarismCard />
           </div>
+          <div className="sf-grid-2">
+            <AICompanionCard />
+            <ReadingPlannerCard />
+          </div>
+          <div className="sf-grid-2">
+            <ResearchGapCard />
+            <VoiceSearchCard />
+          </div>
+          <div className="sf-grid-2">
+            <LiveTranslatorCard />
+            <SerendipityCard />
+          </div>
         </>
       )}
       {role === "teacher" && (
-        <div className="sf-grid-2">
-          <CoursePackCard />
-          <CitationCard />
-        </div>
+        <>
+          <div className="sf-grid-2">
+            <CoursePackCard />
+            <CitationCard />
+          </div>
+          <div className="sf-grid-2">
+            <AICompanionCard />
+            <ResearchGapCard />
+          </div>
+          <SerendipityCard />
+        </>
       )}
       {role === "librarian" && (
-        <div className="sf-grid-2">
-          <QRShelfCard />
-          <AISearchCard />
-        </div>
+        <>
+          <div className="sf-grid-2">
+            <QRShelfCard />
+            <AISearchCard />
+          </div>
+          <div className="sf-grid-2">
+            <VoiceSearchCard />
+            <CollectionAnalyticsCard />
+          </div>
+          <ReturnPredictionCard />
+        </>
       )}
       {role === "admin" && (
         <>
@@ -597,6 +1036,10 @@ export function SmartFeaturesPanel({ role }: { role: string }) {
           <div className="sf-grid-2" style={{marginTop:16}}>
             <AISearchCard />
             <CitationCard />
+          </div>
+          <div className="sf-grid-2">
+            <CollectionAnalyticsCard />
+            <ReturnPredictionCard />
           </div>
         </>
       )}
