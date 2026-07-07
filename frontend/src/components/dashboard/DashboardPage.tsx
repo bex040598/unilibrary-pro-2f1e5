@@ -389,6 +389,8 @@ const ICON_PATHS: Record<string, string> = {
   shield:   "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z",
   arrow:    "M5 12h14M12 5l7 7-7 7",
   grid:     "M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z",
+  star:     "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
+  search:   "M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z",
   list:     "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
   home:     "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
   loan:     "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6",
@@ -735,29 +737,75 @@ function AISearchCard() {
 /* ── Feature Usage Stats (admin) ── */
 function FeatureStatsCard() {
   const STATS = [
-    { icon: "🤖", label: "AI qidiruv",       uses: 1247, growth: "+34%" },
-    { icon: "📎", label: "Iqtibos generator", uses: 892,  growth: "+18%" },
-    { icon: "🔍", label: "Plagiat tekshiruv", uses: 437,  growth: "+61%" },
-    { icon: "🎯", label: "Kitob tavsiyalar",  uses: 2184, growth: "+42%" },
-    { icon: "📦", label: "Course Pack",       uses: 156,  growth: "+28%" },
-    { icon: "📱", label: "QR navigatsiya",    uses: 341,  growth: "+89%" },
-    { icon: "📈", label: "Streak/Progress",   uses: 678,  growth: "+53%" },
+    { icon: "search",   label: "AI qidiruv",        uses: 1247, growth: 34, color: "#4f46e5", spark: [800, 950, 1050, 1180, 1247] },
+    { icon: "loan",     label: "Iqtibos generator",  uses: 892,  growth: 18, color: "#0891b2", spark: [580, 670, 750, 830, 892]  },
+    { icon: "shield",   label: "Plagiat tekshiruv",  uses: 437,  growth: 61, color: "#7c3aed", spark: [170, 240, 320, 390, 437]  },
+    { icon: "star",     label: "Kitob tavsiyalar",   uses: 2184, growth: 42, color: "#059669", spark: [1100,1450,1750,1980,2184] },
+    { icon: "layers",   label: "Course Pack",        uses: 156,  growth: 28, color: "#d97706", spark: [75, 100, 118, 138, 156]   },
+    { icon: "grid",     label: "QR navigatsiya",     uses: 341,  growth: 89, color: "#dc2626", spark: [90, 145, 210, 275, 341]   },
+    { icon: "bar",      label: "Streak / Progress",  uses: 678,  growth: 53, color: "#0284c7", spark: [280, 380, 490, 590, 678]  },
   ];
+
+  const total = STATS.reduce((s, x) => s + x.uses, 0);
+  const maxUses = Math.max(...STATS.map(s => s.uses));
+
   return (
     <div className="px-feat-card px-feat-card-full">
-      <div className="px-feat-head">
-        <p className="px-feat-eyebrow">YANGI FUNKSIYALAR STATISTIKASI</p>
-        <h3 className="px-feat-title">Smart xizmatlar foydalanish tahlili</h3>
+      {/* Header */}
+      <div className="px-fsc-header">
+        <div className="px-feat-head">
+          <p className="px-feat-eyebrow">SMART XIZMATLAR TAHLILI</p>
+          <h3 className="px-feat-title">Funksiyalar foydalanish ko'rsatkichlari</h3>
+        </div>
+        <div className="px-fsc-total">
+          <span className="px-fsc-total-n">{total.toLocaleString()}</span>
+          <span className="px-fsc-total-l">Jami foydalanish</span>
+        </div>
       </div>
-      <div className="px-fstats-grid">
+
+      {/* Proportional rainbow bar */}
+      <div className="px-fsc-rainbow">
         {STATS.map((s, i) => (
-          <div key={i} className="px-fstat-item">
-            <span className="px-fstat-icon">{s.icon}</span>
-            <span className="px-fstat-label">{s.label}</span>
-            <span className="px-fstat-uses">{s.uses.toLocaleString()}</span>
-            <span className="px-fstat-growth">{s.growth}</span>
-          </div>
+          <div key={i} className="px-fsc-rainbow-seg" style={{flex: s.uses, background: s.color}} title={s.label} />
         ))}
+      </div>
+
+      {/* Stat cards */}
+      <div className="px-fstats-grid">
+        {STATS.map((s, i) => {
+          const barW = ((s.uses / maxUses) * 100).toFixed(1);
+          const W = 56, H = 26;
+          const pts = s.spark.map((v, j) => {
+            const mx = Math.max(...s.spark);
+            return `${j * (W / (s.spark.length - 1))},${H - (v / mx) * H}`;
+          }).join(" ");
+          return (
+            <div key={i} className="px-fstat-item">
+              {/* Top row: icon + label + sparkline */}
+              <div className="px-fstat-top">
+                <div className="px-fstat-icon-wrap" style={{background: s.color + "15"}}>
+                  <Icon id={s.icon} size={15} color={s.color} />
+                </div>
+                <span className="px-fstat-label">{s.label}</span>
+                <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} className="px-fstat-spark">
+                  <polyline points={pts} fill="none" stroke={s.color} strokeWidth="1.8"
+                    strokeLinecap="round" strokeLinejoin="round" opacity="0.75"/>
+                  <circle cx={s.spark.length > 1 ? W : 0} cy={H - (s.spark[s.spark.length-1] / Math.max(...s.spark)) * H}
+                    r="2.5" fill={s.color}/>
+                </svg>
+              </div>
+              {/* Number + badge */}
+              <div className="px-fstat-mid">
+                <span className="px-fstat-uses">{s.uses.toLocaleString()}</span>
+                <span className="px-fstat-growth">+{s.growth}%</span>
+              </div>
+              {/* Usage bar */}
+              <div className="px-fstat-bar-track">
+                <div className="px-fstat-bar-fill" style={{width:`${barW}%`, background: s.color}}/>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
