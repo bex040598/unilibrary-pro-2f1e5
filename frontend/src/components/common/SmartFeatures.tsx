@@ -20,6 +20,9 @@ const P: Record<string, string> = {
   arrow:  "M5 12h14M12 5l7 7-7 7",
   plus:   "M12 5v14M5 12h14",
   print:  "M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z",
+  mic:    "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8",
+  send:   "M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z",
+  refresh:"M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15",
 };
 function I({ n, s = 16, c = "currentColor" }: { n: string; s?: number; c?: string }) {
   return (
@@ -54,20 +57,19 @@ function CardHead({ eyebrow, title, icon, accent }: { eyebrow: string; title: st
 
 /* ════════════════════════════════════
    1. READING STREAK — student
-   Inspired by Duolingo + Oxford Bodleian
 ════════════════════════════════════ */
 export function ReadingStreakCard() {
   const streak = 7;
   const goal   = 14;
   const DAYS   = ["Du","Se","Ch","Pa","Ju","Sh","Ya"];
   const MILESTONES = [
-    { days: 7,  icon: "🔥", label: "Hafta sarhadchi", done: true  },
-    { days: 14, icon: "📚", label: "Ikki hafta",       done: false },
+    { days: 7,  icon: "🔥", label: "Hafta yugurdagi", done: true  },
+    { days: 14, icon: "📚", label: "Ikki hafta",      done: false },
     { days: 30, icon: "⭐", label: "Oy chempioni",    done: false },
   ];
   return (
     <Card accent="#f97316">
-      <CardHead eyebrow="O'QISH GAMIFICATION" title="Kunlik o'qish streaki" icon="flame" accent="#f97316"/>
+      <CardHead eyebrow="KUNLIK STREAK" title="O'qish seriyasi" icon="flame" accent="#f97316"/>
       <div className="sf-streak-big">
         <span className="sf-streak-n">{streak}</span>
         <div className="sf-streak-side">
@@ -106,18 +108,17 @@ export function ReadingStreakCard() {
 
 /* ════════════════════════════════════
    2. BOOK RECOMMENDATIONS — student
-   Inspired by Spotify + MIT Libraries
 ════════════════════════════════════ */
 export function RecommendationsCard() {
   const RECS = [
-    { title: "Algoritm va ma'lumotlar strukturasi", author: "T. Cormen",   match: 97, type: "Majburiy",   color: "#002147", bg:"#e8edf5" },
-    { title: "Veb dasturlash asoslari",              author: "B. Flanagan", match: 91, type: "Tavsiya",    color: "#0891b2", bg:"#e0f2fe" },
-    { title: "Sun'iy intellekt kirish kursi",        author: "S. Russell",  match: 85, type: "Qo'shimcha", color: "#7c3aed", bg:"#ede9fe" },
-    { title: "Ma'lumotlar tahlili va Python",        author: "W. McKinney", match: 78, type: "Qo'shimcha", color: "#7c3aed", bg:"#ede9fe" },
+    { title: "Algoritm va ma'lumotlar tuzilmasi", author: "T. Cormen",   match: 97, type: "Majburiy",   color: "#002147", bg:"#e8edf5" },
+    { title: "Veb dasturlash asoslari",            author: "B. Flanagan", match: 91, type: "Tavsiya",    color: "#0891b2", bg:"#e0f2fe" },
+    { title: "Sun'iy intellektga kirish",          author: "S. Russell",  match: 85, type: "Qo'shimcha", color: "#7c3aed", bg:"#ede9fe" },
+    { title: "Python bilan ma'lumotlar tahlili",   author: "W. McKinney", match: 78, type: "Qo'shimcha", color: "#7c3aed", bg:"#ede9fe" },
   ];
   return (
     <Card accent="#059669">
-      <CardHead eyebrow="AI · KURSLARINGIZGA MOS" title="Tavsiya qilingan kitoblar" icon="target" accent="#059669"/>
+      <CardHead eyebrow="KURSGA MOS TAVSIYALAR" title="Tavsiya etilgan kitoblar" icon="target" accent="#059669"/>
       <div className="sf-rec-list">
         {RECS.map((r, i) => (
           <div key={i} className="sf-rec-row">
@@ -144,7 +145,6 @@ export function RecommendationsCard() {
 
 /* ════════════════════════════════════
    3. CITATION GENERATOR — student + teacher
-   Inspired by Zotero + RefWorks
 ════════════════════════════════════ */
 export function CitationCard() {
   const [format, setFormat] = useState<"APA"|"MLA"|"GOST">("APA");
@@ -154,13 +154,13 @@ export function CitationCard() {
     { title: "Ma'lumotlar bazasi: amaliy qo'llanma", author: "Yuldasheva A.", year: 2022, publisher: "ATMU nashriyoti", place: "Nukus"    },
     { title: "Python dasturlash tili",                author: "Ergashev N.",   year: 2023, publisher: "Fan",             place: "Toshkent" },
     { title: "Kiberxavfsizlik asoslari",              author: "Qodirov J.",    year: 2021, publisher: "ATMU",            place: "Nukus"    },
-    { title: "Algoritm va ma'lumotlar strukturasi",   author: "Cormen T.",     year: 2020, publisher: "MIT Press",       place: "Boston"   },
+    { title: "Algoritm va ma'lumotlar tuzilmasi",     author: "Cormen T.",     year: 2020, publisher: "MIT Press",       place: "Boston"   },
   ];
   const b = BOOKS[bookIdx];
   const cites: Record<"APA"|"MLA"|"GOST", string> = {
     APA:  `${b.author} (${b.year}). ${b.title}. ${b.place}: ${b.publisher}.`,
     MLA:  `${b.author}. "${b.title}." ${b.publisher}, ${b.year}.`,
-    GOST: `${b.author} ${b.title} / ${b.author}. — ${b.place}: ${b.publisher}, ${b.year}. — 348 b.`,
+    GOST: `${b.author} ${b.title} / ${b.author}. -- ${b.place}: ${b.publisher}, ${b.year}. -- 348 b.`,
   };
   const handleCopy = () => {
     navigator.clipboard?.writeText(cites[format]);
@@ -169,7 +169,7 @@ export function CitationCard() {
   };
   return (
     <Card accent="#0891b2">
-      <CardHead eyebrow="IQTIBOS GENERATOR · APA / MLA / GOST" title="Adabiyotlar ro'yxati" icon="quote" accent="#0891b2"/>
+      <CardHead eyebrow="IQTIBOS FORMATLASH" title="Adabiyotlar ro'yxati" icon="quote" accent="#0891b2"/>
       <div className="sf-cite-body">
         <select className="sf-input" value={bookIdx} onChange={e => setBookIdx(+e.target.value)}>
           {BOOKS.map((bk, i) => <option key={i} value={i}>{bk.title}</option>)}
@@ -196,7 +196,6 @@ export function CitationCard() {
 
 /* ════════════════════════════════════
    4. PLAGIARISM PRE-CHECK — student
-   Inspired by Turnitin clean UI
 ════════════════════════════════════ */
 export function PlagiarismCard() {
   const [text, setText] = useState("");
@@ -222,10 +221,10 @@ export function PlagiarismCard() {
   const safe = pct < 20;
   return (
     <Card accent="#7c3aed">
-      <CardHead eyebrow="AI · MATN TAHLILI" title="Plagiat pre-check" icon="shield" accent="#7c3aed"/>
+      <CardHead eyebrow="MATN TAHLILI" title="Plagiat tekshiruvi" icon="shield" accent="#7c3aed"/>
       <div className="sf-plag-body">
         <textarea className="sf-textarea"
-          placeholder="Kurs ishi matnini shu yerga joylashtiring — AI kutubxona manbalari bilan solishtiradi..."
+          placeholder="Kurs ishi matnini shu yerga joylashtiring. Tizim kutubxona manbalari bilan solishtiradi..."
           value={text} onChange={e => setText(e.target.value)} rows={3}/>
         <button type="button" className="sf-action-btn" style={{background:"#7c3aed"}}
           onClick={handleCheck} disabled={checking || !text.trim()}>
@@ -244,7 +243,7 @@ export function PlagiarismCard() {
                 <text x="50" y="52" textAnchor="middle" fontSize="18" fontWeight="800" fill={safe?"#16a34a":"#dc2626"}>{pct}%</text>
               </svg>
               <div className="sf-plag-verdict" style={{color: safe?"#16a34a":"#dc2626"}}>
-                {safe ? "✓ Maqbul" : "⚠ Yuqori"}
+                {safe ? "Maqbul" : "Yuqori"}
               </div>
             </div>
             <div className="sf-plag-sources">
@@ -267,13 +266,12 @@ export function PlagiarismCard() {
 
 /* ════════════════════════════════════
    5. COURSE PACK MANAGER — teacher
-   Inspired by Canvas LMS + Coursera
 ════════════════════════════════════ */
 export function CoursePackCard() {
   const PACKS = [
-    { name: "Ma'lumotlar bazasi — 3-kurs",   items: 7, students: 42, views: 187, pct: 92, color: "#002147" },
-    { name: "Kiberxavfsizlik — Magistratura", items: 5, students: 18, views: 94,  pct: 68, color: "#0891b2" },
-    { name: "Python asoslari — 2-kurs",       items: 9, students: 65, views: 312, pct: 45, color: "#059669" },
+    { name: "Ma'lumotlar bazasi — 3-kurs",    items: 7, students: 42, views: 187, pct: 92, color: "#002147" },
+    { name: "Kiberxavfsizlik — Magistratura",  items: 5, students: 18, views: 94,  pct: 68, color: "#0891b2" },
+    { name: "Python asoslari — 2-kurs",        items: 9, students: 65, views: 312, pct: 45, color: "#059669" },
   ];
   return (
     <Card accent="#d97706">
@@ -283,8 +281,8 @@ export function CoursePackCard() {
             <I n="pack" s={17} c="#d97706"/>
           </div>
           <div>
-            <p className="sf-eyebrow">COURSE PACK · RESURS TO'PLAMI</p>
-            <h3 className="sf-title">Kurs materiallari</h3>
+            <p className="sf-eyebrow">KURS MATERIALLARI</p>
+            <h3 className="sf-title">Resurs to'plamlari</h3>
           </div>
         </div>
         <button type="button" className="sf-action-btn sf-action-sm" style={{background:"#002147"}}>
@@ -303,9 +301,9 @@ export function CoursePackCard() {
                 <span className="sf-pack-views">{p.views.toLocaleString()} ko'rish</span>
               </div>
               <div className="sf-pack-meta">
-                <span>{p.items} material</span>
+                <span>{p.items} ta material</span>
                 <span className="sf-pack-sep">·</span>
-                <span>{p.students} talaba</span>
+                <span>{p.students} ta talaba</span>
                 <span className="sf-pack-sep">·</span>
                 <span style={{color:p.color, fontWeight:700}}>{p.pct}% faollik</span>
               </div>
@@ -320,20 +318,19 @@ export function CoursePackCard() {
 
 /* ════════════════════════════════════
    6. QR SHELF NAVIGATOR — librarian
-   Inspired by Singapore NLB + British Library
 ════════════════════════════════════ */
 export function QRShelfCard() {
   const [shelf, setShelf] = useState("");
   const [generated, setGenerated] = useState<string | null>(null);
   const SHELVES = [
-    { id:"A-14", books:28, scans:47, topic:"Informatika"   },
-    { id:"B-03", books:34, scans:31, topic:"Iqtisodiyot"   },
-    { id:"C-07", books:19, scans:22, topic:"Matematika"    },
-    { id:"D-11", books:41, scans:63, topic:"Tilshunoslik"  },
+    { id:"A-14", books:28, scans:47, topic:"Informatika"  },
+    { id:"B-03", books:34, scans:31, topic:"Iqtisodiyot"  },
+    { id:"C-07", books:19, scans:22, topic:"Matematika"   },
+    { id:"D-11", books:41, scans:63, topic:"Tilshunoslik" },
   ];
   return (
     <Card accent="#002147">
-      <CardHead eyebrow="SMART NAVIGATSIYA · RFID / QR" title="Javon navigatsiya tizimi" icon="qr" accent="#002147"/>
+      <CardHead eyebrow="JAVON NAVIGATSIYASI" title="QR-kod boshqaruvi" icon="qr" accent="#002147"/>
       <div className="sf-qr-body">
         <div className="sf-qr-input-row">
           <input className="sf-input sf-qr-inp"
@@ -386,7 +383,6 @@ export function QRShelfCard() {
 
 /* ════════════════════════════════════
    7. AI NATURAL SEARCH — librarian + admin
-   Inspired by ExLibris Primo + Summon
 ════════════════════════════════════ */
 export function AISearchCard() {
   const [query, setQuery] = useState("");
@@ -402,13 +398,13 @@ export function AISearchCard() {
       setResults([
         { title:"Ma'lumotlar bazasini loyihalash", author:"C. J. Date",      year:2019, type:"Darslik",   dept:"Informatika" },
         { title:"SQL: to'liq qo'llanma",           author:"Ben Forta",       year:2020, type:"Qo'llanma", dept:"Informatika" },
-        { title:"NoSQL ma'lumotlar bazalari",       author:"Pramod Sadalage", year:2021, type:"Darslik",   dept:"Informatika" },
+        { title:"NoSQL ma'lumotlar bazalari",       author:"P. Sadalage",     year:2021, type:"Darslik",   dept:"Informatika" },
       ]);
     }, 1200);
   };
   return (
     <Card accent="#4f46e5">
-      <CardHead eyebrow="AI QIDIRUV · TABIIY TIL" title="Semantik qidiruv tizimi" icon="search" accent="#4f46e5"/>
+      <CardHead eyebrow="QIDIRUV TIZIMI" title="Semantik qidiruv" icon="search" accent="#4f46e5"/>
       <div className="sf-ai-body">
         <div className="sf-ai-row">
           <input className="sf-input sf-ai-inp"
@@ -454,23 +450,21 @@ export function AISearchCard() {
 
 /* ════════════════════════════════════
    8. FEATURE STATS — admin
-   Inspired by Vercel Analytics + Linear
 ════════════════════════════════════ */
 export function FeatureStatsCard() {
   const STATS = [
-    { icon:"target", label:"Kitob tavsiyalar",  uses:2184, growth:42, color:"#34d399", spark:[1100,1450,1750,1980,2184] },
-    { icon:"search", label:"AI qidiruv",        uses:1247, growth:34, color:"#818cf8", spark:[800,950,1050,1180,1247]   },
-    { icon:"quote",  label:"Iqtibos generator", uses:892,  growth:18, color:"#38bdf8", spark:[580,670,750,830,892]      },
-    { icon:"flame",  label:"Streak / Progress", uses:678,  growth:53, color:"#fb923c", spark:[280,380,490,590,678]      },
-    { icon:"shield", label:"Plagiat tekshiruv", uses:437,  growth:61, color:"#c084fc", spark:[170,240,320,390,437]      },
-    { icon:"qr",     label:"QR navigatsiya",    uses:341,  growth:89, color:"#f87171", spark:[90,145,210,275,341]       },
-    { icon:"pack",   label:"Course Pack",       uses:156,  growth:28, color:"#fbbf24", spark:[75,100,118,138,156]       },
+    { icon:"target", label:"Kitob tavsiyalar",   uses:2184, growth:42, color:"#34d399", spark:[1100,1450,1750,1980,2184] },
+    { icon:"search", label:"AI qidiruv",         uses:1247, growth:34, color:"#818cf8", spark:[800,950,1050,1180,1247]   },
+    { icon:"quote",  label:"Iqtibos formatlash", uses:892,  growth:18, color:"#38bdf8", spark:[580,670,750,830,892]      },
+    { icon:"flame",  label:"O'qish seriyasi",    uses:678,  growth:53, color:"#fb923c", spark:[280,380,490,590,678]      },
+    { icon:"shield", label:"Plagiat tekshiruvi", uses:437,  growth:61, color:"#c084fc", spark:[170,240,320,390,437]      },
+    { icon:"qr",     label:"QR navigatsiya",     uses:341,  growth:89, color:"#f87171", spark:[90,145,210,275,341]       },
+    { icon:"pack",   label:"Kurs materiallari",  uses:156,  growth:28, color:"#fbbf24", spark:[75,100,118,138,156]       },
   ];
   const total = STATS.reduce((s,x) => s+x.uses, 0);
   const maxUses = STATS[0].uses;
   const topGrower = [...STATS].sort((a,b)=>b.growth-a.growth)[0];
 
-  /* mini sparkline helper */
   function Spark({ vals, color }: { vals: number[]; color: string }) {
     const W=44, H=20, mx=Math.max(...vals), mn=Math.min(...vals), range=mx-mn||1;
     const pts = vals.map((v,i)=>`${i*(W/(vals.length-1))},${H-((v-mn)/range)*H}`).join(" ");
@@ -485,27 +479,22 @@ export function FeatureStatsCard() {
 
   return (
     <div className="fsc-root">
-      {/* ── Header ── */}
       <div className="fsc-header">
         <div className="fsc-header-left">
           <span className="fsc-live-dot"/>
-          <span className="fsc-eyebrow">FAOLLIK TAHLILI · BUGUN</span>
+          <span className="fsc-eyebrow">FAOLIYAT TAHLILI</span>
         </div>
         <div className="fsc-header-right">
           <span className="fsc-total-n">{total.toLocaleString()}</span>
-          <span className="fsc-total-l">jami session</span>
+          <span className="fsc-total-l">jami sessiya</span>
         </div>
       </div>
-
-      {/* ── Usage river ── */}
       <div className="fsc-river">
         {STATS.map((s,i) => (
           <div key={i} className="fsc-river-seg" title={`${s.label}: ${s.uses}`}
             style={{flex:s.uses, background:s.color, opacity:.85}}/>
         ))}
       </div>
-
-      {/* ── Leaderboard ── */}
       <div className="fsc-board">
         <div className="fsc-board-header">
           <span className="fsc-col-rank">#</span>
@@ -547,8 +536,6 @@ export function FeatureStatsCard() {
           );
         })}
       </div>
-
-      {/* ── Footer callout ── */}
       <div className="fsc-footer">
         <span className="fsc-trophy">↑</span>
         <span className="fsc-footer-text">
@@ -562,37 +549,42 @@ export function FeatureStatsCard() {
 }
 
 /* ════════════════════════════════════════════════════
-   NEW AI FEATURES — 8 ta yangi AI komponent
+   YANGI 8 TA AI FUNKSIYA
 ════════════════════════════════════════════════════ */
 
-/* 1. AI O'QISH HAMKOHI — Student + Teacher */
+/* 1. AI YORDAMCHI — Student + Teacher */
 export function AICompanionCard() {
   const [query, setQuery] = useState("");
   const [answer, setAnswer] = useState<string|null>(null);
   const [loading, setLoading] = useState(false);
   const CHIPS = ["Bu kitobni qisqacha tushuntir", "O'xshash kitoblar tavsiya qil", "Asosiy g'oyalar nima?"];
+
   function ask(q: string) {
+    if (!q.trim()) return;
     setLoading(true); setAnswer(null);
     setTimeout(() => {
-      setAnswer(`"${q}" bo'yicha kutubxona ma'lumotlar bazasida 14 ta tegishli manba topildi. Eng mos: Karimov A. "Axborot tizimlar nazariyasi" (2021) — bu kitob sizning so'rovingizga 94% mos keladi. Shuningdek 3 ta elektron resurs va 2 ta dissertatsiya mavjud.`);
+      setAnswer(`"${q}" so'rovi bo'yicha kutubxona bazasida 14 ta tegishli manba topildi. Eng mos: Karimov A. "Axborot tizimlari nazariyasi" (2021) — so'rovingizga 94% mos keladi. Shuningdek 3 ta elektron resurs va 2 ta dissertatsiya mavjud.`);
       setLoading(false);
     }, 1400);
   }
+
   return (
     <Card accent="#6366f1">
-      <CardHead eyebrow="AI · CHAT INTERFEYS" title="AI o'qish hamkohi" icon="search" accent="#6366f1"/>
+      <CardHead eyebrow="SHAXSIY YORDAMCHI" title="AI o'qish hamrohi" icon="send" accent="#6366f1"/>
       <div className="sf-ai-body">
         <div className="sf-ai-row">
-          <input className="sf-input sf-ai-inp" placeholder="Kitob yoki savol yozing..." value={query}
-            onChange={e=>setQuery(e.target.value)} onKeyDown={e=>e.key==="Enter"&&query&&ask(query)}/>
-          <button className="sf-action-btn sf-action-sm" style={{background:"#6366f1"}}
-            onClick={()=>query&&ask(query)} disabled={loading}>
-            {loading ? <span className="sf-spinner"/> : <I n="arrow" s={13} c="#fff"/>}
+          <input className="sf-input sf-ai-inp" placeholder="Kitob yoki savol yozing..."
+            value={query} onChange={e=>setQuery(e.target.value)}
+            onKeyDown={e=>{ if(e.key==="Enter") ask(query); }}/>
+          <button type="button" className="sf-action-btn sf-action-sm" style={{background:"#6366f1"}}
+            onClick={()=>ask(query)} disabled={loading}>
+            {loading ? <span className="sf-spinner"/> : <I n="send" s={13} c="#fff"/>}
           </button>
         </div>
         <div className="sf-suggestion-row">
           {CHIPS.map((c,i)=>(
-            <button key={i} className="sf-suggestion-chip" onClick={()=>{setQuery(c);ask(c);}}>
+            <button key={i} type="button" className="sf-suggestion-chip"
+              onClick={()=>{ setQuery(c); ask(c); }}>
               {c}
             </button>
           ))}
@@ -608,27 +600,39 @@ export function AICompanionCard() {
   );
 }
 
-/* 2. SMART O'QISH JADVALI — Student */
+/* 2. O'QISH JADVALI — Student */
 export function ReadingPlannerCard() {
   const DAYS = ["Du","Se","Ch","Pa","Ju","Sh","Ya"];
-  const DONE = [true,true,true,false,false,false,false];
-  const PLAN = [
-    {day:"Dushanba", task:"1-3 bob", book:"Python dasturlash", done:true},
-    {day:"Seshanba", task:"4-6 bob", book:"Python dasturlash", done:true},
-    {day:"Chorshanba", task:"7-9 bob", book:"Python dasturlash", done:true},
-    {day:"Payshanba", task:"1-2 bob", book:"Ma'lumotlar bazasi", done:false},
-    {day:"Juma", task:"3-4 bob", book:"Ma'lumotlar bazasi", done:false},
+  const [done, setDone] = useState([true,true,true,false,false,false,false]);
+  const PLAN_INIT = [
+    {day:"Dushanba",    task:"1-3 bob",  book:"Python dasturlash",   done:true},
+    {day:"Seshanba",    task:"4-6 bob",  book:"Python dasturlash",   done:true},
+    {day:"Chorshanba",  task:"7-9 bob",  book:"Python dasturlash",   done:true},
+    {day:"Payshanba",   task:"1-2 bob",  book:"Ma'lumotlar bazasi",  done:false},
+    {day:"Juma",        task:"3-4 bob",  book:"Ma'lumotlar bazasi",  done:false},
   ];
-  const pct = Math.round((DONE.filter(Boolean).length/7)*100);
+  const [plan, setPlan] = useState(PLAN_INIT);
+  const pct = Math.round((done.filter(Boolean).length/7)*100);
+
+  function toggleDay(i: number) {
+    setDone(prev => { const n=[...prev]; n[i]=!n[i]; return n; });
+  }
+  function toggleTask(i: number) {
+    setPlan(prev => prev.map((p,idx) => idx===i ? {...p, done:!p.done} : p));
+  }
+
   return (
     <Card accent="#0891b2">
-      <CardHead eyebrow="AI · SHAXSIY JADVAL" title="Smart o'qish rejasi" icon="book" accent="#0891b2"/>
+      <CardHead eyebrow="SHAXSIY JADVAL" title="O'qish rejasi" icon="book" accent="#0891b2"/>
       <div className="sfp-week">
         {DAYS.map((d,i)=>(
           <div key={i} className="sfp-day-col">
-            <div className={`sfp-ring ${DONE[i]?"sfp-ring-done":i===3?"sfp-ring-today":""}`}>
-              {DONE[i] ? <I n="check" s={11} c="#fff"/> : <span className="sfp-day-n">{i+1}</span>}
-            </div>
+            <button type="button"
+              className={`sfp-ring ${done[i]?"sfp-ring-done":i===3?"sfp-ring-today":""}`}
+              onClick={()=>toggleDay(i)}
+              style={{cursor:"pointer",border:"none",padding:0}}>
+              {done[i] ? <I n="check" s={11} c="#fff"/> : <span className="sfp-day-n">{i+1}</span>}
+            </button>
             <span className="sfp-day-lbl">{d}</span>
           </div>
         ))}
@@ -640,8 +644,9 @@ export function ReadingPlannerCard() {
         </div>
       </div>
       <div className="sfp-plan-list">
-        {PLAN.map((p,i)=>(
-          <div key={i} className={`sfp-plan-row ${p.done?"sfp-plan-done":i===3?"sfp-plan-today":""}`}>
+        {plan.map((p,i)=>(
+          <div key={i} className={`sfp-plan-row ${p.done?"sfp-plan-done":i===3?"sfp-plan-today":""}`}
+            onClick={()=>toggleTask(i)} style={{cursor:"pointer"}}>
             <div className="sfp-plan-check">
               {p.done ? <I n="check" s={11} c="#0891b2"/> : <span/>}
             </div>
@@ -649,7 +654,7 @@ export function ReadingPlannerCard() {
               <span className="sfp-plan-task">{p.task}</span>
               <span className="sfp-plan-book">{p.book}</span>
             </div>
-            {i===3 && <span className="sfp-today-badge">Bugun</span>}
+            {i===3 && !p.done && <span className="sfp-today-badge">Bugun</span>}
           </div>
         ))}
       </div>
@@ -657,40 +662,43 @@ export function ReadingPlannerCard() {
   );
 }
 
-/* 3. TADQIQOT BO'SHLIQ IZLOVCHI — Student + Teacher */
+/* 3. TADQIQOT BO'SHLIG'I TAHLILI — Student + Teacher */
 export function ResearchGapCard() {
   const [topic, setTopic] = useState("");
   const [result, setResult] = useState<null|{gaps:{label:string;level:number;color:string;tag:string}[]}>(null);
   const [loading, setLoading] = useState(false);
+
   function analyze() {
-    if (!topic) return;
+    if (!topic.trim()) return;
     setLoading(true);
     setTimeout(() => {
       setResult({gaps:[
-        {label:`${topic} va sun'iy intellekt`, level:12, color:"#dc2626", tag:"Kam tadqiq"},
-        {label:`${topic}: zamonaviy yondashuvlar`, level:38, color:"#d97706", tag:"O'rta"},
-        {label:`${topic} nazariy asoslari`, level:74, color:"#059669", tag:"O'rganilgan"},
-        {label:`${topic} amaliy qo'llanilishi`, level:21, color:"#dc2626", tag:"Kam tadqiq"},
-        {label:`${topic} va boshqa fanlar`, level:9, color:"#7c3aed", tag:"Bo'shliq"},
+        {label:`${topic} va sun'iy intellekt`,       level:12, color:"#dc2626", tag:"Kam tadqiq"},
+        {label:`${topic}: zamonaviy yondashuvlar`,   level:38, color:"#d97706", tag:"O'rta"},
+        {label:`${topic} nazariy asoslari`,          level:74, color:"#059669", tag:"O'rganilgan"},
+        {label:`${topic} amaliy tatbiq`,             level:21, color:"#dc2626", tag:"Kam tadqiq"},
+        {label:`${topic} va qo'shni fanlar`,         level:9,  color:"#7c3aed", tag:"Bo'shliq"},
       ]});
       setLoading(false);
     }, 1600);
   }
+
   return (
     <Card accent="#7c3aed">
-      <CardHead eyebrow="AI · RESEARCH INTELLIGENCE" title="Tadqiqot bo'shliq izlovchi" icon="search" accent="#7c3aed"/>
+      <CardHead eyebrow="TADQIQOT TAHLILI" title="Bo'shliq izlovchi" icon="layers" accent="#7c3aed"/>
       <div className="sfr-body">
         <div className="sf-ai-row">
-          <input className="sf-input sfr-inp" placeholder="Tadqiqot mavzuingizni yozing..." value={topic}
-            onChange={e=>setTopic(e.target.value)} onKeyDown={e=>e.key==="Enter"&&analyze()}/>
-          <button className="sf-action-btn sf-action-sm" style={{background:"#7c3aed"}}
+          <input className="sf-input sfr-inp" placeholder="Tadqiqot mavzuingizni yozing..."
+            value={topic} onChange={e=>setTopic(e.target.value)}
+            onKeyDown={e=>{ if(e.key==="Enter") analyze(); }}/>
+          <button type="button" className="sf-action-btn sf-action-sm" style={{background:"#7c3aed"}}
             onClick={analyze} disabled={loading}>
             {loading ? <span className="sf-spinner"/> : "Tahlil"}
           </button>
         </div>
         {result && (
           <div className="sfr-results">
-            <p className="sfr-hint">Katalogdagi tadqiqot darajasi ({topic}):</p>
+            <p className="sfr-hint">Katalogdagi tadqiqot qamrovi ({topic}):</p>
             {result.gaps.map((g,i)=>(
               <div key={i} className="sfr-row">
                 <div className="sfr-label-wrap">
@@ -698,7 +706,9 @@ export function ResearchGapCard() {
                   <span className="sfr-tag" style={{color:g.color, background:g.color+"15"}}>{g.tag}</span>
                 </div>
                 <div className="sfr-bar-wrap">
-                  <div className="sfr-bar-fill" style={{width:`${g.level}%`, background:g.color}}/>
+                  <div className="sfr-bar-fill-track">
+                    <div className="sfr-bar-fill" style={{width:`${g.level}%`, background:g.color}}/>
+                  </div>
                   <span className="sfr-pct">{g.level}%</span>
                 </div>
               </div>
@@ -715,31 +725,41 @@ export function VoiceSearchCard() {
   const [active, setActive] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [results, setResults] = useState<string[]>([]);
-  const RECENT = ["2020-yildan keyin iqtisodiyot bo'yicha kitoblar","Karimov muallifli dissertatsiyalar","Dasturlash bo'yicha o'zbek tili manbalari"];
+  const RECENT = [
+    "2020-yildan keyin iqtisodiyot bo'yicha kitoblar",
+    "Karimov muallifli dissertatsiyalar",
+    "Dasturlash bo'yicha o'zbek tili manbalari",
+  ];
+
   function startListen() {
-    setActive(true); setTranscript("Tinglayapman...");
+    setActive(true); setTranscript(""); setResults([]);
     setTimeout(()=>{
       const q = "Axborot xavfsizligi bo'yicha inglizcha manbalar";
       setTranscript(q);
-      setResults(["Information Security Essentials — 2022","Cybersecurity Fundamentals — Anderson","Network Security — Stallings 2021"]);
+      setResults([
+        "Information Security Essentials — 2022",
+        "Cybersecurity Fundamentals — Anderson",
+        "Network Security — Stallings 2021",
+      ]);
       setActive(false);
-    }, 2000);
+    }, 2200);
   }
+
+  function reset() { setTranscript(""); setResults([]); }
+
   return (
     <Card accent="#d97706">
-      <CardHead eyebrow="AI · NLP · OVOZLI" title="Ovozli qidiruv" icon="search" accent="#d97706"/>
+      <CardHead eyebrow="OVOZLI QIDIRUV" title="Mikrofon bilan qidirish" icon="mic" accent="#d97706"/>
       <div className="sfv-body">
         <div className="sfv-mic-wrap">
-          <button className={`sfv-mic-btn ${active?"sfv-mic-active":""}`} onClick={startListen} disabled={active}>
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/>
-            </svg>
+          <button type="button" className={`sfv-mic-btn ${active?"sfv-mic-active":""}`}
+            onClick={startListen} disabled={active}>
+            <I n="mic" s={26} c="currentColor"/>
           </button>
           {active && <div className="sfv-ripple"/>}
           <p className="sfv-mic-hint">{active ? "Gapiring..." : "Mikrofonga bosing"}</p>
         </div>
-        {transcript && transcript !== "Tinglayapman..." && (
+        {transcript && (
           <div className="sfv-transcript">
             <span className="sfv-q-icon">"</span>
             <span className="sfv-q-text">{transcript}</span>
@@ -753,13 +773,17 @@ export function VoiceSearchCard() {
                 <span className="sfv-result-title">{r}</span>
               </div>
             ))}
+            <button type="button" className="sf-ghost-btn" style={{marginTop:4}} onClick={reset}>
+              <I n="refresh" s={12} c="#94a3b8"/> Qayta qidirish
+            </button>
           </div>
         )}
         {!transcript && (
           <div className="sfv-recent">
-            <p className="sfv-recent-label">So'nggi ovozli qidiruvlar</p>
+            <p className="sfv-recent-label">Oxirgi qidiruvlar</p>
             {RECENT.map((r,i)=>(
-              <button key={i} className="sfv-recent-row" onClick={()=>setTranscript(r)}>
+              <button key={i} type="button" className="sfv-recent-row"
+                onClick={()=>{ setTranscript(r); setResults(["Natija 1 — 2022","Natija 2 — 2021","Natija 3 — 2020"]); }}>
                 <I n="search" s={12} c="#94a3b8"/>
                 <span>{r}</span>
               </button>
@@ -771,40 +795,46 @@ export function VoiceSearchCard() {
   );
 }
 
-/* 5. REAL-VAQT TARJIMOCHI — Student */
+/* 5. MATN TARJIMASI — Student */
 export function LiveTranslatorCard() {
   const [text, setText] = useState("");
   const [translated, setTranslated] = useState<{out:string;terms:{en:string;uz:string}[]}|null>(null);
   const [loading, setLoading] = useState(false);
   const EXAMPLE = "Machine learning algorithms require large datasets for training. The backpropagation method adjusts neural network weights iteratively.";
+
   function translate(src?: string) {
     const src2 = src ?? text;
-    if (!src2) return;
+    if (!src2.trim()) return;
     setText(src2); setLoading(true);
     setTimeout(()=>{
       setTranslated({
-        out:"Mashinali o'rganish algoritmlari o'qitish uchun katta ma'lumotlar to'plamlarini talab qiladi. Orqaga tarqalish usuli neyron tarmoq og'irliklarini iterativ ravishda sozlaydi.",
+        out:"Mashinali o'rganish algoritmlari o'qitish uchun katta ma'lumotlar to'plamlarini talab qiladi. Orqaga tarqalish usuli neyron tarmoq og'irliklarini qayta-qayta sozlaydi.",
         terms:[
-          {en:"Machine learning",uz:"Mashinali o'rganish"},
-          {en:"backpropagation",uz:"orqaga tarqalish"},
-          {en:"neural network",uz:"neyron tarmoq"},
-          {en:"datasets",uz:"ma'lumotlar to'plami"},
+          {en:"Machine learning",   uz:"Mashinali o'rganish"},
+          {en:"backpropagation",    uz:"orqaga tarqalish"},
+          {en:"neural network",     uz:"neyron tarmoq"},
+          {en:"datasets",           uz:"ma'lumotlar to'plami"},
         ]
       });
       setLoading(false);
     },1200);
   }
+
   return (
     <Card accent="#0284c7">
-      <CardHead eyebrow="AI · OCR · NLP" title="Real-vaqt tarjimochi" icon="layers" accent="#0284c7"/>
+      <CardHead eyebrow="TARJIMA VA ATAMALAR" title="Matn tarjimasi" icon="layers" accent="#0284c7"/>
       <div className="sft-body">
-        <textarea className="sf-textarea" rows={3} placeholder="Inglizcha matn kiriting..." value={text}
-          onChange={e=>setText(e.target.value)}/>
+        <textarea className="sf-textarea" rows={3}
+          placeholder="Inglizcha matn kiriting..."
+          value={text} onChange={e=>setText(e.target.value)}/>
         <div style={{display:"flex",gap:8}}>
-          <button className="sf-action-btn" style={{background:"#0284c7",fontSize:12}} onClick={()=>translate()}>
+          <button type="button" className="sf-action-btn" style={{background:"#0284c7",fontSize:12}}
+            onClick={()=>translate()} disabled={loading}>
             {loading ? <span className="sf-spinner"/> : "Tarjima qilish"}
           </button>
-          <button className="sf-ghost-btn" onClick={()=>translate(EXAMPLE)}>Namuna</button>
+          <button type="button" className="sf-ghost-btn" onClick={()=>translate(EXAMPLE)}>
+            Namuna
+          </button>
         </div>
         {translated && (
           <>
@@ -817,7 +847,7 @@ export function LiveTranslatorCard() {
                 {translated.terms.map((t,i)=>(
                   <div key={i} className="sft-term-row">
                     <span className="sft-term-en">{t.en}</span>
-                    <span className="sft-term-arr">→</span>
+                    <span className="sft-term-arr">&#x2192;</span>
                     <span className="sft-term-uz">{t.uz}</span>
                   </div>
                 ))}
@@ -830,19 +860,21 @@ export function LiveTranslatorCard() {
   );
 }
 
-/* 6. KOLLEKSIYA TAHLILCHISI — Librarian + Admin */
+/* 6. KOLLEKSIYA TAHLILI — Librarian + Admin */
 export function CollectionAnalyticsCard() {
   const SUBJECTS = [
-    {name:"Dasturlash",    demand:87, stock:42, color:"#6366f1"},
-    {name:"Iqtisodiyot",   demand:74, stock:68, color:"#0891b2"},
-    {name:"Matematik",     demand:61, stock:58, color:"#059669"},
-    {name:"Huquq",         demand:55, stock:23, color:"#dc2626"},
-    {name:"Psixologiya",   demand:48, stock:41, color:"#d97706"},
-    {name:"Tarix",         demand:32, stock:55, color:"#7c3aed"},
+    {name:"Dasturlash",  demand:87, stock:42, color:"#6366f1"},
+    {name:"Iqtisodiyot", demand:74, stock:68, color:"#0891b2"},
+    {name:"Matematika",  demand:61, stock:58, color:"#059669"},
+    {name:"Huquq",       demand:55, stock:23, color:"#dc2626"},
+    {name:"Psixologiya", demand:48, stock:41, color:"#d97706"},
+    {name:"Tarix",       demand:32, stock:55, color:"#7c3aed"},
   ];
+  const [sent, setSent] = useState(false);
+
   return (
     <Card accent="#059669">
-      <CardHead eyebrow="AI · COLLECTION INTELLIGENCE" title="Kolleksiya tahlilchisi" icon="bar" accent="#059669"/>
+      <CardHead eyebrow="FOND TAHLILI" title="Kolleksiya tahlilchisi" icon="bar" accent="#059669"/>
       <div className="sfca-body">
         <div className="sfca-legend">
           <span className="sfca-leg-item"><span className="sfca-leg-dot" style={{background:"#334155"}}/> Talab</span>
@@ -863,39 +895,49 @@ export function CollectionAnalyticsCard() {
                 </div>
               </div>
               <span className={`sfca-gap-badge ${gap?"sfca-gap-bad":"sfca-gap-ok"}`}>
-                {gap ? `−${s.demand-s.stock}` : "OK"}
+                {gap ? `-${s.demand-s.stock}` : "OK"}
               </span>
             </div>
           );
         })}
-        <div className="sfca-footer-note">
-          <I n="shield" s={12} c="#dc2626"/> 2 ta sohada kitob tanqisligi aniqlandi — xarid tavsiyasi tayyorlandi
-        </div>
+        <button type="button" className="sfca-footer-note" style={{cursor:"pointer",textAlign:"left",border:"none"}}
+          onClick={()=>setSent(true)}>
+          <I n="shield" s={12} c={sent?"#065f46":"#dc2626"}/>
+          {sent
+            ? "Xarid tavsiyasi yuborildi — omborga"
+            : "2 ta sohada tanqislik aniqlandi — tavsiya yuborish"}
+        </button>
       </div>
     </Card>
   );
 }
 
-/* 7. QAYTARISH BASHORATCHI — Librarian + Admin */
+/* 7. QAYTARISH BASHORATI — Librarian + Admin */
 export function ReturnPredictionCard() {
-  const LOANS = [
-    {name:"S. Mirzayev", book:"Algoritm asoslari", days:-2, risk:98, color:"#dc2626"},
-    {name:"N. Hasanova",  book:"Veb dasturlash",    days:1,  risk:84, color:"#ea580c"},
-    {name:"B. Toshmatov", book:"Ma'lumotlar bazasi",days:3,  risk:61, color:"#d97706"},
-    {name:"Z. Rahimova",  book:"Ingliz tili",       days:5,  risk:32, color:"#ca8a04"},
-    {name:"A. Yusupov",   book:"Matematika I",      days:8,  risk:12, color:"#65a30d"},
+  const LOANS_INIT = [
+    {name:"S. Mirzayev",  book:"Algoritm asoslari",  days:-2, risk:98, color:"#dc2626", sms:false},
+    {name:"N. Hasanova",  book:"Veb dasturlash",      days:1,  risk:84, color:"#ea580c", sms:false},
+    {name:"B. Toshmatov", book:"Ma'lumotlar bazasi",  days:3,  risk:61, color:"#d97706", sms:false},
+    {name:"Z. Rahimova",  book:"Ingliz tili",         days:5,  risk:32, color:"#ca8a04", sms:false},
+    {name:"A. Yusupov",   book:"Matematika I",        days:8,  risk:12, color:"#65a30d", sms:false},
   ];
+  const [loans, setLoans] = useState(LOANS_INIT);
+
+  function sendSms(i: number) {
+    setLoans(prev => prev.map((l,idx) => idx===i ? {...l, sms:true} : l));
+  }
+
   return (
     <Card accent="#dc2626">
-      <CardHead eyebrow="ML · BASHORAT · ALERT" title="Qaytarish bashoratchi" icon="shield" accent="#dc2626"/>
+      <CardHead eyebrow="QAYTARISH BASHORATI" title="Kechikish xavfi" icon="shield" accent="#dc2626"/>
       <div className="sfrp-body">
         <div className="sfrp-header-row">
-          <span className="sfrp-col-name">O'quvchi</span>
-          <span className="sfrp-col-book">Kitob</span>
-          <span className="sfrp-col-days">Kun</span>
-          <span className="sfrp-col-risk">Risk</span>
+          <span>O'quvchi</span>
+          <span>Kitob</span>
+          <span>Kun</span>
+          <span>Xavf</span>
         </div>
-        {LOANS.map((l,i)=>(
+        {loans.map((l,i)=>(
           <div key={i} className="sfrp-row">
             <span className="sfrp-col-name">
               <span className="sfrp-avatar" style={{background:l.color+"22",color:l.color}}>
@@ -911,13 +953,24 @@ export function ReturnPredictionCard() {
               <span className="sfrp-risk-bar">
                 <span style={{width:`${l.risk}%`,height:"100%",background:l.color,display:"block",borderRadius:3,opacity:.8}}/>
               </span>
-              <span style={{color:l.color,fontWeight:700,fontSize:11}}>{l.risk}%</span>
+              {l.days < 4 ? (
+                <button type="button"
+                  style={{fontSize:9,padding:"2px 6px",borderRadius:4,border:"none",cursor:"pointer",
+                    background:l.sms?"#d1fae5":"#fee2e2",color:l.sms?"#065f46":"#9b1a2f",fontWeight:700,whiteSpace:"nowrap"}}
+                  onClick={()=>sendSms(i)}>
+                  {l.sms ? "Yuborildi" : "SMS"}
+                </button>
+              ) : (
+                <span style={{color:l.color,fontWeight:700,fontSize:11}}>{l.risk}%</span>
+              )}
             </span>
           </div>
         ))}
         <div className="sfrp-footer">
           <span className="sfrp-alert-dot"/>
-          <span>2 ta muddati o'tgan — SMS eslatma yuborildi</span>
+          <span>{loans.filter(l=>l.sms).length > 0
+            ? `${loans.filter(l=>l.sms).length} ta SMS yuborildi`
+            : "2 ta muddati o'tgan — SMS tugmasini bosing"}</span>
         </div>
       </div>
     </Card>
@@ -930,18 +983,20 @@ export function SerendipityCard() {
   const [book, setBook] = useState<{title:string;author:string;year:number;match:number;why:string;color:string}|null>(null);
   const [prefs, setPrefs] = useState({sci:3, hist:2, tech:4});
   const BOOKS = [
-    {title:"Turing sinovlari",         author:"A. Hodges",    year:2019, match:94, why:"Siz ko'p o'qigan texnologiya kitoblariga mos", color:"#6366f1"},
-    {title:"Ulug' Ipak yo'li",         author:"P. Frankopan",  year:2020, match:88, why:"Tarix va madaniyat qiziqishingiz asosida",    color:"#d97706"},
-    {title:"Fikrning geometriyasi",    author:"S. Carroll",   year:2021, match:91, why:"Fan va matematik o'qishlaringizga mos",        color:"#0891b2"},
-    {title:"Insoniyat qisqacha tarixi",author:"Y. Harari",    year:2018, match:86, why:"Ko'p yoqtirgan janrlaringiz asosida",           color:"#059669"},
+    {title:"Turing sinovlari",          author:"A. Hodges",   year:2019, match:94, why:"Siz ko'p o'qigan texnologiya kitoblariga mos", color:"#6366f1"},
+    {title:"Ulug' Ipak yo'li",          author:"P. Frankopan",year:2020, match:88, why:"Tarix va madaniyat qiziqishingiz asosida",     color:"#d97706"},
+    {title:"Fikrning geometriyasi",     author:"S. Carroll",  year:2021, match:91, why:"Fan va matematika o'qishlaringizga mos",        color:"#0891b2"},
+    {title:"Insoniyat qisqacha tarixi", author:"Y. Harari",   year:2018, match:86, why:"Ko'p yoqtirgan janrlaringiz asosida",           color:"#059669"},
   ];
+
   function discover() {
     setLoading(true); setBook(null);
     setTimeout(()=>{ setBook(BOOKS[Math.floor(Math.random()*BOOKS.length)]); setLoading(false); },1300);
   }
+
   return (
     <Card accent="#9333ea">
-      <CardHead eyebrow="AI · SERENDIPITY ENGINE" title="Tematik kashfiyotchi" icon="star" accent="#9333ea"/>
+      <CardHead eyebrow="TASODIFIY KASHFIYOT" title="Kitob topuvchi" icon="star" accent="#9333ea"/>
       <div className="sfse-body">
         <div className="sfse-sliders">
           {([["sci","Fan va ilm",prefs.sci],["hist","Tarix",prefs.hist],["tech","Texnologiya",prefs.tech]] as [string,string,number][]).map(([k,label,val])=>(
@@ -953,7 +1008,9 @@ export function SerendipityCard() {
             </div>
           ))}
         </div>
-        <button className="sf-action-btn" style={{background:"#9333ea",alignSelf:"stretch",justifyContent:"center"}} onClick={discover}>
+        <button type="button" className="sf-action-btn"
+          style={{background:"#9333ea",alignSelf:"stretch",justifyContent:"center"}}
+          onClick={discover}>
           {loading ? <span className="sf-spinner"/> : <><I n="star" s={13} c="#fff"/> Kitob kashf qil</>}
         </button>
         {book && (
@@ -975,7 +1032,7 @@ export function SerendipityCard() {
 }
 
 /* ════════════════════════════════════
-   PANEL WRAPPER — role-based 2-col grid
+   PANEL WRAPPER — rol bo'yicha 2-ustunli tarmoq
 ════════════════════════════════════ */
 export function SmartFeaturesPanel({ role }: { role: string }) {
   return (

@@ -6,7 +6,7 @@ import type { Loan, Reservation, Resource } from "../../types";
 import { resources as fallbackResources } from "../../data/mock";
 import { SmartFeaturesPanel } from "../common/SmartFeatures";
 
-/* в"Ђв"Ђ SVG Charts в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
+/*  SVG Charts  */
 
 function DonutChart({ segments, size = 120 }: {
   segments: { value: number; color: string; label: string }[];
@@ -76,7 +76,7 @@ function BarChart({ data, height = 120 }: {
   );
 }
 
-/* в"Ђв"Ђ Smooth bezier path helper в"Ђв"Ђ */
+/*  Smooth bezier path helper  */
 function smoothPath(pts: { x: number; y: number }[]) {
   if (pts.length < 2) return "";
   let d = `M ${pts[0].x} ${pts[0].y}`;
@@ -88,7 +88,7 @@ function smoothPath(pts: { x: number; y: number }[]) {
   return d;
 }
 
-/* в"Ђв"Ђ Kunlik dinamika card в"Ђв"Ђ */
+/*  Kunlik dinamika card  */
 function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] }) {
   const W = 540, H = 160;
   const pad = { top: 20, right: 12, bottom: 32, left: 44 };
@@ -124,7 +124,7 @@ function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] 
         </div>
         <div className="px-dyn-badges">
           <span className={`px-dyn-trend ${trendUp ? "up" : "dn"}`}>
-            {trendUp ? "в–І" : "в–ј"} {trendPct}%
+            {trendUp ? "↑" : "↓"} {trendPct}%
           </span>
           <span className="px-dyn-period">So'nggi {data.length} kun</span>
         </div>
@@ -218,7 +218,7 @@ function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] 
   );
 }
 
-/* в"Ђв"Ђ Jins taqsimoti card в"Ђв"Ђ */
+/*  Jins taqsimoti card  */
 function GenderCard({ male, female, role }: { male: number; female: number; role: string }) {
   const total = male + female || 1;
   const mPct = (male / total) * 100;
@@ -315,12 +315,12 @@ function GenderCard({ male, female, role }: { male: number; female: number; role
 
           {/* Ratio chip */}
           <div className="px-gc-ratio">
-            <span style={{color:"#db2777"}}>в™Ђ {fPct.toFixed(0)}%</span>
+            <span style={{color:"#db2777"}}>▲ {fPct.toFixed(0)}%</span>
             <div className="px-gc-ratio-bar">
               <div style={{width:`${fPct}%`, background:"linear-gradient(90deg,#ec4899,#f472b6)"}}/>
               <div style={{width:`${mPct}%`, background:"linear-gradient(90deg,#818cf8,#6366f1)"}}/>
             </div>
-            <span style={{color:"#4338ca"}}>в™‚ {mPct.toFixed(0)}%</span>
+            <span style={{color:"#4338ca"}}>▼ {mPct.toFixed(0)}%</span>
           </div>
         </div>
       </div>
@@ -340,7 +340,7 @@ function Sparkline({ values, color = "#002147" }: { values: number[]; color?: st
   );
 }
 
-/* в"Ђв"Ђ Constants в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
+/*  Constants  */
 
 const WEEKLY = [
   { label: "Du", value: 182 }, { label: "Se", value: 248 }, { label: "Ch", value: 215 },
@@ -407,12 +407,12 @@ function Icon({ id, size = 16, color = "currentColor" }: { id: string; size?: nu
   );
 }
 
-/* в"Ђв"Ђ Smart feature components imported from SmartFeatures.tsx в"Ђв"Ђ */
+/*  Smart feature components imported from SmartFeatures.tsx  */
 // ReadingStreakCard, CitationCard, PlagiarismCard, RecommendationsCard,
 // CoursePackCard, QRShelfCard, AISearchCard, FeatureStatsCard
 
 
-/* в"Ђв"Ђ Main component в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
+/*  Main component  */
 
 export function DashboardPage() {
   const { dashboardRole, locale = "uz" } = useParams();
@@ -493,7 +493,7 @@ export function DashboardPage() {
   return (
     <div className="px-root">
 
-      {/* в"Ђв"Ђ Identity header в"Ђв"Ђ */}
+      {/*  Identity header  */}
       <div className="px-header">
         <div className="px-header-inner">
           <div className="px-header-left">
@@ -513,13 +513,13 @@ export function DashboardPage() {
               </Link>
             )}
             <Link to={`/${locale}/elibrary/${role}`} className="px-btn-ghost">
-              E-Library profil в†'
+              E-Library profili
             </Link>
           </div>
         </div>
       </div>
 
-      {/* в"Ђв"Ђ KPI strip в"Ђв"Ђ */}
+      {/*  KPI strip  */}
       <div className="px-kpi-strip">
         {kpis.map((k, i) => (
           <div key={i} className={`px-kpi ${!k.up && i === 2 ? "px-kpi-warn" : ""}`}>
@@ -532,13 +532,13 @@ export function DashboardPage() {
             </div>
             <div className="px-kpi-label">{k.label}</div>
             <div className={`px-kpi-trend ${k.up ? "px-trend-up" : "px-trend-dn"}`}>
-              {k.up ? "в–І" : "в–ј"} {k.up ? "+6%" : "-2%"} so'nggi 30 kun
+              {k.up ? "↑" : "↓"} {k.up ? "+6%" : "-2%"} so'nggi 30 kun
             </div>
           </div>
         ))}
       </div>
 
-      {/* в"Ђв"Ђ Tabs в"Ђв"Ђ */}
+      {/*  Tabs  */}
       <div className="px-tabs">
         <div className="px-tabs-inner">
           {tabs.map(t => (
@@ -551,7 +551,7 @@ export function DashboardPage() {
         </div>
       </div>
 
-      {/* в"Ђв"Ђ Overview в"Ђв"Ђ */}
+      {/*  Overview  */}
       {tab === "overview" && (
         <div className="px-body">
 
@@ -565,7 +565,7 @@ export function DashboardPage() {
             <div className="px-card px-card-grow">
               <div className="px-card-head">
                 <h3>Eng ko'p foydalanilgan resurslar</h3>
-                <Link to={`/${locale}/catalog`} className="px-link">Katalog в†'</Link>
+                <Link to={`/${locale}/catalog`} className="px-link">Katalog</Link>
               </div>
               <table className="px-table">
                 <thead>
@@ -622,7 +622,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ Analytics tab (admin) в"Ђв"Ђ */}
+      {/*  Analytics tab (admin)  */}
       {tab === "analytics" && (
         <div className="px-body">
           <div className="px-row">
@@ -666,7 +666,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ Resources tab в"Ђв"Ђ */}
+      {/*  Resources tab  */}
       {tab === "resources" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -701,7 +701,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ Loans tab в"Ђв"Ђ */}
+      {/*  Loans tab  */}
       {tab === "loans" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -725,7 +725,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ Reservations tab в"Ђв"Ђ */}
+      {/*  Reservations tab  */}
       {tab === "reservations" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -748,7 +748,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ My Books tab (student) в"Ђв"Ђ */}
+      {/*  My Books tab (student)  */}
       {tab === "mybooks" && (
         <div className="px-body">
           <div className="px-row">
@@ -800,7 +800,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в"Ђв"Ђ Users tab (admin) в"Ђв"Ђ */}
+      {/*  Users tab (admin)  */}
       {tab === "users" && (
         <div className="px-body">
           <div className="px-card px-card-full">
