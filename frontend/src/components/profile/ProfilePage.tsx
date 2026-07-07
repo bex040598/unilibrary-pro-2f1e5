@@ -5,6 +5,7 @@ import { api } from "../../lib/api";
 import { FaceCapture } from "../face-id/FaceCapture";
 import { departments as fallbackDepartments, resources as fallbackResources } from "../../data/mock";
 import type { Loan, Reservation, Resource, Role } from "../../types";
+import { SmartFeaturesPanel } from "../common/SmartFeatures";
 
 /* ── Role colors ── */
 const ROLE_COLOR: Record<Role, { bg: string; badge: string; label: string }> = {
@@ -23,14 +24,15 @@ const ROLE_DASHBOARD: Record<Role, string> = {
   admin:      "/admin",
 };
 
-type Tab = "overview" | "library" | "settings" | "security" | "face-id";
+type Tab = "overview" | "smart" | "library" | "settings" | "security" | "face-id";
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
-  { id: "overview",  label: "Umumiy",     icon: "⊞" },
-  { id: "library",   label: "Kutubxona",  icon: "⊡" },
-  { id: "settings",  label: "Sozlamalar", icon: "⊙" },
-  { id: "security",  label: "Xavfsizlik", icon: "⊛" },
-  { id: "face-id",   label: "Face ID",    icon: "◉" },
+  { id: "overview",  label: "Umumiy",         icon: "⊞" },
+  { id: "smart",     label: "Smart xizmatlar", icon: "✦" },
+  { id: "library",   label: "Kutubxona",       icon: "⊡" },
+  { id: "settings",  label: "Sozlamalar",      icon: "⊙" },
+  { id: "security",  label: "Xavfsizlik",      icon: "⊛" },
+  { id: "face-id",   label: "Face ID",          icon: "◉" },
 ];
 
 /* ── Avatar initials ── */
@@ -444,6 +446,13 @@ export function ProfilePage() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* ─── SMART XIZMATLAR ─── */}
+        {activeTab === "smart" && (
+          <div className="prf-section">
+            <SmartFeaturesPanel role={role} />
           </div>
         )}
 
