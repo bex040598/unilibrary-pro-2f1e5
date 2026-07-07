@@ -9,7 +9,7 @@ import {
   CoursePackCard, QRShelfCard, AISearchCard, FeatureStatsCard,
 } from "../common/SmartFeatures";
 
-/* в”Ђв”Ђ SVG Charts в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* в"Ђв"Ђ SVG Charts в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
 
 function DonutChart({ segments, size = 120 }: {
   segments: { value: number; color: string; label: string }[];
@@ -79,7 +79,7 @@ function BarChart({ data, height = 120 }: {
   );
 }
 
-/* в”Ђв”Ђ Smooth bezier path helper в”Ђв”Ђ */
+/* в"Ђв"Ђ Smooth bezier path helper в"Ђв"Ђ */
 function smoothPath(pts: { x: number; y: number }[]) {
   if (pts.length < 2) return "";
   let d = `M ${pts[0].x} ${pts[0].y}`;
@@ -91,7 +91,7 @@ function smoothPath(pts: { x: number; y: number }[]) {
   return d;
 }
 
-/* в”Ђв”Ђ Kunlik dinamika card в”Ђв”Ђ */
+/* в"Ђв"Ђ Kunlik dinamika card в"Ђв"Ђ */
 function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] }) {
   const W = 540, H = 160;
   const pad = { top: 20, right: 12, bottom: 32, left: 44 };
@@ -184,7 +184,7 @@ function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] 
           <g key={i}>
             <circle cx={p.x} cy={p.y} r="5" fill="#fff" stroke="#6366f1" strokeWidth="2.2"/>
             <circle cx={p.x} cy={p.y} r="2" fill="#6366f1"/>
-            {/* value label вЂ” only on first and last, and peaks */}
+            {/* value label — only on first and last, and peaks */}
             {(i === 0 || i === pts.length-1 || p.value === max) && (
               <text x={p.x} y={p.y - 11} textAnchor="middle"
                 fontSize="9" fill="#4338ca" fontWeight="800">
@@ -221,7 +221,7 @@ function DailyDynamicsCard({ data }: { data: { label: string; value: number }[] 
   );
 }
 
-/* в”Ђв”Ђ Jins taqsimoti card в”Ђв”Ђ */
+/* в"Ђв"Ђ Jins taqsimoti card в"Ђв"Ђ */
 function GenderCard({ male, female, role }: { male: number; female: number; role: string }) {
   const total = male + female || 1;
   const mPct = (male / total) * 100;
@@ -343,7 +343,7 @@ function Sparkline({ values, color = "#002147" }: { values: number[]; color?: st
   );
 }
 
-/* в”Ђв”Ђ Constants в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* в"Ђв"Ђ Constants в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
 
 const WEEKLY = [
   { label: "Du", value: 182 }, { label: "Se", value: 248 }, { label: "Ch", value: 215 },
@@ -371,12 +371,12 @@ const POPULAR = [
 ];
 
 const ACTIVITY = [
-  { type: "loan",    text: "Bobur Toshmatov вЂ” Ma'lumotlar bazasi olindi",          time: "2 daq",   ok: true },
-  { type: "check",   text: "Kiberxavfsizlik darsligi tasdiqlandi",                  time: "18 daq",  ok: true },
-  { type: "room",    text: "Zilola Rahimova o'quv zalini bron qildi (A-14, 14:00)", time: "35 daq",  ok: true },
-  { type: "upload",  text: "Aziza Yuldasheva yangi resurs yukladi",                 time: "1 soat",  ok: true },
-  { type: "warning", text: "Sherzod Mirzayev вЂ” qaytarish muddati o'tdi (2 kun)",   time: "2 soat",  ok: false },
-  { type: "loan",    text: "Nilufar Hasanova вЂ” Python darsligi olindi",             time: "3 soat",  ok: true },
+  { type: "loan",    text: "Bobur Toshmatov — Ma'lumotlar bazasi kitobini ijaraga oldi",  time: "2 daq",   ok: true },
+  { type: "check",   text: "Kiberxavfsizlik darsligi resursi tasdiqlandi",                time: "18 daq",  ok: true },
+  { type: "room",    text: "Zilola Rahimova o'quv zalini bron qildi (A-14, soat 14:00)", time: "35 daq",  ok: true },
+  { type: "upload",  text: "Aziza Yuldasheva yangi o'quv resursi yukladi",               time: "1 soat",  ok: true },
+  { type: "warning", text: "Sherzod Mirzayev — qaytarish muddati o'tib ketdi (2 kun)",   time: "2 soat",  ok: false },
+  { type: "loan",    text: "Nilufar Hasanova — Python dasturlash tili kitobini oldi",     time: "3 soat",  ok: true },
 ];
 
 const ICON_PATHS: Record<string, string> = {
@@ -410,12 +410,12 @@ function Icon({ id, size = 16, color = "currentColor" }: { id: string; size?: nu
   );
 }
 
-/* в”Ђв”Ђ Smart feature components imported from SmartFeatures.tsx в”Ђв”Ђ */
+/* в"Ђв"Ђ Smart feature components imported from SmartFeatures.tsx в"Ђв"Ђ */
 // ReadingStreakCard, CitationCard, PlagiarismCard, RecommendationsCard,
 // CoursePackCard, QRShelfCard, AISearchCard, FeatureStatsCard
 
 
-/* в”Ђв”Ђ Main component в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ */
+/* в"Ђв"Ђ Main component в"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђв"Ђ */
 
 export function DashboardPage() {
   const { dashboardRole, locale = "uz" } = useParams();
@@ -496,7 +496,7 @@ export function DashboardPage() {
   return (
     <div className="px-root">
 
-      {/* в”Ђв”Ђ Identity header в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Identity header в"Ђв"Ђ */}
       <div className="px-header">
         <div className="px-header-inner">
           <div className="px-header-left">
@@ -516,13 +516,13 @@ export function DashboardPage() {
               </Link>
             )}
             <Link to={`/${locale}/elibrary/${role}`} className="px-btn-ghost">
-              E-Library profil в†’
+              E-Library profil в†'
             </Link>
           </div>
         </div>
       </div>
 
-      {/* в”Ђв”Ђ KPI strip в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ KPI strip в"Ђв"Ђ */}
       <div className="px-kpi-strip">
         {kpis.map((k, i) => (
           <div key={i} className={`px-kpi ${!k.up && i === 2 ? "px-kpi-warn" : ""}`}>
@@ -541,7 +541,7 @@ export function DashboardPage() {
         ))}
       </div>
 
-      {/* в”Ђв”Ђ Tabs в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Tabs в"Ђв"Ђ */}
       <div className="px-tabs">
         <div className="px-tabs-inner">
           {tabs.map(t => (
@@ -554,11 +554,11 @@ export function DashboardPage() {
         </div>
       </div>
 
-      {/* в”Ђв”Ђ Overview в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Overview в"Ђв"Ђ */}
       {tab === "overview" && (
         <div className="px-body">
 
-          {/* в”Ђв”Ђ Student smart features в”Ђв”Ђ */}
+          {/* в"Ђв"Ђ Student smart features в"Ђв"Ђ */}
           {role === "student" && (
             <>
               <div className="px-row">
@@ -658,7 +658,7 @@ export function DashboardPage() {
                       color: "#065f46",
                       title: "Ijara xizmati",
                       sub: "Circulation Services",
-                      desc: "Kitob berish, qaytarish, uzaytirish va muddati o'tgan hollarni boshqarish вЂ” RFID yoki QR orqali.",
+                      desc: "Kitob berish, qaytarish, uzaytirish va muddati o'tgan hollarni boshqarish — RFID yoki QR orqali.",
                       actions: [{ label: "Ijaralar", to: `/${locale}/loans` }],
                     },
                     {
@@ -700,7 +700,7 @@ export function DashboardPage() {
                           <div className="px-lib-role-actions">
                             {r.actions.map(a => (
                               <Link key={a.to} to={a.to} className="px-lib-role-link">
-                                {a.label} в†’
+                                {a.label} в†'
                               </Link>
                             ))}
                           </div>
@@ -761,7 +761,7 @@ export function DashboardPage() {
             <div className="px-card px-card-grow">
               <div className="px-card-head">
                 <h3>Eng ko'p foydalanilgan resurslar</h3>
-                <Link to={`/${locale}/catalog`} className="px-link">Katalog в†’</Link>
+                <Link to={`/${locale}/catalog`} className="px-link">Katalog в†'</Link>
               </div>
               <table className="px-table">
                 <thead>
@@ -818,12 +818,12 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ Analytics tab (admin) в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Analytics tab (admin) в"Ђв"Ђ */}
       {tab === "analytics" && (
         <div className="px-body">
           <div className="px-row">
             <div className="px-card px-card-grow">
-              <div className="px-card-head"><h3>Haftalik faollik вЂ” kirish statistikasi</h3></div>
+              <div className="px-card-head"><h3>Haftalik faollik — kirish statistikasi</h3></div>
               <div className="px-chart-wrap">
                 <BarChart data={WEEKLY} height={140} />
               </div>
@@ -862,7 +862,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ Resources tab в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Resources tab в"Ђв"Ђ */}
       {tab === "resources" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -884,8 +884,8 @@ export function DashboardPage() {
                     <tr key={r.id}>
                       <td className="px-td-muted">{i + 1}</td>
                       <td className="px-td-main">{r.title}</td>
-                      <td className="px-td-muted">{r.subject_name ?? "вЂ”"}</td>
-                      <td className="px-td-muted">{r.material_type ?? "вЂ”"}</td>
+                      <td className="px-td-muted">{r.subject_name ?? "—"}</td>
+                      <td className="px-td-muted">{r.material_type ?? "—"}</td>
                       <td><span className="px-pill" style={{ color: pill.c, background: pill.bg }}>{pill.t}</span></td>
                     </tr>
                   );
@@ -897,7 +897,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ Loans tab в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Loans tab в"Ђв"Ђ */}
       {tab === "loans" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -921,7 +921,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ Reservations tab в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Reservations tab в"Ђв"Ђ */}
       {tab === "reservations" && (
         <div className="px-body">
           <div className="px-card px-card-full">
@@ -944,7 +944,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ My Books tab (student) в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ My Books tab (student) в"Ђв"Ђ */}
       {tab === "mybooks" && (
         <div className="px-body">
           <div className="px-row">
@@ -996,7 +996,7 @@ export function DashboardPage() {
         </div>
       )}
 
-      {/* в”Ђв”Ђ Users tab (admin) в”Ђв”Ђ */}
+      {/* в"Ђв"Ђ Users tab (admin) в"Ђв"Ђ */}
       {tab === "users" && (
         <div className="px-body">
           <div className="px-card px-card-full">
