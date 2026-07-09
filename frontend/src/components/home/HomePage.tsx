@@ -126,12 +126,12 @@ const NEWS = [
 ];
 
 const STATS = [
-  { value: "2026",   label: "Tizim ishga tushirildi" },
-  { value: "2 ta",   label: "Individual kabinet" },
-  { value: "7",      label: "Fakultet" },
-  { value: "24/7",   label: "Onlayn kirish" },
-  { value: "AI",     label: "Aqlli kutubxonachi" },
-  { value: "Bepul",  label: "Barcha xizmatlar" },
+  { value: "157 270", label: "Jami nashrlar" },
+  { value: "12 500+", label: "Ilmiy maqolalar" },
+  { value: "6 000+",  label: "Ro'yxatdan o'tganlar" },
+  { value: "24/7",    label: "Onlayn kirish" },
+  { value: "AI",      label: "Aqlli kutubxonachi" },
+  { value: "Bepul",   label: "Barcha xizmatlar" },
 ];
 
 export function HomePage() {
