@@ -32,8 +32,8 @@ const TIME_SLOTS = [
 const ROOMS: StudyRoom[] = [
   {
     id: "amber",
-    name: "Amber Study",
-    subtitle: "Klassik individual kabinet",
+    name: "Akademik Kabinet №101",
+    subtitle: "Klassik individual o'qish xonasi",
     style: "classic",
     floor: "1-qavat · A-bino",
     capacity: 1,
@@ -41,48 +41,48 @@ const ROOMS: StudyRoom[] = [
     status: "available",
     area: "12 m²",
     description:
-      "Qorong'u yog'och panellar, charm kreslolar va shiftgacha kitob javonlari bilan bezatilgan klassik kabinet. Oxford Bodleian va Harvard Widener kutubxonalaridan ilhom olingan.",
+      "Yog'och panellar, qulay kreslo va kitob javonlari bilan jihozlangan sokin akademik kabinet. Tabiiy yorug'lik, yashil chiroq va tinch muhit — chuqur o'qish va tadqiqot uchun.",
     ambience: "Sokin · Issiq · Akademik",
     features: [
       { icon: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z", label: "Tabiiy yorug'lik", desc: "Janubga qaragan katta deraza" },
-      { icon: "M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", label: "Yashil banker chirog'i", desc: "Ko'z uchun qulay issiq yorug'lik" },
-      { icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", label: "Kitob javonlari", desc: "1 200 dan ortiq klassik nashr" },
-      { icon: "M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0z", label: "Tezkor Wi-Fi", desc: "300 Mbps simli + simsiz" },
+      { icon: "M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", label: "Stol chirog'i", desc: "Ko'z uchun qulay issiq yorug'lik" },
+      { icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253", label: "Kitob javonlari", desc: "ATMU adabiyot va darsliklar" },
+      { icon: "M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0z", label: "Tezkor Wi-Fi", desc: "Universitetning tezkor tarmog'i" },
       { icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z", label: "Quvvat paneli", desc: "USB-C, USB-A, 220V rozetkalar" },
-      { icon: "M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316z", label: "Monitor", desc: "27\" 4K IPS displey" },
+      { icon: "M6.827 6.175A2.31 2.31 0 0 1 5.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 0 0-1.134-.175 2.31 2.31 0 0 1-1.64-1.055l-.822-1.316a2.192 2.192 0 0 0-1.736-1.039 48.774 48.774 0 0 0-5.232 0 2.192 2.192 0 0 0-1.736 1.039l-.821 1.316z", label: "Monitor", desc: "Full HD keng ekranli displey" },
     ],
-    amenities: ["Soundproof", "Klimat nazorat", "Safe (qulf)", "Printer kirish", "Locker", "Choy/kofe"],
+    amenities: ["Ovoz o'tkazmaydi", "Konditsioner", "Qulf (seyfcha)", "Printer kirish", "Shkafcha", "Choy/kofe"],
     color: "#78350f",
     accent: "#d97706",
     openHours: "08:00 – 22:00",
-    inspiration: "Oxford Bodleian · Harvard Widener",
+    inspiration: "ATMU · A-bino 1-qavat",
   },
   {
     id: "nordic",
-    name: "Nordic Light",
-    subtitle: "Zamonaviy Skandinaviya kabineti",
+    name: "Innovatsion Kabinet №201",
+    subtitle: "Zamonaviy individual o'qish xonasi",
     style: "nordic",
     floor: "2-qavat · A-bino",
     capacity: 1,
-    occupied: 1,
-    status: "limited",
+    occupied: 0,
+    status: "available",
     area: "14 m²",
     description:
-      "Oq qayin yog'ochi, shiftgacha deraza va minimalist yondashuv. Helsinki Oodi va Kopengagen Qirollik kutubxonalaridan ilhom olingan. Yorug'lik va tinchlikning uyg'unligi.",
-    ambience: "Minimalist · Yorug' · Ijodiy",
+      "Yorug' rang, panorama deraza va zamonaviy jihozlar bilan bezatilgan kabinet. Standing desk, dual monitor va toza havo tizimi — samarali ishlash uchun ideal muhit.",
+    ambience: "Minimalist · Yorug' · Zamonaviy",
     features: [
-      { icon: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z", label: "Panorama deraza", desc: "Shiftgacha oyna, shaharga ko'rinish" },
-      { icon: "M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", label: "Indirect LED", desc: "Harorat boshqaruvli smart aplik" },
-      { icon: "M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18", label: "Standing desk", desc: "Elektr balandlik boshqaruvi" },
-      { icon: "M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0z", label: "Wi-Fi 6", desc: "500 Mbps simli + Wi-Fi 6E" },
-      { icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z", label: "Quvvat paneli", desc: "USB-C PD 100W, Wireless charger" },
-      { icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15z", label: "Havo tozalagich", desc: "HEPA filtrl Dyson Pure" },
+      { icon: "M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z", label: "Panorama deraza", desc: "Katta oyna, tabiiy yorug'lik" },
+      { icon: "M9.663 17h4.673M12 3v1m6.364 1.636-.707.707M21 12h-1M4 12H3m3.343-5.657-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z", label: "Smart aplik", desc: "Harorat boshqaruvli LED chiroq" },
+      { icon: "M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18", label: "Balandlik boshqaruvli stol", desc: "O'tirish va turish rejimi" },
+      { icon: "M8.288 15.038a5.25 5.25 0 0 1 7.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 0 1 1.06 0z", label: "Tezkor Wi-Fi", desc: "Universitetning tezkor tarmog'i" },
+      { icon: "M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z", label: "Quvvat paneli", desc: "USB-C, USB-A, 220V, simsiz zaryad" },
+      { icon: "M2.25 15a4.5 4.5 0 0 0 4.5 4.5H18a3.75 3.75 0 0 0 1.332-7.257 3 3 0 0 0-3.758-3.848 5.25 5.25 0 0 0-10.233 2.33A4.502 4.502 0 0 0 2.25 15z", label: "Havo tozalagich", desc: "Toza va salqin havo tizimi" },
     ],
-    amenities: ["Soundproof++", "Smart klimat", "Noise-cancelling zona", "Dual monitor", "Locker", "Infused water"],
+    amenities: ["Ovoz o'tkazmaydi", "Smart konditsioner", "Shovqin kamaytiruvchi", "Dual monitor", "Shkafcha", "Suv dispenseri"],
     color: "#0c4a6e",
     accent: "#0891b2",
-    openHours: "07:00 – 23:00",
-    inspiration: "Helsinki Oodi · Copenhagen Black Diamond",
+    openHours: "08:00 – 22:00",
+    inspiration: "ATMU · A-bino 2-qavat",
   },
 ];
 
@@ -684,7 +684,7 @@ function VirtualTour({ room, onClose }: TourProps) {
         </div>
         <div className="vt-topbar-right">
           <span style={{fontSize:10,color:"#ffffffaa",fontStyle:"italic"}}>
-            Ilhom: {room.inspiration}
+            {room.inspiration}
           </span>
           <div className="vt-feats">
             {room.amenities.slice(0,4).map(a=>(
@@ -740,7 +740,7 @@ function VirtualTour({ room, onClose }: TourProps) {
 
       <div className="vt-placeholder-notice">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Sintetik panorama · Haqiqiy 360° foto bilan almashtiriladi
+        Virtual ko'rinish · Admin paneldan haqiqiy foto yuklash mumkin
       </div>
     </div>
   );

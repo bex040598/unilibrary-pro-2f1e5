@@ -76,27 +76,27 @@ const SERVICES = [
 
 const COLLECTIONS = [
   {
-    title: "Ilmiy maqolalar", count: "12 500+",
+    title: "Ilmiy maqolalar", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
   },
   {
-    title: "Dissertatsiyalar", count: "3 200+",
+    title: "Dissertatsiyalar", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
   },
   {
-    title: "Elektron kitoblar", count: "42 000+",
+    title: "Elektron kitoblar", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
   },
   {
-    title: "Video ma'ruzalar", count: "1 800+",
+    title: "Video ma'ruzalar", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>,
   },
   {
-    title: "Qog'oz nashrlar", count: "90 000+",
+    title: "Kafedra materiallari", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>,
   },
   {
-    title: "Atlaslar va xaritalar", count: "580+",
+    title: "Uslubiy qo'llanmalar", count: "Tez orada",
     icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>,
   },
 ];
@@ -126,12 +126,12 @@ const NEWS = [
 ];
 
 const STATS = [
-  { value: "157 270", label: "Jami nashrlar" },
-  { value: "12 500+", label: "Ilmiy maqolalar" },
-  { value: "48",      label: "Kafedra to'plamlari" },
-  { value: "250+",    label: "O'quv zali o'rinlari" },
-  { value: "24/7",    label: "Onlayn kirish" },
-  { value: "6 000+",  label: "Ro'yxatdan o'tganlar" },
+  { value: "2026",   label: "Tizim ishga tushirildi" },
+  { value: "2 ta",   label: "Individual kabinet" },
+  { value: "7",      label: "Fakultet" },
+  { value: "24/7",   label: "Onlayn kirish" },
+  { value: "AI",     label: "Aqlli kutubxonachi" },
+  { value: "Bepul",  label: "Barcha xizmatlar" },
 ];
 
 export function HomePage() {
@@ -254,8 +254,8 @@ export function HomePage() {
                 alt="Talaba kutubxonada o'qimoqda"
               />
               <div className="bod-feature-img-badge">
-                <strong>157 270</strong>
-                <span>nashr mavjud</span>
+                <strong>AI</strong>
+                <span>aqlli yordamchi</span>
               </div>
             </div>
             <div className="bod-feature-body">
@@ -331,8 +331,8 @@ export function HomePage() {
                 Tezkor Wi-Fi, kompyuter stansiyalari va tinch muhit — samarali o'qish uchun hamma narsa.
               </p>
               <div className="bod-mini-stats">
-                <div className="bod-mini-stat"><strong>250+</strong><span>O'rindiq</span></div>
-                <div className="bod-mini-stat"><strong>18</strong><span>Kabinet</span></div>
+                <div className="bod-mini-stat"><strong>2 ta</strong><span>Individual kabinet</span></div>
+                <div className="bod-mini-stat"><strong>A-bino</strong><span>1 va 2-qavat</span></div>
                 <div className="bod-mini-stat"><strong>08–22</strong><span>Ish vaqti</span></div>
               </div>
               <Link to={`/${locale}/library/reading-room`} className="bod-btn-primary">
