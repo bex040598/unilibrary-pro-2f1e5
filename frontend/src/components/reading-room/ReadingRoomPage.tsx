@@ -474,7 +474,7 @@ export function ReadingRoomPage() {
                   </div>
 
                   <div className="sr-modal-summary">
-                    {[["Zal", selectedRoom.name], ["Qavat", selectedRoom.floor], ["Sana", form.date], ["Vaqt", `${form.start} – ${form.end}`], user ? ["Foydalanuvchi", user.full_name] : null].filter(Boolean).map(([k,v]) => (
+                    {([ ["Zal", selectedRoom.name], ["Qavat", selectedRoom.floor], ["Sana", form.date], ["Vaqt", `${form.start} – ${form.end}`], ...(user ? [["Foydalanuvchi", user.full_name]] : []) ] as [string,string][]).map(([k,v]) => (
                       <div key={k} className="sr-sum-row"><span>{k}</span><strong>{v}</strong></div>
                     ))}
                   </div>
