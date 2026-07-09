@@ -307,6 +307,12 @@ const ICON: Record<string, string> = {
   tablet: "M4 2h16a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM12 18h.01",
   lock:   "M19 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2zM7 11V7a5 5 0 0 1 10 0v4",
   map:    "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
+  video:  "M15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14M3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z",
+  image:  "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 0 2 2zM3 9l9-7 9 7M8 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2M21 15l-5-5L9 15",
+  camera: "M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+  trash:  "M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6",
+  check:  "M20 6L9 17l-5-5",
+  upload: "M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12",
 };
 function I({ id, size = 15, c = "currentColor" }: { id: string; size?: number; c?: string }) {
   return (
@@ -324,6 +330,273 @@ const ROLE_COLORS: Record<string, string> = {
 const ROLE_LABELS: Record<string, string> = {
   admin: "Admin", teacher: "O'qituvchi", student: "Talaba", librarian: "Kutubxonachi"
 };
+
+/* ══════════════════════════════════════════════════════════
+   ROOM MEDIA MANAGER
+══════════════════════════════════════════════════════════ */
+
+const ROOM_DEFS = [
+  { id: "amber", name: "Amber Study",   subtitle: "Klassik individual kabinet",  color: "#78350f", accent: "#d97706", floor: "1-qavat · A-bino" },
+  { id: "nordic", name: "Nordic Light", subtitle: "Zamonaviy Skandinaviya kabineti", color: "#0c4a6e", accent: "#0891b2", floor: "2-qavat · A-bino" },
+];
+
+type MediaSlot = "panorama" | "card" | "video";
+
+function lsKey(roomId: string, slot: MediaSlot) { return `atmu_room_${roomId}_${slot}`; }
+
+function RoomMediaTab() {
+  const [saved, setSaved]   = useState<Record<string, string>>({});
+  const [previews, setPreviews] = useState<Record<string, string>>({});
+  const [videos, setVideos] = useState<Record<string, string>>({});
+  const [toast, setToast]   = useState("");
+  const [activeRoom, setActiveRoom] = useState("amber");
+
+  /* Load existing saved media */
+  useEffect(() => {
+    const data: Record<string, string> = {};
+    ROOM_DEFS.forEach(r => {
+      (["panorama","card"] as MediaSlot[]).forEach(slot => {
+        const v = localStorage.getItem(lsKey(r.id, slot));
+        if (v) data[lsKey(r.id, slot)] = v;
+      });
+    });
+    setSaved(data);
+  }, []);
+
+  function showToast(msg: string) {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2800);
+  }
+
+  function handleImage(roomId: string, slot: "panorama" | "card", file: File) {
+    if (!file.type.startsWith("image/")) { showToast("Faqat rasm fayl qabul qilinadi (.jpg .png .webp)"); return; }
+    const maxMb = slot === "panorama" ? 8 : 4;
+    if (file.size > maxMb * 1024 * 1024) { showToast(`Rasm hajmi ${maxMb}MB dan oshmasin`); return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      const url = e.target?.result as string;
+      setPreviews(p => ({ ...p, [lsKey(roomId, slot)]: url }));
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function handleVideo(roomId: string, file: File) {
+    if (!file.type.startsWith("video/")) { showToast("Faqat video fayl qabul qilinadi (.mp4 .webm .mov)"); return; }
+    if (file.size > 200 * 1024 * 1024) { showToast("Video hajmi 200MB dan oshmasin"); return; }
+    const url = URL.createObjectURL(file);
+    setVideos(v => ({ ...v, [roomId]: url }));
+    showToast("Video yuklandi — Saqlash tugmasini bosing");
+  }
+
+  function saveSlot(roomId: string, slot: "panorama" | "card") {
+    const key = lsKey(roomId, slot);
+    const url  = previews[key];
+    if (!url) { showToast("Avval fayl tanlang"); return; }
+    try {
+      localStorage.setItem(key, url);
+      setSaved(s => ({ ...s, [key]: url }));
+      setPreviews(p => { const n = {...p}; delete n[key]; return n; });
+      showToast("Saqlandi! O'quv zali sahifasida ko'rinadi.");
+    } catch {
+      showToast("Xotira yetarli emas — kichikroq rasm tanlang");
+    }
+  }
+
+  function removeSlot(roomId: string, slot: "panorama" | "card") {
+    const key = lsKey(roomId, slot);
+    localStorage.removeItem(key);
+    setSaved(s => { const n = {...s}; delete n[key]; return n; });
+    showToast("O'chirildi — sintetik tasvirga qaytildi");
+  }
+
+  const room = ROOM_DEFS.find(r => r.id === activeRoom)!;
+
+  const slots: { slot: "panorama"|"card"; label: string; hint: string; icon: string }[] = [
+    { slot: "panorama", label: "360° Panorama rasmi", hint: "Equirectangular format (2:1), masalan 4096×2048 px · max 8 MB", icon: "camera" },
+    { slot: "card",     label: "Kabinet kartasi rasmi", hint: "Istalgan o'lcham · max 4 MB · ko'rsatma kartaga fon sifatida", icon: "image" },
+  ];
+
+  return (
+    <div className="adx-section">
+      {/* Toast */}
+      {toast && (
+        <div className="adx-toast">
+          <I id="check" size={14} c="#065f46" /> {toast}
+        </div>
+      )}
+
+      {/* Page header */}
+      <div className="adx-rm-header">
+        <div>
+          <h2 className="adx-rm-title">O'quv zali media boshqaruvi</h2>
+          <p className="adx-rm-sub">Har bir xona uchun 360° panorama rasmi, kartasi va videosini yuklang. Saqlagandan so'ng darhol O'quv zali sahifasida ko'rinadi.</p>
+        </div>
+        <div className="adx-rm-info-chip">
+          <I id="lock" size={12} /> Faqat admin ko'ra oladi
+        </div>
+      </div>
+
+      {/* Room tabs */}
+      <div className="adx-rm-room-tabs">
+        {ROOM_DEFS.map(r => (
+          <button key={r.id}
+            className={`adx-rm-rtab ${activeRoom === r.id ? "adx-rm-rtab-on" : ""}`}
+            style={activeRoom === r.id ? { borderColor: r.accent, color: r.color } : {}}
+            onClick={() => setActiveRoom(r.id)}>
+            <span className="adx-rm-rtab-dot" style={{ background: r.color }}/>
+            <div>
+              <div className="adx-rm-rtab-name">{r.name}</div>
+              <div className="adx-rm-rtab-sub">{r.floor}</div>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Image slots */}
+      <div className="adx-rm-slots">
+        {slots.map(({ slot, label, hint, icon }) => {
+          const key      = lsKey(room.id, slot);
+          const preview  = previews[key];
+          const current  = saved[key];
+          const display  = preview || current;
+          const isPending = !!preview;
+
+          return (
+            <div key={slot} className="adx-rm-slot">
+              <div className="adx-rm-slot-head">
+                <div className="adx-rm-slot-icon" style={{ color: room.accent, background: room.accent + "18", borderColor: room.accent + "30" }}>
+                  <I id={icon} size={18} />
+                </div>
+                <div>
+                  <div className="adx-rm-slot-label">{label}</div>
+                  <div className="adx-rm-slot-hint">{hint}</div>
+                </div>
+                {current && !isPending && (
+                  <span className="adx-rm-active-badge">
+                    <I id="check" size={11} c="#065f46" /> Faol
+                  </span>
+                )}
+                {isPending && (
+                  <span className="adx-rm-pending-badge">Saqlanmagan</span>
+                )}
+              </div>
+
+              <div className="adx-rm-slot-body">
+                {/* Preview */}
+                {display ? (
+                  <div className="adx-rm-preview">
+                    <img src={display} alt={label}
+                      style={{ width:"100%", height:"100%", objectFit: slot==="panorama" ? "cover" : "cover" }}/>
+                    {slot === "panorama" && (
+                      <div className="adx-rm-pano-badge">
+                        <I id="camera" size={11} /> Equirectangular
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <label className="adx-rm-dropzone" style={{ borderColor: room.accent + "50" }}>
+                    <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display:"none" }}
+                      onChange={e => { const f = e.target.files?.[0]; if(f) handleImage(room.id, slot, f); e.target.value=""; }}/>
+                    <div className="adx-rm-drop-icon" style={{ color: room.accent }}>
+                      <I id="upload" size={28} />
+                    </div>
+                    <div className="adx-rm-drop-text">Rasm tanlash uchun bosing</div>
+                    <div className="adx-rm-drop-hint">yoki bu yerga tashlang</div>
+                  </label>
+                )}
+
+                {/* Actions */}
+                <div className="adx-rm-slot-actions">
+                  <label className="adx-rm-change-btn" style={{ borderColor: room.accent + "40", color: room.color }}>
+                    <input type="file" accept="image/jpeg,image/png,image/webp" style={{ display:"none" }}
+                      onChange={e => { const f = e.target.files?.[0]; if(f) handleImage(room.id, slot, f); e.target.value=""; }}/>
+                    <I id="upload" size={13} /> {display ? "Almashtirish" : "Fayl tanlash"}
+                  </label>
+
+                  {isPending && (
+                    <button className="adx-rm-save-btn" style={{ background: `linear-gradient(135deg,${room.color},${room.accent})` }}
+                      onClick={() => saveSlot(room.id, slot)}>
+                      <I id="check" size={13} c="#fff" /> Saqlash
+                    </button>
+                  )}
+
+                  {current && !isPending && (
+                    <button className="adx-rm-del-btn" onClick={() => removeSlot(room.id, slot)}>
+                      <I id="trash" size={13} /> O'chirish
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Video section */}
+      <div className="adx-rm-video-section">
+        <div className="adx-rm-slot-head" style={{ marginBottom: 14 }}>
+          <div className="adx-rm-slot-icon" style={{ color: room.accent, background: room.accent + "18", borderColor: room.accent + "30" }}>
+            <I id="video" size={18} />
+          </div>
+          <div>
+            <div className="adx-rm-slot-label">Kabinet taqdimot videosi</div>
+            <div className="adx-rm-slot-hint">MP4, WebM, MOV · max 200 MB · sahifada play tugmasi bilan ko'rsatiladi · sahifa yangilanguncha saqlanadi</div>
+          </div>
+        </div>
+
+        {videos[room.id] ? (
+          <div className="adx-rm-video-wrap">
+            <video src={videos[room.id]} controls className="adx-rm-video" />
+            <div className="adx-rm-video-actions">
+              <label className="adx-rm-change-btn" style={{ borderColor: room.accent + "40", color: room.color }}>
+                <input type="file" accept="video/mp4,video/webm,video/quicktime" style={{ display:"none" }}
+                  onChange={e => { const f = e.target.files?.[0]; if(f) handleVideo(room.id, f); e.target.value=""; }}/>
+                <I id="upload" size={13} /> Video almashtirish
+              </label>
+              <button className="adx-rm-del-btn"
+                onClick={() => { URL.revokeObjectURL(videos[room.id]); setVideos(v => { const n={...v}; delete n[room.id]; return n; }); }}>
+                <I id="trash" size={13} /> Olib tashlash
+              </button>
+            </div>
+          </div>
+        ) : (
+          <label className="adx-rm-dropzone adx-rm-dropzone-video" style={{ borderColor: room.accent + "50" }}>
+            <input type="file" accept="video/mp4,video/webm,video/quicktime" style={{ display:"none" }}
+              onChange={e => { const f = e.target.files?.[0]; if(f) handleVideo(room.id, f); e.target.value=""; }}/>
+            <div className="adx-rm-drop-icon" style={{ color: room.accent }}>
+              <I id="video" size={32} />
+            </div>
+            <div className="adx-rm-drop-text">360° video yoki kabinet videosini yuklang</div>
+            <div className="adx-rm-drop-hint">MP4 · WebM · MOV &nbsp;·&nbsp; max 200 MB</div>
+          </label>
+        )}
+      </div>
+
+      {/* Instructions */}
+      <div className="adx-rm-guide">
+        <div className="adx-rm-guide-head">
+          <I id="book" size={15} c="#1d4ed8" /> Foydalanish yo'riqnomasi
+        </div>
+        <div className="adx-rm-guide-steps">
+          {[
+            { n:1, t:"360° Panorama rasm", d:"360° kamera bilan xonani tushiring (Ricoh Theta, Insta360, Samsung Gear yoki telefon ilovasi). Equirectangular JPEG/PNG formatida eksport qiling (2:1 nisbat, masalan 4096×2048 px)." },
+            { n:2, t:"Kabinet kartasi rasmi", d:"Xonaning yaxshi burchakdan oddiy rasmi. Kartaning fon qismida ko'rinadi. Gorizontal rasm (16:9 yoki 4:3) eng yaxshi ko'rinadi." },
+            { n:3, t:"Video (ixtiyoriy)", d:"Xonaning taqdimot videosi yoki 360° video. Bu sahifada play tugmasi bilan ko'rsatiladi. Sahifa yangilanganida qayta yuklash kerak bo'ladi (server xotirasi yo'q)." },
+            { n:4, t:"Saqlash va ko'rish", d:"Rasm tanlagandan so'ng 'Saqlash' tugmasini bosing. O'quv zali sahifasida darhol yangi rasm ko'rinadi. Eski sintetik tasvirga qaytish uchun 'O'chirish' tugmasini bosing." },
+          ].map(s => (
+            <div key={s.n} className="adx-step">
+              <div className="adx-step-num" style={{ background:"#dbeafe", color:"#1d4ed8" }}>{s.n}</div>
+              <div>
+                <div className="adx-step-title">{s.t}</div>
+                <div className="adx-step-desc">{s.d}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ══════════════════════════════════════════════════════════
    MAIN COMPONENT
@@ -370,11 +643,12 @@ export function AdminPage() {
   });
 
   const tabs = [
-    { id: "overview",  label: "Bosh ko'rinish",    icon: "home"   },
-    { id: "tracking",  label: "Foydalanuvchi kuzatuv", icon: "eye" },
-    { id: "analytics", label: "Tahlil va grafik",  icon: "bar"    },
-    { id: "security",  label: "Xavfsizlik",        icon: "shield" },
-    { id: "systems",   label: "Tizim holati",      icon: "globe"  },
+    { id: "overview",  label: "Bosh ko'rinish",        icon: "home"   },
+    { id: "tracking",  label: "Foydalanuvchi kuzatuv", icon: "eye"    },
+    { id: "analytics", label: "Tahlil va grafik",      icon: "bar"    },
+    { id: "security",  label: "Xavfsizlik",            icon: "shield" },
+    { id: "systems",   label: "Tizim holati",          icon: "globe"  },
+    { id: "rooms",     label: "O'quv zali media",      icon: "camera" },
   ];
 
   const onlineCount  = TRACKED_USERS.filter(u => u.online).length;
@@ -784,6 +1058,9 @@ export function AdminPage() {
               </div>
             </div>
           )}
+
+          {/* ══ ROOMS MEDIA ══ */}
+          {tab === "rooms" && <RoomMediaTab />}
 
         </main>
       </div>

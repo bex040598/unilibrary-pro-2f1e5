@@ -630,6 +630,11 @@ function buildNordicPanorama(): string {
   return cv.toDataURL("image/jpeg", 0.88);
 }
 
+/* ── localStorage media helpers ─────────────────────────── */
+function getRoomMedia(roomId: string, slot: "panorama" | "card"): string | null {
+  try { return localStorage.getItem(`atmu_room_${roomId}_${slot}`); } catch { return null; }
+}
+
 /* ── 360° Viewer ────────────────────────────────────────── */
 interface TourProps { room: StudyRoom; onClose: ()=>void; }
 
@@ -642,7 +647,8 @@ function VirtualTour({ room, onClose }: TourProps) {
     const pannellum = (window as any).pannellum;
     if (!pannellum || !divRef.current) return;
 
-    const panorama = room.style === "classic" ? buildClassicPanorama() : buildNordicPanorama();
+    const customPano = getRoomMedia(room.id, "panorama");
+    const panorama = customPano ?? (room.style === "classic" ? buildClassicPanorama() : buildNordicPanorama());
     setLoading(false);
 
     viewerRef.current = pannellum.viewer(divRef.current, {
@@ -806,12 +812,17 @@ export function ReadingRoomPage() {
           const st = statusMap[room.status];
           const isClassic = room.style === "classic";
 
+          const customCard = getRoomMedia(room.id, "card");
+
           return (
             <article key={room.id} className={`sr2-room ${isClassic ? "sr2-room--classic" : "sr2-room--nordic"}`}>
 
               {/* ── ILLUSTRATION PANEL ── */}
               <div className="sr2-room-visual" style={{background: isClassic ? "#1c0f06" : "#e0f2fe"}}>
-                {isClassic ? <ClassicIllustration/> : <NordicIllustration/>}
+                {customCard
+                  ? <img src={customCard} alt={room.name} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover"}}/>
+                  : isClassic ? <ClassicIllustration/> : <NordicIllustration/>
+                }
 
                 {/* Overlay info */}
                 <div className="sr2-visual-overlay">
