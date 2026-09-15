@@ -17,6 +17,11 @@ function resolveApiBase(): string {
 
 const API_BASE_URL = resolveApiBase();
 
+// Backend (Render free tier) uyg'onishi uchun sahifa ochilganda ping
+if (typeof window !== "undefined") {
+  fetch(`${API_BASE_URL}/health`, { method: "GET", signal: AbortSignal.timeout(60000) }).catch(() => {});
+}
+
 async function request<T>(path: string, options: RequestInit = {}, token?: string): Promise<T> {
   const headers = new Headers(options.headers ?? {});
   headers.set("Accept", "application/json");

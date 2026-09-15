@@ -35,3 +35,8 @@ def startup_event() -> None:
 def root() -> dict:
     return {"message": "ATMU Smart UniLibrary API is running", "docs": "/docs"}
 
+
+@app.get("/health")
+def health() -> dict:
+    return {"status": "ok"}
+
