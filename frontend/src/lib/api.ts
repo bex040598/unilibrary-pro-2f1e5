@@ -4,7 +4,7 @@ const runtimeConfig = (globalThis as {
   __ATMU_RUNTIME_CONFIG__?: { apiBaseUrl?: string };
 }).__ATMU_RUNTIME_CONFIG__;
 
-const BACKEND_URL = "https://atmu-unilibrary-api.onrender.com";
+const BACKEND_URL = "https://atmu-smart-unilibrary-5.onrender.com";
 
 function resolveApiBase(): string {
   if (runtimeConfig?.apiBaseUrl) return runtimeConfig.apiBaseUrl;
