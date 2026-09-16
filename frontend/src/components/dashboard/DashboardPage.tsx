@@ -5,6 +5,7 @@ import { useAuth } from "../../lib/auth";
 import type { Loan, Reservation, Resource } from "../../types";
 import { resources as fallbackResources } from "../../data/mock";
 import { VoiceSearchPanel } from "../common/VoiceSearch";
+import { AIToolsPanel } from "../ai/AITools";
 
 /*  SVG Charts  */
 
@@ -478,6 +479,7 @@ export function DashboardPage() {
     if (role === "librarian") t.push({ id: "resources", label: "Resurslar" }, { id: "loans", label: "Ijaralar" }, { id: "reservations", label: "Bronlar" });
     if (role === "admin") t.push({ id: "analytics", label: "Tahlil" }, { id: "users", label: "Foydalanuvchilar" });
     if (role === "student") t.push({ id: "mybooks", label: "Kitoblarim" });
+    t.push({ id: "ai", label: "🤖 AI Vositalar" });
     return t;
   }, [role]);
 
@@ -797,6 +799,13 @@ export function DashboardPage() {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/*  AI Vositalar tab  */}
+      {tab === "ai" && (
+        <div className="px-body">
+          <AIToolsPanel role={role} />
         </div>
       )}
 

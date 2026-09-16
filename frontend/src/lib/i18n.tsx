@@ -48,8 +48,9 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     setLocale(nextLocale) {
       const segments = window.location.pathname.split("/").filter(Boolean);
       const rest = supportedLocales.includes(segments[0] as Locale) ? segments.slice(1) : segments;
-      window.location.pathname = `/${nextLocale}/${rest.join("/")}`;
+      const newPath = `/${nextLocale}${rest.length ? "/" + rest.join("/") : ""}`;
       setLocaleState(nextLocale);
+      window.location.href = newPath + window.location.search;
     },
     t(key) {
       return (
