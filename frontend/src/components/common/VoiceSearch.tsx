@@ -1,10 +1,36 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
+/* ── SpeechRecognition type shims (not in all TS lib sets) ── */
+interface ISpeechRecognitionResult {
+  readonly isFinal: boolean;
+  readonly length: number;
+  item(index: number): { transcript: string };
+  [index: number]: { transcript: string };
+}
+interface ISpeechRecognitionResultList {
+  readonly length: number;
+  item(index: number): ISpeechRecognitionResult;
+  [index: number]: ISpeechRecognitionResult;
+}
+interface ISpeechRecognitionEvent extends Event {
+  readonly results: ISpeechRecognitionResultList;
+}
+interface ISpeechRecognition extends EventTarget {
+  lang: string;
+  interimResults: boolean;
+  maxAlternatives: number;
+  onstart: (() => void) | null;
+  onresult: ((e: ISpeechRecognitionEvent) => void) | null;
+  onerror: ((e: Event) => void) | null;
+  onend: (() => void) | null;
+  start(): void;
+  stop(): void;
+}
 declare global {
   interface Window {
-    SpeechRecognition: typeof SpeechRecognition;
-    webkitSpeechRecognition: typeof SpeechRecognition;
+    SpeechRecognition: new () => ISpeechRecognition;
+    webkitSpeechRecognition: new () => ISpeechRecognition;
   }
 }
 
@@ -68,7 +94,7 @@ export function VoiceSearchPanel({ role }: { role: string }) {
   const [state, setState] = useState<State>("idle");
   const [transcript, setTranscript] = useState("");
   const [dots, setDots] = useState(0);
-  const recogRef = useRef<SpeechRecognition | null>(null);
+  const recogRef = useRef<ISpeechRecognition | null>(null);
   const dotsRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const hints = ROLE_HINTS[role] ?? ROLE_HINTS.student;
@@ -100,8 +126,9 @@ export function VoiceSearchPanel({ role }: { role: string }) {
     recogRef.current = r;
 
     r.onstart = () => setState("listening");
-    r.onresult = (e: SpeechRecognitionEvent) => {
-      const t = Array.from(e.results).map(res => res[0].transcript).join(" ");
+    r.onresult = (e: ISpeechRecognitionEvent) => {
+      const results = Array.from({ length: e.results.length }, (_, i) => e.results[i]);
+      const t = results.map(res => res[0].transcript).join(" ");
       setTranscript(t);
       if (e.results[e.results.length - 1].isFinal) {
         setState("processing");
