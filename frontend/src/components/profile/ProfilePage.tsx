@@ -5,7 +5,7 @@ import { api } from "../../lib/api";
 import { FaceCapture } from "../face-id/FaceCapture";
 import { departments as fallbackDepartments, resources as fallbackResources } from "../../data/mock";
 import type { Loan, Reservation, Resource, Role } from "../../types";
-import { SmartFeaturesPanel } from "../common/SmartFeatures";
+import { VoiceSearchPanel } from "../common/VoiceSearch";
 
 /* ── Role colors ── */
 const ROLE_COLOR: Record<Role, { bg: string; badge: string; label: string }> = {
@@ -452,7 +452,7 @@ export function ProfilePage() {
         {/* ─── SMART XIZMATLAR ─── */}
         {activeTab === "smart" && (
           <div className="prf-section">
-            <SmartFeaturesPanel role={role} />
+            <VoiceSearchPanel role={role} />
           </div>
         )}
 

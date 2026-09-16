@@ -13101,3 +13101,223 @@ td {
   transform: translateY(-1px);
   box-shadow: 0 4px 18px rgba(37,99,235,0.38);
 }
+
+/* ════════════════════════════════════════════════════════════
+   VS  Voice Search Panel
+════════════════════════════════════════════════════════════ */
+
+.vs-panel {
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.vs-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  flex-wrap: wrap;
+}
+
+.vs-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.vs-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.vs-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 2px;
+}
+
+.vs-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.vs-browser-note {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #94a3b8;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 4px 12px;
+}
+
+.vs-mic-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 24px 24px;
+}
+
+.vs-mic-btn {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+}
+.vs-mic-btn:hover:not(:disabled) {
+  transform: scale(1.07);
+  box-shadow: 0 6px 28px rgba(99,102,241,0.5);
+}
+.vs-mic-btn:disabled { opacity: 0.7; cursor: default; }
+
+.vs-mic-btn--active {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  box-shadow: 0 4px 20px rgba(239,68,68,0.4);
+  animation: vs-mic-pulse 1.5s ease-in-out infinite;
+}
+
+.vs-mic-btn--processing {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  box-shadow: 0 4px 20px rgba(245,158,11,0.4);
+}
+
+@keyframes vs-mic-pulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(239,68,68,0.4); }
+  50% { box-shadow: 0 4px 40px rgba(239,68,68,0.7), 0 0 0 12px rgba(239,68,68,0.1); }
+}
+
+.vs-pulse-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(239,68,68,0.4);
+  animation: vs-ring 1.4s ease-out infinite;
+}
+@keyframes vs-ring {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.vs-status { text-align: center; min-height: 20px; }
+.vs-status-hint { font-size: 13px; color: #94a3b8; }
+.vs-status-active { font-size: 14px; font-weight: 600; color: #ef4444; }
+.vs-status-error { font-size: 13px; color: #ef4444; }
+
+.vs-transcript {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-size: 14px;
+  color: #166534;
+  font-weight: 500;
+  max-width: 480px;
+  text-align: center;
+}
+
+.vs-hints {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 480px;
+}
+
+.vs-hint-chip {
+  font-size: 11.5px;
+  color: #6366f1;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-weight: 500;
+}
+
+.vs-unsupported {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #ef4444;
+  padding: 16px;
+  text-align: center;
+}
+.vs-unsupported p { font-size: 14px; font-weight: 600; margin: 0; }
+.vs-unsupported span { font-size: 12px; color: #94a3b8; }
+
+.vs-actions {
+  padding: 16px 24px 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.vs-actions-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #94a3b8;
+  font-weight: 700;
+  margin: 0 0 10px;
+}
+
+.vs-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.vs-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #475569;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  justify-content: center;
+}
+.vs-action-btn:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4f46e5;
+}
+
+@media (max-width: 640px) {
+  .vs-actions-grid { grid-template-columns: repeat(2, 1fr); }
+  .vs-hints { display: none; }
+}

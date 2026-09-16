@@ -4,7 +4,7 @@ import { api } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
 import type { Loan, Reservation, Resource } from "../../types";
 import { resources as fallbackResources } from "../../data/mock";
-import { SmartFeaturesPanel } from "../common/SmartFeatures";
+import { VoiceSearchPanel } from "../common/VoiceSearch";
 
 /*  SVG Charts  */
 
@@ -555,8 +555,8 @@ export function DashboardPage() {
       {tab === "overview" && (
         <div className="px-body">
 
-          {/* Smart features panel */}
-          <SmartFeaturesPanel role={role} />
+          {/* Voice Search */}
+          <VoiceSearchPanel role={role} />
 
                     {/* Row 2: Popular + Quick actions */}
           <div className="px-row">
