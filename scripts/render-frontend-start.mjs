@@ -4,7 +4,9 @@ import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 
 const port = Number(process.env.PORT || "4173");
-const distRoot = join(process.cwd(), "frontend", "dist");
+const distRoot = existsSync(join(process.cwd(), "dist", "index.html"))
+  ? join(process.cwd(), "dist")
+  : join(process.cwd(), "frontend", "dist");
 const runtimeApiBaseUrl =
   process.env.VITE_API_BASE_URL?.trim() ||
   (process.env.RENDER_API_HOST?.trim()
