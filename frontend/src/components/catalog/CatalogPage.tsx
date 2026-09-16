@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../lib/auth";
 import { books as fallbackBooks, resources as fallbackResources } from "../../data/mock";
 import type { Book, Resource } from "../../types";
@@ -118,9 +118,19 @@ function DetailModal({ item, onClose }: { item: CItem; onClose: () => void }) {
 export function CatalogPage() {
   const { locale } = useParams<{ locale: string }>();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [query, setQuery]       = useState("");
+  const [query, setQuery]       = useState(() => searchParams.get("q") ?? "");
+
+  useEffect(() => {
+    const q = searchParams.get("q") ?? "";
+    setQuery(q);
+    if (q && inputRef.current) {
+      inputRef.current.value = q;
+      inputRef.current.focus();
+    }
+  }, [searchParams]);
   const [typeF, setTypeF]       = useState("all");
   const [langF, setLangF]       = useState("Barchasi");
   const [yearF, setYearF]       = useState("Barchasi");

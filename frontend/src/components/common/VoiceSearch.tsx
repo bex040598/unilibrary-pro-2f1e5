@@ -86,6 +86,39 @@ function Icon({ d, size = 18 }: { d: string; size?: number }) {
   );
 }
 
+const MOCK_CATALOG = [
+  { id:1,  title:"Matematika analizi",                   dept:"Matematika",   type:"book" },
+  { id:2,  title:"Informatika va dasturlash asoslari",   dept:"Informatika",  type:"book" },
+  { id:3,  title:"Chizma geometriya",                    dept:"Mexanika",     type:"book" },
+  { id:4,  title:"Iqtisodiyot nazariyasi",               dept:"Iqtisodiyot",  type:"book" },
+  { id:5,  title:"Fizika kursi",                         dept:"Fizika",       type:"book" },
+  { id:6,  title:"Sun'iy intellekt va machine learning", dept:"Informatika",  type:"book" },
+  { id:7,  title:"Kimyo asoslari",                       dept:"Kimyo",        type:"book" },
+  { id:8,  title:"Raqamli transformatsiya",              dept:"Informatika",  type:"thesis" },
+  { id:9,  title:"Elektrotexnikaning nazariy asoslari",  dept:"Elektrotexnika",type:"book" },
+  { id:10, title:"Pedagogika va psixologiya",            dept:"Pedagogika",   type:"book" },
+  { id:11, title:"Qurilish mexanikasi",                  dept:"Qurilish",     type:"book" },
+  { id:12, title:"Introduction to Data Science",         dept:"Informatika",  type:"article" },
+];
+
+const DEPTS = ["Matematika","Informatika","Fizika","Kimyo","Iqtisodiyot","Mexanika","Elektrotexnika","Pedagogika","Qurilish"];
+
+type SearchResult = { kind: "book" | "dept"; label: string; sub: string };
+
+function searchAll(q: string): SearchResult[] {
+  const lq = q.toLowerCase();
+  const results: SearchResult[] = [];
+  MOCK_CATALOG.forEach(b => {
+    if (b.title.toLowerCase().includes(lq) || b.dept.toLowerCase().includes(lq))
+      results.push({ kind: "book", label: b.title, sub: b.dept });
+  });
+  DEPTS.forEach(d => {
+    if (d.toLowerCase().includes(lq))
+      results.push({ kind: "dept", label: d + " kafedrasi", sub: "Bo'lim" });
+  });
+  return results.slice(0, 5);
+}
+
 type State = "idle" | "listening" | "processing" | "result" | "error" | "unsupported";
 
 export function VoiceSearchPanel({ role }: { role: string }) {
@@ -93,6 +126,7 @@ export function VoiceSearchPanel({ role }: { role: string }) {
   const navigate = useNavigate();
   const [state, setState] = useState<State>("idle");
   const [transcript, setTranscript] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
   const [dots, setDots] = useState(0);
   const recogRef = useRef<ISpeechRecognition | null>(null);
   const dotsRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -127,15 +161,16 @@ export function VoiceSearchPanel({ role }: { role: string }) {
 
     r.onstart = () => setState("listening");
     r.onresult = (e: ISpeechRecognitionEvent) => {
-      const results = Array.from({ length: e.results.length }, (_, i) => e.results[i]);
-      const t = results.map(res => res[0].transcript).join(" ");
+      const allResults = Array.from({ length: e.results.length }, (_, i) => e.results[i]);
+      const t = allResults.map(res => res[0].transcript).join(" ");
       setTranscript(t);
       if (e.results[e.results.length - 1].isFinal) {
         setState("processing");
         setTimeout(() => {
+          const found = searchAll(t);
+          setResults(found);
           setState("result");
-          navigate(`/${locale}/catalog?q=${encodeURIComponent(t)}`);
-        }, 600);
+        }, 400);
       }
     };
     r.onerror = () => setState("error");
@@ -149,6 +184,14 @@ export function VoiceSearchPanel({ role }: { role: string }) {
     recogRef.current?.stop();
     setState("idle");
     setTranscript("");
+    setResults([]);
+  }
+
+  function goToCatalog() {
+    navigate(`/${locale}/catalog?q=${encodeURIComponent(transcript)}`);
+    setState("idle");
+    setTranscript("");
+    setResults([]);
   }
 
   return (
@@ -220,6 +263,42 @@ export function VoiceSearchPanel({ role }: { role: string }) {
               <div className="vs-transcript">
                 <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" size={14} />
                 {transcript}
+              </div>
+            )}
+
+            {/* Inline results */}
+            {state === "result" && (
+              <div className="vs-results">
+                {results.length > 0 ? (
+                  <>
+                    <p className="vs-results-label">
+                      <Icon d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" size={13} />
+                      &ldquo;{transcript}&rdquo; — {results.length} ta topildi
+                    </p>
+                    <ul className="vs-results-list">
+                      {results.map((r, i) => (
+                        <li key={i} className="vs-result-item" onClick={goToCatalog}>
+                          <Icon
+                            d={r.kind === "book"
+                              ? "M4 19.5A2.5 2.5 0 0 1 6.5 17H20M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                              : "M22 10v6M2 10l10-5 10 5-10 5z"}
+                            size={14}
+                          />
+                          <span className="vs-result-title">{r.label}</span>
+                          <span className="vs-result-sub">{r.sub}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <button className="vs-see-all" onClick={goToCatalog}>
+                      Katalogda barchasini ko'rish →
+                    </button>
+                  </>
+                ) : (
+                  <div className="vs-no-results">
+                    <p>&ldquo;{transcript}&rdquo; bo'yicha hech narsa topilmadi</p>
+                    <button className="vs-see-all" onClick={goToCatalog}>Katalogda qidirish →</button>
+                  </div>
+                )}
               </div>
             )}
 
